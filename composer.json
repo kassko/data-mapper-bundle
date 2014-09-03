@@ -1,0 +1,19 @@
+{
+    "name":"kassko/data-access-bundle",
+    "description":"Bundle pour l'accès aux données et le mapping en objet des données",
+    "keywords":["hydration", "hydrate", "extract", "data", "mapper", "dao"],
+    "require":{
+        "php":">=5.5.0",
+        "doctrine/common": "~2.4",
+        "symfony/framework-bundle": "~2.4",
+        "symfony/twig-bundle": "~2.4",
+        "zendframework/zend-stdlib": "~2.3",
+        "kassko/data-access": "dev-alpha",
+        "kassko/class-resolver-bundle": "dev-alpha"
+    },
+    "autoload":{
+        "psr-4":{
+            "Kassko\\Bundle\\DataAccessBundle\\": "src",
+        }
+    }
+}

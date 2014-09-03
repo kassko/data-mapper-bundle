@@ -1,0 +1,6 @@
+src/Tests/Fixtures/app/cache/
+src/Tests/Fixtures/app/logs/
+/bin/
+/build/
+/vendor/
+composer
