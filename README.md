@@ -25,4 +25,3 @@ public function registerBundles()
     //...
 }
 ```
-
