@@ -1,7 +1,6 @@
 {
     "name":"kassko/data-access-bundle",
-    "description":"Bundle pour l'accès aux données et le mapping en objet des données",
-    "keywords":["hydration", "hydrate", "extract", "data", "mapper", "dao"],
+    "keywords":["hydration", "hydrate", "extract", "data", "mapper"],
     "require":{
         "php":">=5.5.0",
         "doctrine/common": "~2.4",
@@ -13,7 +12,7 @@
     },
     "autoload":{
         "psr-4":{
-            "Kassko\\Bundle\\DataAccessBundle\\": "src",
+            "Kassko\\Bundle\\DataAccessBundle\\": "src"
         }
     }
 }
