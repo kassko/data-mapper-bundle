@@ -1,13 +1,16 @@
 data-access-bundle
 ==================
 
+This bundle integrates data-access to Symfony.
+Please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/alpha/README.md).
+
 Installation on Symfony 2
 ---------------
 
 Add to your composer.json:
 ```json
 "require": {
-    "kassko/data-access-bundle": "dev-master"
+    "kassko/data-access-bundle": "alpha"
 }
 ```
 
