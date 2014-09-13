@@ -17,7 +17,7 @@ class KasskoDataAccessExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('data_access.xml');
+        $loader->load('services.xml');
 
         $this->configureMetadataCache($config, $container);
         $this->configureResultCache($config, $container);

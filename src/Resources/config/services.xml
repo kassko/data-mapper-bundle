@@ -9,6 +9,7 @@
         <parameter key="data_access.object_listener_resolver.class">Kassko\DataAccess\Listener\ContainerAwareObjectListenerResolver</parameter>
         <parameter key="data_access.hydrator.class">Kassko\DataAccess\Hydrator\Hydrator</parameter>
         <parameter key="data_access.result_builder_factory.class">Kassko\DataAccess\Result\ResultBuilderFactory</parameter>
+        <parameter key="data_access.lazy_loader_factory.class">Kassko\DataAccess\LazyLoader\LazyLoaderFactory</parameter>
         <parameter key="data_access.query_factory.class">Kassko\DataAccess\Query\QueryFactory</parameter>
         <parameter key="data_access.default_cache.class">Doctrine\Common\Cache\ArrayCache</parameter>
     </parameters>
@@ -33,6 +34,10 @@
                  <argument type="service" id="class_resolver"/>
             </call>
 
+            <call method="setLazyLoaderFactory">
+                 <argument type="service" id="data_access.lazy_loader_factory"/>
+            </call>
+
             <tag name="class_resolver.inject" group="data_access" method="setClassResolver"/>
 
         </service>
@@ -51,6 +56,10 @@
         </service>
 
         <service id="data_access.result_builder_factory" class="%data_access.result_builder_factory.class%">
+            <argument type="service" id="data_access.object_manager"/>
+        </service>
+
+        <service id="data_access.lazy_loader_factory" class="%data_access.lazy_loader_factory.class%">
             <argument type="service" id="data_access.object_manager"/>
         </service>
 
