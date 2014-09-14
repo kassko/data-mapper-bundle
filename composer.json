@@ -1,14 +1,17 @@
 {
     "name":"kassko/data-access-bundle",
-    "keywords":["hydration", "hydrate", "extract", "data", "mapper"],
+    "keywords":[
+        "orm", "hydration", "hydrate", "extract", "data", "access",
+        "mapper", "dao", "entity", "repository"
+    ],
     "require":{
         "php":">=5.5.0",
         "doctrine/common": "~2.4",
         "symfony/framework-bundle": "~2.4",
         "symfony/twig-bundle": "~2.4",
         "zendframework/zend-stdlib": "~2.3",
-        "kassko/data-access": "dev-alpha",
-        "kassko/class-resolver-bundle": "dev-alpha"
+        "kassko/data-access": "dev-master",
+        "kassko/class-resolver-bundle": "dev-master"
     },
     "autoload":{
         "psr-4":{
