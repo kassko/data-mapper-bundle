@@ -10,7 +10,7 @@ Installation on Symfony 2
 Add to your composer.json:
 ```json
 "require": {
-    "kassko/data-access-bundle": "alpha"
+    "kassko/data-access-bundle": "dev-master"
 }
 ```
 
