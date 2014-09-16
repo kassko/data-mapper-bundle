@@ -38,6 +38,10 @@
                  <argument type="service" id="data_access.lazy_loader_factory"/>
             </call>
 
+            <call method="setLogger">
+                 <argument type="service" id="data_access.logger"/>
+            </call>
+
             <tag name="class_resolver.inject" group="data_access" method="setClassResolver"/>
 
         </service>
@@ -65,6 +69,17 @@
 
         <service id="data_access.query_factory" class="%data_access.query_factory.class%">
             <argument type="service" id="data_access.object_manager"/>
+        </service>
+
+        <!--
+        We want to inject Monolog in a "data_access.object_manager" by the setter setLogger() but we cannot so we inject it in the constructor of LoggerProvider.
+        Then we inject Monolog in "data_access.object_manager" by a setLogger with the LoggerProvider factory method (getLogger).
+        -->
+        <service id="data_access.logger" factory-service="data_access.logger_provider" factory-method="getLogger" class="Psr\Log\LoggerInterface" public="false"/>
+
+        <service id="data_access.logger_provider" class="Kassko\Bundle\DataAccessBundle\Logger\LoggerProvider">
+            <argument type="service" id="logger" on-invalid="null"/>
+            <tag name="monolog.logger"/>
         </service>
 
         <!-- <service id="class_resolver.data_access" parent="class_resolver"/> -->
