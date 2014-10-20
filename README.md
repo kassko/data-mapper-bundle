@@ -2,7 +2,7 @@ data-access-bundle
 ==================
 
 This bundle integrates data-access to Symfony.
-Please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/alpha/README.md).
+Please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
 Installation on Symfony 2
 ----------------
