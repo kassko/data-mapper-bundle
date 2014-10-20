@@ -32,7 +32,7 @@ class AddListenersToResolvePass implements CompilerPassInterface
 
                 $class = $container->getDefinition($service)->getClass();
                 if (empty($class)) {
-                    throw new LogicException(sprintf("Aucune classe n'a été définie pour le service '%s'.", $service));
+                    throw new LogicException(sprintf("A class should be specified for the service '%s'.", $service));
                 }
 
                 $classResolverDef->addMethodCall('registerClass', [$class, $service]);

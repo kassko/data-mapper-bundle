@@ -72,8 +72,10 @@
         </service>
 
         <!--
-        We want to inject Monolog in a "data_access.object_manager" by the setter setLogger() but we cannot so we inject it in the constructor of LoggerProvider.
-        Then we inject Monolog in "data_access.object_manager" by a setLogger with the LoggerProvider factory method (getLogger).
+        We want to inject Monolog in "data_access.object_manager" by the setter setLogger().
+        But we cannot inject Monolog by a setter.
+        So we create a class LoggerProvider and we inject Monolog into its constructor.
+        Then we use the LoggerProvider factory method (getLogger()) to inject Monolog into the setter.
         -->
         <service id="data_access.logger" factory-service="data_access.logger_provider" factory-method="getLogger" class="Psr\Log\LoggerInterface" public="false"/>
 
