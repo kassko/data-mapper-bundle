@@ -115,9 +115,16 @@ class KasskoDataAccessExtension extends Extension
             $container->setDefinition($cacheId, $cacheDef);
         }
 
+        $cacheAdapterId = $cacheId.'_adapter';
+        $cacheAdapterDef = new Definition($config['metadata_cache']['adapter_class']);
+        $cacheAdapterDef->addMethodCall('setWrappedCache', [new Reference($cacheId)]);
+        $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
+
         $cacheConfigId = 'data_access.configuration.class_metadata_cache';
         $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
-        $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheId)]);
+        $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
+        $cacheConfigDef->addMethodCall('setLifeTime', [$config['metadata_cache']['life_time']]);
+        $cacheConfigDef->addMethodCall('setIsShared', [$config['metadata_cache']['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
         $configDef = $container->getDefinition('data_access.configuration');
@@ -145,9 +152,16 @@ class KasskoDataAccessExtension extends Extension
             $container->setDefinition($cacheId, $cacheDef);
         }
 
+        $cacheAdapterId = $cacheId.'_adapter';
+        $cacheAdapterDef = new Definition($config['result_cache']['adapter_class']);
+        $cacheAdapterDef->addMethodCall('setWrappedCache', [new Reference($cacheId)]);
+        $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
+
         $cacheConfigId = 'data_access.result_cache_configuration';
         $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
-        $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheId)]);
+        $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
+        $cacheConfigDef->addMethodCall('setLifeTime', [$config['metadata_cache']['life_time']]);
+        $cacheConfigDef->addMethodCall('setShared', [$config['metadata_cache']['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
         $configDef = $container->getDefinition('data_access.configuration');
