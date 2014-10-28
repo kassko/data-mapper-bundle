@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
         	->children()
-                ->arrayNode('cache')
+                ->arrayNode('cache')->addDefaultsIfNotSet()
                     ->append($this->addCacheNode('metadata_cache'))
                     ->append($this->addCacheNode('result_cache'))
                 ->end()
@@ -56,6 +56,7 @@ class Configuration implements ConfigurationInterface
         $node = $builder->root($name);
 
         $node
+            ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('class')->end()
                 ->scalarNode('id')->end()

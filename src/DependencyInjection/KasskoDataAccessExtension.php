@@ -19,32 +19,29 @@ class KasskoDataAccessExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $this->configureMetadataCache($config, $container);
-        $this->configureResultCache($config, $container);
-        $this->configureMapping($config, $container);
+        $this->configureMetadataCache($config['cache']['metadata_cache'], $container);
+        $this->configureResultCache($config['cache']['result_cache'], $container);
+        $this->configureMapping($config['mapping'], $container);
     }
 
     private function configureMappingWithDefaults(array $config, ContainerBuilder $container)
     {
-
-        if (! empty($config['mapping']['defaultResourceType'])) {
+        if (! empty($config['defaultResourceType'])) {
 
             $def = $container->getDefinition('data_access.configuration');
-            $def->addMethodCall('setDefaultClassMetadataResourceType', [$config['mapping']['defaultResourceType']]);
+            $def->addMethodCall('setDefaultClassMetadataResourceType', [$config['defaultResourceType']]);
         }
     }
 
     private function configureMapping(array $config, ContainerBuilder $container)
     {
-        if (empty($config['mapping']['bundles'])) {
+        if (empty($config['bundles'])) {
 
             $this->configureMappingWithDefaults($config, $container);
             return;
         }
 
-        foreach ($config['mapping']['bundles'] as $bundleName => $bundleConfig) {
-
-            //var_dump($bundleName, $bundleConfig);
+        foreach ($config['bundles'] as $bundleName => $bundleConfig) {
 
             $def = $container->getDefinition('data_access.configuration');
 
@@ -72,8 +69,6 @@ class KasskoDataAccessExtension extends Extension
 
                 $mappingEntityClass = trim($entityConfig['entity_class']);
 
-                ////
-
                 if (isset($classMetadataResourceType)) {
                     $def->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $classMetadataResourceType]);
                 } elseif (isset($parentClassMetadataResourceType)) {
@@ -99,10 +94,10 @@ class KasskoDataAccessExtension extends Extension
         $cacheClass = null;
         $cacheId = null;
 
-        if (! empty ($config['metadata_cache']['class'])) {
-            $cacheClass = $config['metadata_cache']['class'];
-        } elseif (! empty($config['metadata_cache']['id'])) {
-            $cacheId = $config['metadata_cache']['id'];
+        if (! empty ($config['class'])) {
+            $cacheClass = $config['class'];
+        } elseif (! empty($config['id'])) {
+            $cacheId = $config['id'];
         } else {
             $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";
         }
@@ -116,15 +111,15 @@ class KasskoDataAccessExtension extends Extension
         }
 
         $cacheAdapterId = $cacheId.'_adapter';
-        $cacheAdapterDef = new Definition($config['metadata_cache']['adapter_class']);
+        $cacheAdapterDef = new Definition($config['adapter_class']);
         $cacheAdapterDef->addMethodCall('setWrappedCache', [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'data_access.configuration.class_metadata_cache';
         $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
-        $cacheConfigDef->addMethodCall('setLifeTime', [$config['metadata_cache']['life_time']]);
-        $cacheConfigDef->addMethodCall('setIsShared', [$config['metadata_cache']['is_shared']]);
+        $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
+        $cacheConfigDef->addMethodCall('setIsShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
         $configDef = $container->getDefinition('data_access.configuration');
@@ -136,9 +131,9 @@ class KasskoDataAccessExtension extends Extension
         $cacheClass = null;
         $cacheId = null;
 
-        if (! empty($config['result_cache']['class'])) {
-            $cacheClass = $config['result_cache']['class'];
-        } elseif (! empty($config['result_cache']['id'])) {
+        if (! empty($config['class'])) {
+            $cacheClass = $config['class'];
+        } elseif (! empty($config['id'])) {
             $cacheId = $config['result_cache']['id'];
         } else {
             $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";
@@ -153,15 +148,15 @@ class KasskoDataAccessExtension extends Extension
         }
 
         $cacheAdapterId = $cacheId.'_adapter';
-        $cacheAdapterDef = new Definition($config['result_cache']['adapter_class']);
+        $cacheAdapterDef = new Definition($config['adapter_class']);
         $cacheAdapterDef->addMethodCall('setWrappedCache', [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'data_access.result_cache_configuration';
         $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
-        $cacheConfigDef->addMethodCall('setLifeTime', [$config['metadata_cache']['life_time']]);
-        $cacheConfigDef->addMethodCall('setShared', [$config['metadata_cache']['is_shared']]);
+        $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
+        $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
         $configDef = $container->getDefinition('data_access.configuration');
