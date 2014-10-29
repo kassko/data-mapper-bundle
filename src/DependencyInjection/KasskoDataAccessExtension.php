@@ -119,7 +119,7 @@ class KasskoDataAccessExtension extends Extension
         $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
         $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
-        $cacheConfigDef->addMethodCall('setIsShared', [$config['is_shared']]);
+        $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
         $configDef = $container->getDefinition('data_access.configuration');
