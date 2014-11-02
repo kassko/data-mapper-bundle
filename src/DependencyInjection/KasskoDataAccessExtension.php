@@ -2,8 +2,7 @@
 
 namespace Kassko\Bundle\DataAccessBundle\DependencyInjection;
 
-use Kassko\Common\Registry as CommonRegistry;
-use Kassko\DataAccess\Registry\Registry as DataAccessRegistry;
+use Kassko\DataAccess\Registry\Registry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -14,16 +13,12 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class KasskoDataAccessExtension extends Extension
 {
-    private $bridge;
-
     public function load(array $configs, ContainerBuilder $container)
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-
-        $this->bridge = CommonRegistry::getInstance()->getBridge();
 
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
@@ -38,7 +33,7 @@ class KasskoDataAccessExtension extends Extension
 
             $loggerServiceId = $config['logger_service'];
             $loggerDef = $container->getDefinition($loggerServiceId);
-            $loggerDef->addTag('data_access.registry_item', ['key' => DataAccessRegistry::KEY_LOGGER]);
+            $loggerDef->addTag('data_access.registry_item', ['key' => Registry::KEY_LOGGER]);
 
             $objectManagerDef = $container->getDefinition('data_access.object_manager');
             $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId)]);
@@ -48,7 +43,7 @@ class KasskoDataAccessExtension extends Extension
     private function configureLazyLoader(ContainerBuilder $container)
     {
         $lazyLoaderFactoryDef = $container->getDefinition('data_access.lazy_loader_factory');
-        $lazyLoaderFactoryDef->addTag('data_access.registry_item', ['key' => DataAccessRegistry::KEY_LAZY_LOADER_FACTORY]);
+        $lazyLoaderFactoryDef->addTag('data_access.registry_item', ['key' => Registry::KEY_LAZY_LOADER_FACTORY]);
     }
 
     private function configureMappingWithDefaults(array $config, ContainerBuilder $container)
@@ -138,7 +133,7 @@ class KasskoDataAccessExtension extends Extension
         }
 
         $cacheAdapterId = $cacheId.'_adapter';
-        $cacheAdapterDef = new Definition($this->bridge->getCacheAdapterClass(), [new Reference($cacheId)]);
+        $cacheAdapterDef = new Definition($config['adapter_class'], [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'data_access.configuration.class_metadata_cache';
@@ -160,7 +155,7 @@ class KasskoDataAccessExtension extends Extension
         if (! empty($config['class'])) {
             $cacheClass = $config['class'];
         } elseif (! empty($config['id'])) {
-            $cacheId = $config['result_cache']['id'];
+            $cacheId = $config['id'];
         } else {
             $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";
         }
@@ -174,7 +169,7 @@ class KasskoDataAccessExtension extends Extension
         }
 
         $cacheAdapterId = $cacheId.'_adapter';
-        $cacheAdapterDef = new Definition($this->bridge->getCacheAdapterClass(), [new Reference($cacheId)]);
+        $cacheAdapterDef = new Definition($config['adapter_class'], [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'data_access.result_cache_configuration';

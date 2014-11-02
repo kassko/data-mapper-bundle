@@ -63,6 +63,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('id')->end()
                 ->scalarNode('life_time')->defaultValue(0)->end()
                 ->booleanNode('is_shared')->defaultFalse()->end()
+                ->scalarNode('adapter_class')->defaultValue('Kassko\SymfonyBridge\Adapter\DoctrineCacheAdapter')->end()
             ->end()
         ;
 
