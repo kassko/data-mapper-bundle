@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
         	->children()
+                ->scalarNode('logger_service')->end()
                 ->arrayNode('cache')->addDefaultsIfNotSet()
                     ->append($this->addCacheNode('metadata_cache'))
                     ->append($this->addCacheNode('result_cache'))
@@ -62,7 +63,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('id')->end()
                 ->scalarNode('life_time')->defaultValue(0)->end()
                 ->booleanNode('is_shared')->defaultFalse()->end()
-                ->scalarNode('adapter_class')->defaultValue("Kassko\\Bundle\\DataAccessBundle\\Bridge\\Adapter\\FromDoctrineCacheAdapter")->end()
             ->end()
         ;
 
