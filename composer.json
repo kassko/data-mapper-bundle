@@ -17,7 +17,8 @@
         "zendframework/zend-stdlib": "~2.3",
         "kassko/data-access": "~0.1@alpha",
         "kassko/class-resolver-bundle": "~0.1@alpha",
-        "kassko/common": "~0.1"
+        "kassko/common": "~0.1",
+        "kassko/symfony-bridge": "~0.1"
     },
     "autoload":{
         "psr-4":{
