@@ -33,24 +33,24 @@ class KasskoDataAccessExtension extends Extension
 
             $loggerServiceId = $config['logger_service'];
             $loggerDef = $container->getDefinition($loggerServiceId);
-            $loggerDef->addTag('data_access.registry_item', ['key' => Registry::KEY_LOGGER]);
+            $loggerDef->addTag('kassko_data_access.registry_item', ['key' => Registry::KEY_LOGGER]);
 
-            $objectManagerDef = $container->getDefinition('data_access.object_manager');
+            $objectManagerDef = $container->getDefinition('kassko_data_access.object_manager');
             $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId)]);
         }
     }
 
     private function configureLazyLoader(ContainerBuilder $container)
     {
-        $lazyLoaderFactoryDef = $container->getDefinition('data_access.lazy_loader_factory');
-        $lazyLoaderFactoryDef->addTag('data_access.registry_item', ['key' => Registry::KEY_LAZY_LOADER_FACTORY]);
+        $lazyLoaderFactoryDef = $container->getDefinition('kassko_data_access.lazy_loader_factory');
+        $lazyLoaderFactoryDef->addTag('kassko_data_access.registry_item', ['key' => Registry::KEY_LAZY_LOADER_FACTORY]);
     }
 
     private function configureMappingWithDefaults(array $config, ContainerBuilder $container)
     {
         if (! empty($config['defaultResourceType'])) {
 
-            $def = $container->getDefinition('data_access.configuration');
+            $def = $container->getDefinition('kassko_data_access.configuration');
             $def->addMethodCall('setDefaultClassMetadataResourceType', [$config['defaultResourceType']]);
         }
     }
@@ -65,7 +65,7 @@ class KasskoDataAccessExtension extends Extension
 
         foreach ($config['bundles'] as $bundleName => $bundleConfig) {
 
-            $def = $container->getDefinition('data_access.configuration');
+            $def = $container->getDefinition('kassko_data_access.configuration');
 
             $parentClassMetadataResourceType = $bundleConfig['type'];
 
@@ -126,8 +126,8 @@ class KasskoDataAccessExtension extends Extension
 
         if (null !== $cacheClass) {
 
-            $cacheId = 'data_access.class_metadata_cache';
-            $cacheDef = new DefinitionDecorator('data_access.class_metadata_cache.prototype');
+            $cacheId = 'kassko_data_access.class_metadata_cache';
+            $cacheDef = new DefinitionDecorator('kassko_data_access.class_metadata_cache.prototype');
             $cacheDef->setClass($cacheClass)->setPublic(false);
             $container->setDefinition($cacheId, $cacheDef);
         }
@@ -136,14 +136,14 @@ class KasskoDataAccessExtension extends Extension
         $cacheAdapterDef = new Definition($config['adapter_class'], [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
-        $cacheConfigId = 'data_access.configuration.class_metadata_cache';
-        $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
+        $cacheConfigId = 'kassko_data_access.configuration.class_metadata_cache';
+        $cacheConfigDef = new DefinitionDecorator('kassko_data_access.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
         $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
-        $configDef = $container->getDefinition('data_access.configuration');
+        $configDef = $container->getDefinition('kassko_data_access.configuration');
         $configDef->addMethodCall('setClassMetadataCacheConfig', [new Reference($cacheConfigId)]);
     }
 
@@ -162,8 +162,8 @@ class KasskoDataAccessExtension extends Extension
 
         if (null !== $cacheClass) {
 
-            $cacheId = 'data_access.result_cache';
-            $cacheDef = new DefinitionDecorator('data_access.result_cache.prototype');
+            $cacheId = 'kassko_data_access.result_cache';
+            $cacheDef = new DefinitionDecorator('kassko_data_access.result_cache.prototype');
             $cacheDef->setClass($cacheClass)->setPublic(false);
             $container->setDefinition($cacheId, $cacheDef);
         }
@@ -172,14 +172,14 @@ class KasskoDataAccessExtension extends Extension
         $cacheAdapterDef = new Definition($config['adapter_class'], [new Reference($cacheId)]);
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
-        $cacheConfigId = 'data_access.result_cache_configuration';
-        $cacheConfigDef = new DefinitionDecorator('data_access.configuration.cache.prototype');
+        $cacheConfigId = 'kassko_data_access.result_cache_configuration';
+        $cacheConfigDef = new DefinitionDecorator('kassko_data_access.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
         $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
-        $configDef = $container->getDefinition('data_access.configuration');
+        $configDef = $container->getDefinition('kassko_data_access.configuration');
         $configDef->addMethodCall('setResultCacheConfig', [new Reference($cacheConfigId)]);
     }
 }

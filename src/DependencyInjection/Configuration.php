@@ -63,7 +63,11 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('id')->end()
                 ->scalarNode('life_time')->defaultValue(0)->end()
                 ->booleanNode('is_shared')->defaultFalse()->end()
+<<<<<<< Updated upstream
                 ->scalarNode('adapter_class')->defaultValue('Kassko\DataAccess\Adapter\DoctrineCacheAdapter')->end()
+=======
+                ->scalarNode('adapter_class')->defaultValue('Kassko\DataAccess\Cache\DoctrineCacheAdapter')->end()
+>>>>>>> Stashed changes
             ->end()
         ;
 

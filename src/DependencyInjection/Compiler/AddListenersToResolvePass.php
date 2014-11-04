@@ -9,8 +9,8 @@ use LogicException;
 
 class AddListenersToResolvePass implements CompilerPassInterface
 {
-    private static $classesToRegisterTag = 'data_access.listener';
-    private static $classeResolverId = 'data_access.object_listener_resolver';
+    private static $classesToRegisterTag = 'kassko_data_access.listener';
+    private static $classeResolverId = 'kassko_data_access.object_listener_resolver';
 
     public function __construct($classesToRegisterTag = null)
     {

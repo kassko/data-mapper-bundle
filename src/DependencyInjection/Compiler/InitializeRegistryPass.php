@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class InitializeRegistryPass implements CompilerPassInterface
 {
-    private static $registryInitializerId = 'data_access.registry_initializer';
-    private static $registryItemTag = 'data_access.registry_item';
+    private static $registryInitializerId = 'kassko_data_access.registry_initializer';
+    private static $registryItemTag = 'kassko_data_access.registry_item';
 
     /**
      * {@inheritdoc}

@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ExecuteCommandPass implements CompilerPassInterface
 {
-    private static $objectManagerId = 'data_access.object_manager';
-    private static $commandTag = 'data_access.command';
+    private static $objectManagerId = 'kassko_data_access.object_manager';
+    private static $commandTag = 'kassko_data_access.command';
 
     /**
      * {@inheritdoc}
