@@ -22,12 +22,13 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('mapping')->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('defaultResourceType')->defaultValue('annotations')->end()
+                        ->scalarNode('default_resource_type')->defaultValue('annotations')->end()
+                        ->scalarNode('default_resource_dir')->end()
                         ->arrayNode('bundles')
                             ->prototype('array')
                                 ->children()
                                     ->scalarNode('type')->defaultValue('annotations')->end()
-                                    ->scalarNode('resource_dir')->end()
+                                    ->scalarNode('resource_dir')->isRequired()->cannotBeEmpty()->end()
 
                                     ->arrayNode('entities')
                                         ->prototype('array')
@@ -39,7 +40,6 @@ class Configuration implements ConfigurationInterface
                                             ->end()
                                         ->end()
                                     ->end()
-
                                 ->end()
                             ->end()
                         ->end()
@@ -63,7 +63,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('id')->end()
                 ->scalarNode('life_time')->defaultValue(0)->end()
                 ->booleanNode('is_shared')->defaultFalse()->end()
-                ->scalarNode('adapter_class')->defaultValue('Kassko\DataAccess\Cache\DoctrineCacheAdapter')->end()
+                ->scalarNode('adapter_class')->defaultValue('Kassko\Bundle\DataAccessBundle\Adapter\Cache\DoctrineCacheAdapter')->end()
             ->end()
         ;
 

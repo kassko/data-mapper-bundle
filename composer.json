@@ -5,6 +5,7 @@
             "name":"Kassko"
         }
     ],
+    "description":"Integrates data-access in Symfony projects.",
     "keywords":[
         "orm", "hydration", "hydrate", "extract", "data", "access",
         "mapper", "dao", "entity", "repository"

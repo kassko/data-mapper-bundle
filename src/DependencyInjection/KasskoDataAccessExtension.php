@@ -22,9 +22,7 @@ class KasskoDataAccessExtension extends Extension
 
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
-        $this->configureMetadataCache($config['cache']['metadata_cache'], $container);
-        $this->configureResultCache($config['cache']['result_cache'], $container);
-        $this->configureMapping($config['mapping'], $container);
+        $this->configureConfiguration($config, $container);
     }
 
     private function configureLogger(array $config, ContainerBuilder $container)
@@ -46,26 +44,24 @@ class KasskoDataAccessExtension extends Extension
         $lazyLoaderFactoryDef->addTag('kassko_data_access.registry_item', ['key' => Registry::KEY_LAZY_LOADER_FACTORY]);
     }
 
-    private function configureMappingWithDefaults(array $config, ContainerBuilder $container)
+    private function configureConfiguration(array $config, ContainerBuilder $container)
     {
-        if (! empty($config['defaultResourceType'])) {
+        $configurationDef = $container->getDefinition('kassko_data_access.configuration');
 
-            $def = $container->getDefinition('kassko_data_access.configuration');
-            $def->addMethodCall('setDefaultClassMetadataResourceType', [$config['defaultResourceType']]);
-        }
+        $this->configureMapping($config['mapping'], $container, $configurationDef);
+        $this->configureMetadataCache($config['cache']['metadata_cache'], $container, $configurationDef);
+        $this->configureResultCache($config['cache']['result_cache'], $container, $configurationDef);
     }
 
-    private function configureMapping(array $config, ContainerBuilder $container)
+    private function configureMapping(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
-        if (empty($config['bundles'])) {
+        $this->configureMappingWithDefaults($config, $container, $configurationDef);
 
-            $this->configureMappingWithDefaults($config, $container);
+        if (empty($config['bundles'])) {
             return;
         }
 
         foreach ($config['bundles'] as $bundleName => $bundleConfig) {
-
-            $def = $container->getDefinition('kassko_data_access.configuration');
 
             $parentClassMetadataResourceType = $bundleConfig['type'];
 
@@ -92,26 +88,36 @@ class KasskoDataAccessExtension extends Extension
                 $mappingEntityClass = trim($entityConfig['entity_class']);
 
                 if (isset($classMetadataResourceType)) {
-                    $def->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $classMetadataResourceType]);
+                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $classMetadataResourceType]);
                 } elseif (isset($parentClassMetadataResourceType)) {
-                    $def->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $parentClassMetadataResourceType]);
+                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $parentClassMetadataResourceType]);
                 }
 
                 if (isset($classMetadataResource)) {
-                    $def->addMethodCall('addClassMetadataResource', [$mappingEntityClass, $classMetadataResource]);
+                    $configurationDef->addMethodCall('addClassMetadataResource', [$mappingEntityClass, $classMetadataResource]);
                 }
 
                 if (isset($classMetadataDir)) {
-                    $def->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $classMetadataDir]);
+                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $classMetadataDir]);
                 } elseif (isset($parentClassMetadataDir)) {
-                    $def->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $parentClassMetadataDir]);
+                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $parentClassMetadataDir]);
                 }
-
             }
         }
     }
 
-    private function configureMetadataCache(array $config, ContainerBuilder $container)
+    private function configureMappingWithDefaults(array $config, ContainerBuilder $container, Definition $configurationDef)
+    {
+        if (! empty($config['default_resource_type'])) {
+            $configurationDef->addMethodCall('setDefaultClassMetadataResourceType', [$config['default_resource_type']]);
+        }
+
+        if (! empty($config['default_resource_dir'])) {
+            $configurationDef->addMethodCall('setDefaultClassMetadataResourceDir', [$config['default_resource_dir']]);
+        }
+    }
+
+    private function configureMetadataCache(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         $cacheClass = null;
         $cacheId = null;
@@ -143,11 +149,10 @@ class KasskoDataAccessExtension extends Extension
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
-        $configDef = $container->getDefinition('kassko_data_access.configuration');
-        $configDef->addMethodCall('setClassMetadataCacheConfig', [new Reference($cacheConfigId)]);
+        $configurationDef->addMethodCall('setClassMetadataCacheConfig', [new Reference($cacheConfigId)]);
     }
 
-    private function configureResultCache(array $config, ContainerBuilder $container)
+    private function configureResultCache(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         $cacheClass = null;
         $cacheId = null;
@@ -179,7 +184,6 @@ class KasskoDataAccessExtension extends Extension
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
         $container->setDefinition($cacheConfigId, $cacheConfigDef);
 
-        $configDef = $container->getDefinition('kassko_data_access.configuration');
-        $configDef->addMethodCall('setResultCacheConfig', [new Reference($cacheConfigId)]);
+        $configurationDef->addMethodCall('setResultCacheConfig', [new Reference($cacheConfigId)]);
     }
 }
