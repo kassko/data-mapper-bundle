@@ -69,7 +69,10 @@
 
         <!-- <service id="kassko_class_resolver.data_access" parent="kassko_class_resolver"/> -->
 
-        <service id="kassko_data_access.configuration" class="Kassko\DataAccess\Configuration\Configuration"/>
+
+        <service id="kassko_data_access.configuration" class="Kassko\DataAccess\Configuration\ConfigurationChain"/>
+
+        <!--<service id="kassko_data_access.configuration_chain" class="Kassko\DataAccess\Configuration\ConfigurationChain"/>-->
 
         <service id="kassko_data_access.configuration.cache.prototype" class="Kassko\DataAccess\Configuration\CacheConfiguration" public="false" abstract="true"/>
 
