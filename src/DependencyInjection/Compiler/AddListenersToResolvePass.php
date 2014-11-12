@@ -24,7 +24,7 @@ class AddListenersToResolvePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-    	$classResolverDef = $container->getDefinition(self::$classeResolverId);
+        $classResolverDef = $container->getDefinition(self::$classeResolverId);
 
         foreach ($container->findTaggedServiceIds(self::$classesToRegisterTag) as $service => $tagAttributes) {
 

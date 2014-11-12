@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
-        	->children()
+            ->children()
                 ->scalarNode('logger_service')->end()
                 ->arrayNode('cache')->addDefaultsIfNotSet()
                     ->append($this->addCacheNode('metadata_cache'))
@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-        	->end()
+            ->end()
         ;
 
         return $builder;
