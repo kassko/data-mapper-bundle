@@ -20,9 +20,21 @@ class KasskoDataAccessExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+        $this->configureCustomClassMetadataLoader($config, $container);
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
         $this->configureConfiguration($config, $container);
+    }
+
+    private function configureCustomClassMetadataLoader(array $config, ContainerBuilder $container)
+    {
+        if (isset($config['custom_loader_services'])) {
+            $loaderResolverDef = $container->getDefinition('kassko_data_access.class_metadata_loader.loader_resolver');
+
+            foreach ($config['custom_loader_services'] as $loaderService) {
+                $loaderResolverDef->addMethodCall('addLoader', new Reference($loaderService));
+            }
+        }
     }
 
     private function configureLogger(array $config, ContainerBuilder $container)
@@ -64,6 +76,7 @@ class KasskoDataAccessExtension extends Extension
         foreach ($config['bundles'] as $bundleName => $bundleConfig) {
 
             $parentClassMetadataResourceType = $bundleConfig['type'];
+            $parentClassMetadataProviderMethod = $bundleConfig['provider_method'];
 
             if (! empty($bundleConfig['resource_path'])) {
                 $parentClassMetadataResourcePath = trim($bundleConfig['resource_path']);
@@ -97,6 +110,12 @@ class KasskoDataAccessExtension extends Extension
                     $configurationDef->addMethodCall('addClassMetadataResource', [$mappingEntityClass, $classMetadataResource]);
                 }
 
+                if (isset($classMetadataProviderMethod)) {
+                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingEntityClass, $classMetadataResource]);
+                } elseif (isset($parentClassMetadataProviderMethod)) {
+                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingEntityClass, $parentClassMetadataProviderMethod]);
+                }
+
                 if (isset($classMetadataDir)) {
                     $configurationDef->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $classMetadataDir]);
                 } elseif (isset($parentClassMetadataDir)) {
@@ -114,6 +133,10 @@ class KasskoDataAccessExtension extends Extension
 
         if (! empty($config['default_resource_dir'])) {
             $configurationDef->addMethodCall('setDefaultClassMetadataResourceDir', [$config['default_resource_dir']]);
+        }
+
+        if (! empty($config['default_provider_method'])) {
+            $configurationDef->addMethodCall('setDefaultClassMetadataProviderMethod', [$config['default_provider_method']]);
         }
     }
 
