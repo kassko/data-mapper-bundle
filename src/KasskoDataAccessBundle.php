@@ -2,10 +2,13 @@
 
 namespace Kassko\Bundle\DataAccessBundle;
 
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\AddListenersToResolvePass;
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\InitializeRegistryPass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\ExecuteCommandPass;
+use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\InitializeRegistryPass;
+use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
+use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterMappingLoadersPass;
+use Kassko\DataAccess\ClassMetadata\Events;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class KasskoDataAccessBundle extends Bundle
@@ -17,8 +20,18 @@ class KasskoDataAccessBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new AddListenersToResolvePass());
-        $container->addCompilerPass(new InitializeRegistryPass());
-        $container->addCompilerPass(new ExecuteCommandPass());
+        $container
+            ->addCompilerPass(new RegisterListenersToResolvePass())
+            ->addCompilerPass(new RegisterMappingLoadersPass())
+            ->addCompilerPass(new InitializeRegistryPass())
+            ->addCompilerPass(new ExecuteCommandPass())
+            ->addCompilerPass(
+                new RegisterListenersPass(
+                    'kassko_data_access.container_aware_event_dispatcher',
+                    Events::POST_LOAD_METADATA,
+                    ''
+                )
+            )
+        ;
     }
 }

@@ -25,6 +25,8 @@
         <parameter key="kassko_data_access.object_listener_resolver_chain.class">Kassko\DataAccess\Listener\ObjectListenerResolverChain</parameter>
         <parameter key="kassko_data_access.cache_config.class">Kassko\DataAccess\Configuration\CacheConfig</parameter>
         <parameter key="kassko_data_access.class_metadata_factory.configurator.class">Kassko\DataAccess\Configuration\ClassMetadataFactoryConfigurator</parameter>
+        <parameter key="kassko_data_access.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
+
 
     </parameters>
 
@@ -64,6 +66,10 @@
 
             <call method="setClassMetadataLoader">
                  <argument type="service" id="kassko_data_access.class_metadata_loader.delegating_loader"/>
+            </call>
+
+            <call method="setEventManager">
+                <argument type="service" id="kassko_data_access.container_aware_event_dispatcher" on-invalid="ignore"/>
             </call>
 
             <configurator service="kassko_data_access.class_metadata_factory.configurator" method="configure"/>
@@ -147,7 +153,7 @@
             </call>
         </service>
 
-        <service id='kassko_data_access.container_aware_event_dispatcher' class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
+        <service id='kassko_data_access.container_aware_event_dispatcher' class="%kassko_data_access.container_aware_event_dispatcher.class%" public="false">
             <argument type="service" id="service_container"/>
         </service>
 

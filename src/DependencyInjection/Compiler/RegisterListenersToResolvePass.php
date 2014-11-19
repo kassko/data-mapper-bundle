@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use LogicException;
 
-class AddListenersToResolvePass implements CompilerPassInterface
+class RegisterListenersToResolvePass implements CompilerPassInterface
 {
     private static $classesToRegisterTag = 'kassko_data_access.listener';
     private static $classeResolverId = 'kassko_data_access.object_listener_resolver';

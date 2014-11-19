@@ -20,21 +20,9 @@ class KasskoDataAccessExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $this->configureCustomClassMetadataLoader($config, $container);
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
         $this->configureConfiguration($config, $container);
-    }
-
-    private function configureCustomClassMetadataLoader(array $config, ContainerBuilder $container)
-    {
-        if (isset($config['custom_loader_services'])) {
-            $loaderResolverDef = $container->getDefinition('kassko_data_access.class_metadata_loader.loader_resolver');
-
-            foreach ($config['custom_loader_services'] as $loaderService) {
-                $loaderResolverDef->addMethodCall('addLoader', new Reference($loaderService));
-            }
-        }
     }
 
     private function configureLogger(array $config, ContainerBuilder $container)
