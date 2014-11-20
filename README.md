@@ -34,25 +34,25 @@ Services
 ----------
 data-access-bundle provides services to facilitate to use data-access components:
 
-kassko_data_access.result_builder_factory.
+###### kassko_data_access.result_builder_factory.
 It represents a ResultBuilderFactory instance.
 
-kassko_data_access.query_factory
+###### kassko_data_access.query_factory
 It represents a QueryFactory instance.
 
 To know more about this component and how to use it, please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
 Tags (dependency injection tags)
 ----------
-### kassko_data_access.listener
+###### kassko_data_access.listener
 data-access need to be able to retrieve an object listener from its full qualified class name. To help it, register your object listener as service and tag it.
 To know more about object listener, please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
-### kassko_data_access.mapping_loader
+###### kassko_data_access.mapping_loader
 Simplify the work to expose a custom mapping loader. Register it as service and tag it.
 To know more about custom mapping loader creation (contract to implement etc.), please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
-### kassko_data_access.registry_item
+###### kassko_data_access.registry_item
 Facilitate to add a service in the registry. So tag it.
 
 Configuration
