@@ -27,7 +27,6 @@
         <parameter key="kassko_data_access.class_metadata_factory.configurator.class">Kassko\DataAccess\Configuration\ClassMetadataFactoryConfigurator</parameter>
         <parameter key="kassko_data_access.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
 
-
     </parameters>
 
     <services>
@@ -50,7 +49,11 @@
                  <argument type="service" id="kassko_class_resolver"/>
             </call>
 
-            <tag name="kassko_class_resolver.inject" group="data_access" method="setClassResolver"/>
+            <call method="executeCommand">
+                 <argument type="service" id="kassko_data_access.registry_initializer"/>
+            </call>
+
+             <tag name="kassko_class_resolver.inject" group="data_access" method="setClassResolver"/>
 
         </service>
 

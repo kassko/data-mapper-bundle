@@ -57,32 +57,32 @@ class KasskoDataAccessExtension extends Extension
     {
         $this->configureMappingWithDefaults($config, $container, $configurationDef);
 
-        if (empty($config['bundles'])) {
+        if (! isset($config['bundles'])) {
             return;
         }
 
         foreach ($config['bundles'] as $bundleName => $bundleConfig) {
 
-            $parentClassMetadataResourceType = $bundleConfig['type'];
-            $parentClassMetadataProviderMethod = $bundleConfig['provider_method'];
+            $parentClassMetadataResourceType = isset($bundleConfig['resource_type']) ? $bundleConfig['resource_type'] : null;
+            $parentClassMetadataProviderMethod = isset($bundleConfig['provider_method']) ? $bundleConfig['provider_method'] : null;
 
-            if (! empty($bundleConfig['resource_path'])) {
+            if (isset($bundleConfig['resource_path'])) {
                 $parentClassMetadataResourcePath = trim($bundleConfig['resource_path']);
             }
 
-            if (! empty($bundleConfig['resource_dir'])) {
+            if (isset($bundleConfig['resource_dir'])) {
                 $classMetadataResourceDir = $bundleConfig['resource_dir'];
             }
 
             foreach ($bundleConfig['entities'] as $entityName => $entityConfig) {
 
-                if (! empty($entityConfig['type'])) {
-                    $classMetadataResourceType = trim($entityConfig['type']);
+                if (isset($entityConfig['resource_type'])) {
+                    $classMetadataResourceType = trim($entityConfig['resource_type']);
                 }
 
-                if (! empty($entityConfig['resource_path'])) {
+                if (isset($entityConfig['resource_path'])) {
                     $classMetadataResource = trim($entityConfig['resource_path']);
-                } elseif (! empty($entityConfig['resource_name'])) {
+                } elseif (isset($entityConfig['resource_name'])) {
                     $classMetadataResource = $classMetadataResourceDir.'/'.$entityConfig['resource_name'];
                 }
 
@@ -115,15 +115,15 @@ class KasskoDataAccessExtension extends Extension
 
     private function configureMappingWithDefaults(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
-        if (! empty($config['default_resource_type'])) {
+        if (isset($config['default_resource_type'])) {
             $configurationDef->addMethodCall('setDefaultClassMetadataResourceType', [$config['default_resource_type']]);
         }
 
-        if (! empty($config['default_resource_dir'])) {
+        if (isset($config['default_resource_dir'])) {
             $configurationDef->addMethodCall('setDefaultClassMetadataResourceDir', [$config['default_resource_dir']]);
         }
 
-        if (! empty($config['default_provider_method'])) {
+        if (isset($config['default_provider_method'])) {
             $configurationDef->addMethodCall('setDefaultClassMetadataProviderMethod', [$config['default_provider_method']]);
         }
     }
@@ -133,9 +133,9 @@ class KasskoDataAccessExtension extends Extension
         $cacheClass = null;
         $cacheId = null;
 
-        if (! empty ($config['class'])) {
+        if (isset($config['class'])) {
             $cacheClass = $config['class'];
-        } elseif (! empty($config['id'])) {
+        } elseif (isset($config['id'])) {
             $cacheId = $config['id'];
         } else {
             $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";
@@ -168,9 +168,9 @@ class KasskoDataAccessExtension extends Extension
         $cacheClass = null;
         $cacheId = null;
 
-        if (! empty($config['class'])) {
+        if (isset($config['class'])) {
             $cacheClass = $config['class'];
-        } elseif (! empty($config['id'])) {
+        } elseif (isset($config['id'])) {
             $cacheId = $config['id'];
         } else {
             $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";

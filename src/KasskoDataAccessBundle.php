@@ -2,8 +2,8 @@
 
 namespace Kassko\Bundle\DataAccessBundle;
 
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\ExecuteCommandPass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\InitializeRegistryPass;
+use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterClassToResolvePass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterMappingLoadersPass;
 use Kassko\DataAccess\ClassMetadata\Events;
@@ -24,7 +24,6 @@ class KasskoDataAccessBundle extends Bundle
             ->addCompilerPass(new RegisterListenersToResolvePass())
             ->addCompilerPass(new RegisterMappingLoadersPass())
             ->addCompilerPass(new InitializeRegistryPass())
-            ->addCompilerPass(new ExecuteCommandPass())
             ->addCompilerPass(
                 new RegisterListenersPass(
                     'kassko_data_access.container_aware_event_dispatcher',
