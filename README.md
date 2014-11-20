@@ -34,7 +34,7 @@ Services
 ----------
 data-access-bundle provides services to facilitate to use data-access components:
 
-###### kassko_data_access.result_builder_factory.
+###### kassko_data_access.result_builder_factory
 It represents a ResultBuilderFactory instance.
 
 ###### kassko_data_access.query_factory
