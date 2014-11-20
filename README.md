@@ -15,7 +15,7 @@ Installation on Symfony 2
 Add to your composer.json:
 ```json
 "require": {
-    "kassko/data-access-bundle": "dev-master"
+    "kassko/data-access-bundle": "~0.3.0"
 }
 ```
 
