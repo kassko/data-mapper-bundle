@@ -1,0 +1,12 @@
+kassko_data_access:
+    mapping:
+        default_resource_dir: %kernel.root_dir%/../src/Solfa/Bundle/ScalesBundle/Resources/config/data_access/mapping
+        bundles:
+            SolfaScalesBundle:
+                resource_type: yaml_file
+                resource_dir: %kernel.root_dir%/src/config/data_access/mapping
+                entities:
+                    one:
+                        resource_type: php
+                        entity_class: "Solfa\Bundle\ScalesBundle\Scales\RgbKeyboardInMemory"
+

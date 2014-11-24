@@ -5,7 +5,7 @@ data-access-bundle
 [![Total Downloads](https://poser.pugx.org/kassko/data-access-bundle/downloads.png)](https://packagist.org/packages/kassko/data-access-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/kassko/data-access-bundle/v/unstable.png)](https://packagist.org/packages/kassko/data-access-bundle)
 
-This bundle integrates the component data-access into Symfony projects. This component allows to give an object representation of raw data. It gives a lot of flexibility to representate these raw data and allows to make intelligent mapping.
+This bundle integrates the component data-access into Symfony projects. This component is a mapper which gives a lot of flexibility to representate some raw data like objects.
 
 To know more about this component and how to use it, please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
