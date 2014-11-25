@@ -7,6 +7,10 @@ use Kassko\DataAccess\Hydrator\HydrationContextInterface;
 use Kassko\DataAccess\Hydrator\Value;
 use \DateTime;
 
+/**
+ * @DA\PostHydrate(method="onAfterHydrate")
+ * @DA\PostExtract(method="onAfterExtract")
+ */
 class Watch
 {
     private static $brandCodeToLabelMap = [1 => 'Brand A', 2 => 'Brand B'];
@@ -118,43 +122,40 @@ class Watch
         $this->sealDate = $sealDate;
     }
 
-    public function readBrand(Value $value, HydrationContextInterface $context)
+    public static function readBrand(Value $value, HydrationContextInterface $context)
     {
         if (isset(self::$brandCodeToLabelMap[$value->value])) {
             $value->value = self::$brandCodeToLabelMap[$value->value];
         }
     }
 
-    public function writeBrand(Value $value, HydrationContextInterface $context)
+    public static function writeBrand(Value $value, HydrationContextInterface $context)
     {
         if (isset(self::$brandLabelToCodeMap[$value->value])) {
             $value->value = self::$brandLabelToCodeMap[$value->value];
         }
     }
 
-    public function hydrateBool(Value $value, HydrationContextInterface $context)
+    public static function hydrateBool(Value $value, HydrationContextInterface $context)
     {
         $value->value = $value->value == '1';
     }
 
-    public function extractBool(Value $value, HydrationContextInterface $context)
+    public static function extractBool(Value $value, HydrationContextInterface $context)
     {
         $value->value = $value->value ? '1' : '0';
     }
 
-    public function hydrateBoolFromSymbol(Value $value)
+    public static function hydrateBoolFromSymbol(Value $value)
     {
         $value->value = $value->value == 'X';
     }
 
-    public function extractBoolToSymbol(Value $value)
+    public static function extractBoolToSymbol(Value $value)
     {
         $value->value = $value->value ? 'X' : ' ';
     }
 
-    /**
-     * @DA\PostHydrate
-     */
     public function onAfterHydrate(HydrationContextInterface $context)
     {
         if ('' === $context->getItem('seal_date')) {
@@ -167,9 +168,6 @@ class Watch
         $this->sealDate = DateTime::createFromFormat('Y-m-d H:i:s', $value);
     }
 
-    /**
-     * @DA\PostExtract
-     */
     public function onAfterExtract(HydrationContextInterface $context)
     {
         if ($this->noSealDate) {

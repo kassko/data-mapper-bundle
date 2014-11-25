@@ -109,7 +109,7 @@ class Keyboard
         return $this;
     }
 
-    public function readBrand(Value $value, HydrationContextInterface $context)
+    public static function readBrand(Value $value, HydrationContextInterface $context)
     {
         $value->value = '===>'.$value->value;
     }
