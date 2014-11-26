@@ -49,11 +49,26 @@ data-access need to be able to retrieve an object listener from its full qualifi
 To know more about object listener, please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
 ###### kassko_data_access.mapping_loader
-Simplify the work to expose a custom mapping loader. Register it as service and tag it.
+Simplify the work to expose a custom mapping loader.
 To know more about custom mapping loader creation (contract to implement etc.), please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
 
 ###### kassko_data_access.registry_item
-Facilitate to add a service in the registry. So tag it.
+Facilitate to add a service into the registry.
+
+Tag your service:
+```xml
+<service id="some_service">
+    <tag name="kassko_data_access.registry_item" key="some_service_key">
+</service>
+```
+
+And get your service:
+```php
+$someService = Registry::getInstance()['some_service_key'];
+```
+To know more about registry usefulness, please read the [data-access documentation reference](https://github.com/kassko/data-access/blob/master/README.md).
+
+Register:
 
 Configuration
 ----------
@@ -78,12 +93,12 @@ kassko_data_access:
     logger_service: # Optional. A logger service name. Il will be used for logging in data-access component.
     cache:
         metadata_cache: # Optional section
-            class: Optional.
+            class: # Optional.
             id: # Optional.
-            life_time: Default is 0
-            is_shared: Default is false
+            life_time: # Default is 0
+            is_shared: # Default is false
             adapter_class: # Default is "Kassko\Bundle\DataAccessBundle\Adapter\Cache\DoctrineCacheAdapter"
         result_cache: # Optional section and same as metadata_cache
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
-And maybe others if you add custom mapping loader.
+And maybe others if you add some custom mapping loaders.
