@@ -2,7 +2,7 @@
 
 namespace Kassko\Bundle\DataAccessBundle\DependencyInjection;
 
-use Kassko\DataAccess\Registry\Registry;
+use Kassko\DataMapper\Registry\Registry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

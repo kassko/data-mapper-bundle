@@ -2,7 +2,7 @@
 
 namespace Solfa\Bundle\ScalesBundle\Scales;
 
-use Kassko\DataAccess\Annotation as DA;
+use Kassko\DataMapper\Annotation as DA;
 
 /**
  * @DA\CustomHydrator(class="Solfa\Bundle\ScalesBundle\Scales\RgbKeyboardHydrator")

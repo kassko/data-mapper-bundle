@@ -5,26 +5,26 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="kassko_data_access.object_manager.class">Kassko\DataAccess\ObjectManager</parameter>
-        <parameter key="kassko_data_access.object_listener_resolver.class">Kassko\DataAccess\Listener\ContainerAwareObjectListenerResolver</parameter>
-        <parameter key="kassko_data_access.hydrator.class">Kassko\DataAccess\Hydrator\Hydrator</parameter>
-        <parameter key="kassko_data_access.result_builder_factory.class">Kassko\DataAccess\Result\ResultBuilderFactory</parameter>
-        <parameter key="kassko_data_access.lazy_loader_factory.class">Kassko\DataAccess\LazyLoader\LazyLoaderFactory</parameter>
-        <parameter key="kassko_data_access.query_factory.class">Kassko\DataAccess\Query\QueryFactory</parameter>
+        <parameter key="kassko_data_access.object_manager.class">Kassko\DataMapper\ObjectManager</parameter>
+        <parameter key="kassko_data_access.object_listener_resolver.class">Kassko\DataMapper\Listener\ContainerAwareObjectListenerResolver</parameter>
+        <parameter key="kassko_data_access.hydrator.class">Kassko\DataMapper\Hydrator\Hydrator</parameter>
+        <parameter key="kassko_data_access.result_builder_factory.class">Kassko\DataMapper\Result\ResultBuilderFactory</parameter>
+        <parameter key="kassko_data_access.lazy_loader_factory.class">Kassko\DataMapper\LazyLoader\LazyLoaderFactory</parameter>
+        <parameter key="kassko_data_access.query_factory.class">Kassko\DataMapper\Query\QueryFactory</parameter>
         <parameter key="kassko_data_access.default_cache.class">Doctrine\Common\Cache\ArrayCache</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.annotation.class">Kassko\DataAccess\ClassMetadataLoader\AnnotationLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.yaml_file.class">Kassko\DataAccess\ClassMetadataLoader\YamlFileLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.php_file.class">Kassko\DataAccess\ClassMetadataLoader\PhpFileLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.php.class">Kassko\DataAccess\ClassMetadataLoader\PhpLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.yaml.class">Kassko\DataAccess\ClassMetadataLoader\YamlLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.resolver.class">Kassko\DataAccess\ClassMetadataLoader\LoaderResolver</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.delegating_loader.class">Kassko\DataAccess\ClassMetadataLoader\DelegatingLoader</parameter>
-        <parameter key="kassko_data_access.configuration.class">Kassko\DataAccess\Configuration\ConfigurationChain</parameter>
-        <parameter key="kassko_data_access.configuration.cache.prototype.class">Kassko\DataAccess\Configuration\CacheConfiguration</parameter>
-        <parameter key="kassko_data_access.class_metadata_factory.class">Kassko\DataAccess\ClassMetadata\ClassMetadataFactory</parameter>
-        <parameter key="kassko_data_access.object_listener_resolver_chain.class">Kassko\DataAccess\Listener\ObjectListenerResolverChain</parameter>
-        <parameter key="kassko_data_access.cache_config.class">Kassko\DataAccess\Configuration\CacheConfig</parameter>
-        <parameter key="kassko_data_access.class_metadata_factory.configurator.class">Kassko\DataAccess\Configuration\ClassMetadataFactoryConfigurator</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.annotation.class">Kassko\DataMapper\ClassMetadataLoader\AnnotationLoader</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.yaml_file.class">Kassko\DataMapper\ClassMetadataLoader\YamlFileLoader</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.php_file.class">Kassko\DataMapper\ClassMetadataLoader\PhpFileLoader</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.php.class">Kassko\DataMapper\ClassMetadataLoader\PhpLoader</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.yaml.class">Kassko\DataMapper\ClassMetadataLoader\YamlLoader</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.resolver.class">Kassko\DataMapper\ClassMetadataLoader\LoaderResolver</parameter>
+        <parameter key="kassko_data_access.class_metadata_loader.delegating_loader.class">Kassko\DataMapper\ClassMetadataLoader\DelegatingLoader</parameter>
+        <parameter key="kassko_data_access.configuration.class">Kassko\DataMapper\Configuration\ConfigurationChain</parameter>
+        <parameter key="kassko_data_access.configuration.cache.prototype.class">Kassko\DataMapper\Configuration\CacheConfiguration</parameter>
+        <parameter key="kassko_data_access.class_metadata_factory.class">Kassko\DataMapper\ClassMetadata\ClassMetadataFactory</parameter>
+        <parameter key="kassko_data_access.object_listener_resolver_chain.class">Kassko\DataMapper\Listener\ObjectListenerResolverChain</parameter>
+        <parameter key="kassko_data_access.cache_config.class">Kassko\DataMapper\Configuration\CacheConfig</parameter>
+        <parameter key="kassko_data_access.class_metadata_factory.configurator.class">Kassko\DataMapper\Configuration\ClassMetadataFactoryConfigurator</parameter>
         <parameter key="kassko_data_access.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
 
     </parameters>

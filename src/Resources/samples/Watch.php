@@ -2,9 +2,9 @@
 
 namespace Solfa\Bundle\ScalesBundle\Scales;
 
-use Kassko\DataAccess\Annotation as DA;
-use Kassko\DataAccess\Hydrator\HydrationContextInterface;
-use Kassko\DataAccess\Hydrator\Value;
+use Kassko\DataMapper\Annotation as DA;
+use Kassko\DataMapper\Hydrator\HydrationContextInterface;
+use Kassko\DataMapper\Hydrator\Value;
 use \DateTime;
 
 /**
