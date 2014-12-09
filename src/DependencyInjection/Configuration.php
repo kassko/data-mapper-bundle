@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassko\Bundle\DataAccessBundle\DependencyInjection;
+namespace Kassko\Bundle\DataMapperBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $builder = new TreeBuilder();
-        $rootNode = $builder->root('kassko_data_access');
+        $rootNode = $builder->root('kassko_data_mapper');
 
         $rootNode
             ->addDefaultsIfNotSet()
@@ -66,7 +66,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('id')->end()
                 ->scalarNode('life_time')->defaultValue(0)->end()
                 ->booleanNode('is_shared')->defaultFalse()->end()
-                ->scalarNode('adapter_class')->defaultValue('Kassko\Bundle\DataAccessBundle\Adapter\Cache\DoctrineCacheAdapter')->end()
+                ->scalarNode('adapter_class')->defaultValue('Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter')->end()
             ->end()
         ;
 

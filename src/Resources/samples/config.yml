@@ -1,4 +1,4 @@
-kassko_data_access:
+kassko_data_mapper:
     mapping:
         default_resource_dir: %kernel.root_dir%/../src/Solfa/Bundle/ScalesBundle/Resources/config/data_access/mapping
         bundles:

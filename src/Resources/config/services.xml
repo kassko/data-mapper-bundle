@@ -5,44 +5,44 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="kassko_data_access.object_manager.class">Kassko\DataMapper\ObjectManager</parameter>
-        <parameter key="kassko_data_access.object_listener_resolver.class">Kassko\DataMapper\Listener\ContainerAwareObjectListenerResolver</parameter>
-        <parameter key="kassko_data_access.hydrator.class">Kassko\DataMapper\Hydrator\Hydrator</parameter>
-        <parameter key="kassko_data_access.result_builder_factory.class">Kassko\DataMapper\Result\ResultBuilderFactory</parameter>
-        <parameter key="kassko_data_access.lazy_loader_factory.class">Kassko\DataMapper\LazyLoader\LazyLoaderFactory</parameter>
-        <parameter key="kassko_data_access.query_factory.class">Kassko\DataMapper\Query\QueryFactory</parameter>
-        <parameter key="kassko_data_access.default_cache.class">Doctrine\Common\Cache\ArrayCache</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.annotation.class">Kassko\DataMapper\ClassMetadataLoader\AnnotationLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.yaml_file.class">Kassko\DataMapper\ClassMetadataLoader\YamlFileLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.php_file.class">Kassko\DataMapper\ClassMetadataLoader\PhpFileLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.php.class">Kassko\DataMapper\ClassMetadataLoader\PhpLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.yaml.class">Kassko\DataMapper\ClassMetadataLoader\YamlLoader</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.resolver.class">Kassko\DataMapper\ClassMetadataLoader\LoaderResolver</parameter>
-        <parameter key="kassko_data_access.class_metadata_loader.delegating_loader.class">Kassko\DataMapper\ClassMetadataLoader\DelegatingLoader</parameter>
-        <parameter key="kassko_data_access.configuration.class">Kassko\DataMapper\Configuration\ConfigurationChain</parameter>
-        <parameter key="kassko_data_access.configuration.cache.prototype.class">Kassko\DataMapper\Configuration\CacheConfiguration</parameter>
-        <parameter key="kassko_data_access.class_metadata_factory.class">Kassko\DataMapper\ClassMetadata\ClassMetadataFactory</parameter>
-        <parameter key="kassko_data_access.object_listener_resolver_chain.class">Kassko\DataMapper\Listener\ObjectListenerResolverChain</parameter>
-        <parameter key="kassko_data_access.cache_config.class">Kassko\DataMapper\Configuration\CacheConfig</parameter>
-        <parameter key="kassko_data_access.class_metadata_factory.configurator.class">Kassko\DataMapper\Configuration\ClassMetadataFactoryConfigurator</parameter>
-        <parameter key="kassko_data_access.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
+        <parameter key="kassko_data_mapper.object_manager.class">Kassko\DataMapper\ObjectManager</parameter>
+        <parameter key="kassko_data_mapper.object_listener_resolver.class">Kassko\DataMapper\Listener\ContainerAwareObjectListenerResolver</parameter>
+        <parameter key="kassko_data_mapper.hydrator.class">Kassko\DataMapper\Hydrator\Hydrator</parameter>
+        <parameter key="kassko_data_mapper.result_builder_factory.class">Kassko\DataMapper\Result\ResultBuilderFactory</parameter>
+        <parameter key="kassko_data_mapper.lazy_loader_factory.class">Kassko\DataMapper\LazyLoader\LazyLoaderFactory</parameter>
+        <parameter key="kassko_data_mapper.query_factory.class">Kassko\DataMapper\Query\QueryFactory</parameter>
+        <parameter key="kassko_data_mapper.default_cache.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.annotation.class">Kassko\DataMapper\ClassMetadataLoader\AnnotationLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.yaml_file.class">Kassko\DataMapper\ClassMetadataLoader\YamlFileLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.php_file.class">Kassko\DataMapper\ClassMetadataLoader\PhpFileLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.php.class">Kassko\DataMapper\ClassMetadataLoader\PhpLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.yaml.class">Kassko\DataMapper\ClassMetadataLoader\YamlLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.resolver.class">Kassko\DataMapper\ClassMetadataLoader\LoaderResolver</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.delegating_loader.class">Kassko\DataMapper\ClassMetadataLoader\DelegatingLoader</parameter>
+        <parameter key="kassko_data_mapper.configuration.class">Kassko\DataMapper\Configuration\ConfigurationChain</parameter>
+        <parameter key="kassko_data_mapper.configuration.cache.prototype.class">Kassko\DataMapper\Configuration\CacheConfiguration</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_factory.class">Kassko\DataMapper\ClassMetadata\ClassMetadataFactory</parameter>
+        <parameter key="kassko_data_mapper.object_listener_resolver_chain.class">Kassko\DataMapper\Listener\ObjectListenerResolverChain</parameter>
+        <parameter key="kassko_data_mapper.cache_config.class">Kassko\DataMapper\Configuration\CacheConfig</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_factory.configurator.class">Kassko\DataMapper\Configuration\ClassMetadataFactoryConfigurator</parameter>
+        <parameter key="kassko_data_mapper.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
 
     </parameters>
 
     <services>
 
-        <service id="kassko_data_access.object_manager" factory-class="%kassko_data_access.object_manager.class%" factory-method="getInstance" class="%kassko_data_access.object_manager.class%">
+        <service id="kassko_data_mapper.object_manager" factory-class="%kassko_data_mapper.object_manager.class%" factory-method="getInstance" class="%kassko_data_mapper.object_manager.class%">
 
             <call method="setClassMetadataFactory">
-                 <argument type="service" id="kassko_data_access.class_metadata_factory"/>
+                 <argument type="service" id="kassko_data_mapper.class_metadata_factory"/>
             </call>
 
             <call method="setConfiguration">
-                 <argument type="service" id="kassko_data_access.configuration"/>
+                 <argument type="service" id="kassko_data_mapper.configuration"/>
             </call>
 
             <call method="setObjectListenerResolver">
-                 <argument type="service" id="kassko_data_access.object_listener_resolver_chain"/>
+                 <argument type="service" id="kassko_data_mapper.object_listener_resolver_chain"/>
             </call>
 
             <call method="setClassResolver">
@@ -50,120 +50,120 @@
             </call>
 
             <call method="executeCommand">
-                 <argument type="service" id="kassko_data_access.registry_initializer"/>
+                 <argument type="service" id="kassko_data_mapper.registry_initializer"/>
             </call>
 
              <tag name="kassko_class_resolver.inject" group="data_access" method="setClassResolver"/>
 
         </service>
 
-        <service id="kassko_data_access.registry_initializer" class="Kassko\Bundle\DataAccessBundle\RegistryInitializer">
-            <tag name="kassko_data_access.command"/>
+        <service id="kassko_data_mapper.registry_initializer" class="Kassko\Bundle\DataMapperBundle\RegistryInitializer">
+            <tag name="kassko_data_mapper.command"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_factory.configurator" class="%kassko_data_access.class_metadata_factory.configurator.class%">
-            <argument type="service" id="kassko_data_access.configuration"/>
+        <service id="kassko_data_mapper.class_metadata_factory.configurator" class="%kassko_data_mapper.class_metadata_factory.configurator.class%">
+            <argument type="service" id="kassko_data_mapper.configuration"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_factory" class="%kassko_data_access.class_metadata_factory.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_factory" class="%kassko_data_mapper.class_metadata_factory.class%" public="false">
 
             <call method="setClassMetadataLoader">
-                 <argument type="service" id="kassko_data_access.class_metadata_loader.delegating_loader"/>
+                 <argument type="service" id="kassko_data_mapper.class_metadata_loader.delegating_loader"/>
             </call>
 
             <call method="setEventManager">
-                <argument type="service" id="kassko_data_access.container_aware_event_dispatcher" on-invalid="ignore"/>
+                <argument type="service" id="kassko_data_mapper.container_aware_event_dispatcher" on-invalid="ignore"/>
             </call>
 
-            <configurator service="kassko_data_access.class_metadata_factory.configurator" method="configure"/>
+            <configurator service="kassko_data_mapper.class_metadata_factory.configurator" method="configure"/>
         </service>
 
-        <service id="kassko_data_access.result_builder_factory" class="%kassko_data_access.result_builder_factory.class%">
-            <argument type="service" id="kassko_data_access.object_manager"/>
+        <service id="kassko_data_mapper.result_builder_factory" class="%kassko_data_mapper.result_builder_factory.class%">
+            <argument type="service" id="kassko_data_mapper.object_manager"/>
         </service>
 
-        <service id="kassko_data_access.lazy_loader_factory" class="%kassko_data_access.lazy_loader_factory.class%">
-            <argument type="service" id="kassko_data_access.object_manager"/>
+        <service id="kassko_data_mapper.lazy_loader_factory" class="%kassko_data_mapper.lazy_loader_factory.class%">
+            <argument type="service" id="kassko_data_mapper.object_manager"/>
         </service>
 
-        <service id="kassko_data_access.query_factory" class="%kassko_data_access.query_factory.class%">
-            <argument type="service" id="kassko_data_access.object_manager"/>
+        <service id="kassko_data_mapper.query_factory" class="%kassko_data_mapper.query_factory.class%">
+            <argument type="service" id="kassko_data_mapper.object_manager"/>
         </service>
 
-        <service id="kassko_data_access.configuration" class="%kassko_data_access.configuration.class%"/>
+        <service id="kassko_data_mapper.configuration" class="%kassko_data_mapper.configuration.class%"/>
 
-        <service id="kassko_data_access.configuration.cache.prototype" class="%kassko_data_access.configuration.cache.prototype.class%" public="false" abstract="true"/>
+        <service id="kassko_data_mapper.configuration.cache.prototype" class="%kassko_data_mapper.configuration.cache.prototype.class%" public="false" abstract="true"/>
 
-        <service id="kassko_data_access.class_metadata_cache.prototype" abstract="true"/>
-        <service id="kassko_data_access.result_cache.prototype" abstract="true"/>
+        <service id="kassko_data_mapper.class_metadata_cache.prototype" abstract="true"/>
+        <service id="kassko_data_mapper.result_cache.prototype" abstract="true"/>
 
-        <service id="kassko_data_access.class_metadata_loader.annotation" class="%kassko_data_access.class_metadata_loader.annotation.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.annotation" class="%kassko_data_mapper.class_metadata_loader.annotation.class%" public="false">
             <argument type="service" id="annotation_reader"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.yaml_file" class="%kassko_data_access.class_metadata_loader.yaml_file.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.yaml_file" class="%kassko_data_mapper.class_metadata_loader.yaml_file.class%" public="false">
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.php_file" class="%kassko_data_access.class_metadata_loader.php_file.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.php_file" class="%kassko_data_mapper.class_metadata_loader.php_file.class%" public="false">
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.php" class="%kassko_data_access.class_metadata_loader.php.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.php" class="%kassko_data_mapper.class_metadata_loader.php.class%" public="false">
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.yaml" class="%kassko_data_access.class_metadata_loader.yaml.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.yaml" class="%kassko_data_mapper.class_metadata_loader.yaml.class%" public="false">
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.loader_resolver" class="%kassko_data_access.class_metadata_loader.resolver.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.loader_resolver" class="%kassko_data_mapper.class_metadata_loader.resolver.class%" public="false">
             <call method="addLoader">
-                <argument type="service" id="kassko_data_access.class_metadata_loader.annotation"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.annotation"/>
             </call>
 
             <call method="addLoader">
-                <argument type="service" id="kassko_data_access.class_metadata_loader.yaml_file"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.yaml_file"/>
             </call>
 
             <call method="addLoader">
-                <argument type="service" id="kassko_data_access.class_metadata_loader.php_file"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.php_file"/>
             </call>
 
             <call method="addLoader">
-                <argument type="service" id="kassko_data_access.class_metadata_loader.php"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.php"/>
             </call>
 
             <call method="addLoader">
-                <argument type="service" id="kassko_data_access.class_metadata_loader.yaml"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.yaml"/>
             </call>
         </service>
 
-        <service id="kassko_data_access.class_metadata_loader.delegating_loader" class="%kassko_data_access.class_metadata_loader.delegating_loader.class%" public="false">
-            <argument type="service" id="kassko_data_access.class_metadata_loader.loader_resolver"/>
+        <service id="kassko_data_mapper.class_metadata_loader.delegating_loader" class="%kassko_data_mapper.class_metadata_loader.delegating_loader.class%" public="false">
+            <argument type="service" id="kassko_data_mapper.class_metadata_loader.loader_resolver"/>
         </service>
 
-        <service id="kassko_data_access.object_listener_resolver" class="%kassko_data_access.object_listener_resolver.class%" parent="kassko_class_resolver.chain" public="false">
+        <service id="kassko_data_mapper.object_listener_resolver" class="%kassko_data_mapper.object_listener_resolver.class%" parent="kassko_class_resolver.chain" public="false">
             <call method="setContainerAwareEventManager">
-                 <argument type="service" id="kassko_data_access.container_aware_event_dispatcher"/>
+                 <argument type="service" id="kassko_data_mapper.container_aware_event_dispatcher"/>
             </call>
         </service>
 
-        <service id="kassko_data_access.object_listener_resolver_chain" class="%kassko_data_access.object_listener_resolver_chain.class%" public="false">
+        <service id="kassko_data_mapper.object_listener_resolver_chain" class="%kassko_data_mapper.object_listener_resolver_chain.class%" public="false">
 
             <call method="add">
-                 <argument type="service" id="kassko_data_access.object_listener_resolver"/>
+                 <argument type="service" id="kassko_data_mapper.object_listener_resolver"/>
             </call>
         </service>
 
-        <service id='kassko_data_access.container_aware_event_dispatcher' class="%kassko_data_access.container_aware_event_dispatcher.class%" public="false">
+        <service id='kassko_data_mapper.container_aware_event_dispatcher' class="%kassko_data_mapper.container_aware_event_dispatcher.class%" public="false">
             <argument type="service" id="service_container"/>
         </service>
 
-        <service id="kassko_data_access.cache_config" class="%kassko_data_access.cache_config.class%" public="false">
+        <service id="kassko_data_mapper.cache_config" class="%kassko_data_mapper.cache_config.class%" public="false">
 
             <call method="setCacheClass">
-                 <argument>%kassko_data_access.default_cache.class%</argument>
+                 <argument>%kassko_data_mapper.default_cache.class%</argument>
             </call>
 
         </service>

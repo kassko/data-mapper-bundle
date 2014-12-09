@@ -1,11 +1,11 @@
 {
-    "name":"kassko/data-access-bundle",
+    "name":"kassko/data-mapper-bundle",
     "authors": [
         {
             "name":"Kassko"
         }
     ],
-    "description":"Integrates data-access in Symfony projects.",
+    "description":"Integrates data-mapper in Symfony projects.",
     "keywords":[
         "orm", "hydration", "hydrate", "extract", "data", "access",
         "mapper", "dao", "entity", "repository"
@@ -21,7 +21,12 @@
     },
     "autoload":{
         "psr-4":{
-            "Kassko\\Bundle\\DataAccessBundle\\": "src"
+            "Kassko\\Bundle\\DataMapperBundle\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.7.0.x-dev"
         }
     }
 }
