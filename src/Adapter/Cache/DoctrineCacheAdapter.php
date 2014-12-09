@@ -2,7 +2,7 @@
 
 namespace Kassko\Bundle\DataAccessBundle\Adapter\Cache;
 
-use Kassko\DataAccess\Cache\CacheInterface as KasskoCacheInterface;
+use Kassko\DataMapper\Cache\CacheInterface as KasskoCacheInterface;
 use Doctrine\Common\Cache\Cache as DoctrineCacheInterface;
 
 /**

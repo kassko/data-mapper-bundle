@@ -2,7 +2,7 @@
 
 namespace Kassko\Bundle\DataAccessBundle;
 
-use Kassko\DataAccess\Registry\Registry;
+use Kassko\DataMapper\Registry\Registry;
 
 /**
  * Command (from Command pattern, not Symfony command) witch initialize the registry.

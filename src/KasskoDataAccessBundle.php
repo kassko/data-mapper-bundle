@@ -6,7 +6,7 @@ use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\InitializeRegist
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterClassToResolvePass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
 use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterMappingLoadersPass;
-use Kassko\DataAccess\ClassMetadata\Events;
+use Kassko\DataMapper\ClassMetadata\Events;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
