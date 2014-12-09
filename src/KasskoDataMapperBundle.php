@@ -1,17 +1,17 @@
 <?php
 
-namespace Kassko\Bundle\DataAccessBundle;
+namespace Kassko\Bundle\DataMapperBundle;
 
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\InitializeRegistryPass;
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterClassToResolvePass;
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
-use Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler\RegisterMappingLoadersPass;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\InitializeRegistryPass;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\RegisterClassToResolvePass;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\RegisterMappingLoadersPass;
 use Kassko\DataMapper\ClassMetadata\Events;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class KasskoDataAccessBundle extends Bundle
+class KasskoDataMapperBundle extends Bundle
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class KasskoDataAccessBundle extends Bundle
             ->addCompilerPass(new InitializeRegistryPass())
             ->addCompilerPass(
                 new RegisterListenersPass(
-                    'kassko_data_access.container_aware_event_dispatcher',
+                    'kassko_data_mapper.container_aware_event_dispatcher',
                     Events::POST_LOAD_METADATA,
                     ''
                 )

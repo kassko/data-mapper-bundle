@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler;
+namespace Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler;
 
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -10,8 +10,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class InitializeRegistryPass implements CompilerPassInterface
 {
-    private static $registryInitializerId = 'kassko_data_access.registry_initializer';
-    private static $registryItemTag = 'kassko_data_access.registry_item';
+    private static $registryInitializerId = 'kassko_data_mapper.registry_initializer';
+    private static $registryItemTag = 'kassko_data_mapper.registry_item';
 
     /**
      * {@inheritdoc}

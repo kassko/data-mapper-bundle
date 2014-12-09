@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassko\Bundle\DataAccessBundle\DependencyInjection\Compiler;
+namespace Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -9,8 +9,8 @@ use LogicException;
 
 class RegisterListenersToResolvePass implements CompilerPassInterface
 {
-    private static $classesToRegisterTag = 'kassko_data_access.listener';
-    private static $classeResolverId = 'kassko_data_access.object_listener_resolver';
+    private static $classesToRegisterTag = 'kassko_data_mapper.listener';
+    private static $classeResolverId = 'kassko_data_mapper.object_listener_resolver';
 
     public function __construct($classesToRegisterTag = null)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kassko\Bundle\DataAccessBundle;
+namespace Kassko\Bundle\DataMapperBundle;
 
 use Kassko\DataMapper\Registry\Registry;
 
