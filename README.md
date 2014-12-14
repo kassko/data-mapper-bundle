@@ -5,7 +5,7 @@ data-mapper-bundle
 [![Total Downloads](https://poser.pugx.org/kassko/data-mapper-bundle/downloads.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/kassko/data-mapper-bundle/v/unstable.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 
-This bundle integrates the component data-mapper into Symfony projects. This component is a mapper which gives a lot of flexibility to representate some raw data like objects.
+This bundle integrates the component data-mapper into Symfony projects. This component is a mapper which gives a lot of features to representate some raw data like objects.
 
 To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
@@ -24,7 +24,7 @@ Register the bundle to the kernel:
 public function registerBundles()
 {
     $bundles = array(
-        new Kassko\Bundle\DataMapperBundle\KasskoDataAccessBundle(),
+        new Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle(),
         new Kassko\Bundle\ClassResolverBundle\KasskoClassResolverBundle(),
     );
 }
@@ -34,25 +34,27 @@ Services
 ----------
 data-mapper-bundle provides services to facilitate to use data-mapper components:
 
-###### kassko_data_mapper.result_builder_factory
+#### kassko_data_mapper.result_builder_factory ####
 It represents a ResultBuilderFactory instance.
 
-###### kassko_data_mapper.query_factory
+To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
+
+#### kassko_data_mapper.query_factory ####
 It represents a QueryFactory instance.
 
 To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 Tags (dependency injection tags)
 ----------
-###### kassko_data_mapper.listener
+#### kassko_data_mapper.listener ####
 data-mapper need to be able to retrieve an object listener from its full qualified class name. To help it, register your object listener as service and tag it.
 To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-###### kassko_data_mapper.mapping_loader
+#### kassko_data_mapper.mapping_loader ####
 Simplify the work to expose a custom mapping loader.
 To know more about custom mapping loader creation (contract to implement etc.), please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-###### kassko_data_mapper.registry_item
+#### kassko_data_mapper.registry_item ####
 Facilitate to add a service into the registry.
 
 Tag your service:
@@ -79,7 +81,7 @@ kassko_data_mapper:
         default_resource_dir: # Optional.
         default_provider_method: # Optional.
         bundles: #optional section
-            some_bundle
+            some_bundle:
                 resource_type: annotations # Default is "annotations" or other type (1).
                 resource_dir: # The resource dir of the given bundle.
                 provider_method: ~ # Required. Default value is null.
