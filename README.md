@@ -19,6 +19,12 @@ Add to your composer.json:
 }
 ```
 
+Note that:
+* the second version number is used when compatibility is broken
+* the third for new feature
+* the fourth for hotfix
+* the first for new API or to go from pre-release to release (from 0 to 1)
+
 Register the bundle to the kernel:
 ```php
 public function registerBundles()
@@ -34,15 +40,11 @@ Services
 ----------
 data-mapper-bundle provides services to facilitate to use data-mapper components:
 
-#### kassko_data_mapper.result_builder_factory ####
-It represents a ResultBuilderFactory instance.
+#### kassko_data_mapper ####
+It represents a Kassko\DataMapper\DataMapper instance.
 
 To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-#### kassko_data_mapper.query_factory ####
-It represents a QueryFactory instance.
-
-To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 Tags (dependency injection tags)
 ----------

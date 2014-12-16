@@ -8,9 +8,8 @@
         <parameter key="kassko_data_mapper.object_manager.class">Kassko\DataMapper\ObjectManager</parameter>
         <parameter key="kassko_data_mapper.object_listener_resolver.class">Kassko\DataMapper\Listener\ContainerAwareObjectListenerResolver</parameter>
         <parameter key="kassko_data_mapper.hydrator.class">Kassko\DataMapper\Hydrator\Hydrator</parameter>
-        <parameter key="kassko_data_mapper.result_builder_factory.class">Kassko\DataMapper\Result\ResultBuilderFactory</parameter>
+        <parameter key="kassko_data_mapper.class">Kassko\DataMapper\DataMapper</parameter>
         <parameter key="kassko_data_mapper.lazy_loader_factory.class">Kassko\DataMapper\LazyLoader\LazyLoaderFactory</parameter>
-        <parameter key="kassko_data_mapper.query_factory.class">Kassko\DataMapper\Query\QueryFactory</parameter>
         <parameter key="kassko_data_mapper.default_cache.class">Doctrine\Common\Cache\ArrayCache</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.annotation.class">Kassko\DataMapper\ClassMetadataLoader\AnnotationLoader</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.yaml_file.class">Kassko\DataMapper\ClassMetadataLoader\YamlFileLoader</parameter>
@@ -78,15 +77,11 @@
             <configurator service="kassko_data_mapper.class_metadata_factory.configurator" method="configure"/>
         </service>
 
-        <service id="kassko_data_mapper.result_builder_factory" class="%kassko_data_mapper.result_builder_factory.class%">
+        <service id="kassko_data_mapper" class="%kassko_data_mapper.class%">
             <argument type="service" id="kassko_data_mapper.object_manager"/>
         </service>
 
         <service id="kassko_data_mapper.lazy_loader_factory" class="%kassko_data_mapper.lazy_loader_factory.class%">
-            <argument type="service" id="kassko_data_mapper.object_manager"/>
-        </service>
-
-        <service id="kassko_data_mapper.query_factory" class="%kassko_data_mapper.query_factory.class%">
             <argument type="service" id="kassko_data_mapper.object_manager"/>
         </service>
 
