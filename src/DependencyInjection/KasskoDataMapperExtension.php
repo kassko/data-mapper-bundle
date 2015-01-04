@@ -74,40 +74,40 @@ class KasskoDataMapperExtension extends Extension
                 $classMetadataResourceDir = $bundleConfig['resource_dir'];
             }
 
-            foreach ($bundleConfig['entities'] as $entityName => $entityConfig) {
+            foreach ($bundleConfig['objects'] as $objectName => $objectConfig) {
 
-                if (isset($entityConfig['resource_type'])) {
-                    $classMetadataResourceType = trim($entityConfig['resource_type']);
+                if (isset($objectConfig['resource_type'])) {
+                    $classMetadataResourceType = trim($objectConfig['resource_type']);
                 }
 
-                if (isset($entityConfig['resource_path'])) {
-                    $classMetadataResource = trim($entityConfig['resource_path']);
-                } elseif (isset($entityConfig['resource_name'])) {
-                    $classMetadataResource = $classMetadataResourceDir.'/'.$entityConfig['resource_name'];
+                if (isset($objectConfig['resource_path'])) {
+                    $classMetadataResource = trim($objectConfig['resource_path']);
+                } elseif (isset($objectConfig['resource_name'])) {
+                    $classMetadataResource = $classMetadataResourceDir.'/'.$objectConfig['resource_name'];
                 }
 
-                $mappingEntityClass = trim($entityConfig['entity_class']);
+                $mappingObjectClass = trim($objectConfig['class']);
 
                 if (isset($classMetadataResourceType)) {
-                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $classMetadataResourceType]);
+                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingObjectClass, $classMetadataResourceType]);
                 } elseif (isset($parentClassMetadataResourceType)) {
-                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingEntityClass, $parentClassMetadataResourceType]);
+                    $configurationDef->addMethodCall('addClassMetadataResourceType', [$mappingObjectClass, $parentClassMetadataResourceType]);
                 }
 
                 if (isset($classMetadataResource)) {
-                    $configurationDef->addMethodCall('addClassMetadataResource', [$mappingEntityClass, $classMetadataResource]);
+                    $configurationDef->addMethodCall('addClassMetadataResource', [$mappingObjectClass, $classMetadataResource]);
                 }
 
                 if (isset($classMetadataProviderMethod)) {
-                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingEntityClass, $classMetadataResource]);
+                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingObjectClass, $classMetadataResource]);
                 } elseif (isset($parentClassMetadataProviderMethod)) {
-                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingEntityClass, $parentClassMetadataProviderMethod]);
+                    $configurationDef->addMethodCall('addClassMetadataProviderMethod', [$mappingObjectClass, $parentClassMetadataProviderMethod]);
                 }
 
                 if (isset($classMetadataDir)) {
-                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $classMetadataDir]);
+                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingObjectClass, $classMetadataDir]);
                 } elseif (isset($parentClassMetadataDir)) {
-                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingEntityClass, $parentClassMetadataDir]);
+                    $configurationDef->addMethodCall('addClassMetadataDir', [$mappingObjectClass, $parentClassMetadataDir]);
                 }
             }
         }
@@ -138,7 +138,7 @@ class KasskoDataMapperExtension extends Extension
         } elseif (isset($config['id'])) {
             $cacheId = $config['id'];
         } else {
-            $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";
+            $cacheClass = "Doctrine\\Common\\Cache\\ArrayCache";//TODO: use Kassko\Cache\ArrayCache instead
         }
 
         if (null !== $cacheClass) {

@@ -15,7 +15,7 @@ Installation on Symfony 2
 Add to your composer.json:
 ```json
 "require": {
-    "kassko/data-mapper-bundle": "~0.10.0@alpha"
+    "kassko/data-mapper-bundle": "~0.11.0@alpha"
 }
 ```
 
@@ -72,7 +72,6 @@ $someService = Registry::getInstance()['some_service_key'];
 ```
 To know more about registry usefulness, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-Register:
 
 Configuration
 ----------
@@ -94,7 +93,6 @@ kassko_data_mapper:
                         resource_name: # Optional. Only the resource name (so without the directory).
                         provider_method: # Optional. Override default_provider_method.
                         object_class: # Required (full qualified object class name).
-    logger_service: # Optional. A logger service name. Il will be used for logging in data-mapper component.
     cache:
         metadata_cache: # Optional section
             class: # Optional.
@@ -103,6 +101,7 @@ kassko_data_mapper:
             is_shared: # Default is false
             adapter_class: # Default is "Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter"
         result_cache: # Optional section and same as metadata_cache
+    logger_service: # Optional. A logger service name. Il will be used for logging in data-mapper component.
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
 And maybe others if you add some custom mapping loaders.

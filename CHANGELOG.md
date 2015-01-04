@@ -1,3 +1,6 @@
+0.11.0.0-alpha - 2015/01/04 - Break version:
+** Break **: Rename some keys in mapping configuration
+
 0.10.0.0-alpha - 2014/12/16 - BREAK version:
 ** Break **: The DataMapper class API, and the ResultBuilder class API have changed after renaming some methods with shorter names.
 
