@@ -16,7 +16,7 @@
         "symfony/framework-bundle": "~2.4",
         "symfony/twig-bundle": "~2.4",
         "zendframework/zend-stdlib": "~2.3",
-        "kassko/data-mapper": "~0.8.0@alpha",
+        "kassko/data-mapper": "~0.9.0@alpha",
         "kassko/class-resolver-bundle": "~0.3.0@alpha"
     },
     "autoload":{
