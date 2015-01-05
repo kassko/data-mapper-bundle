@@ -14,8 +14,8 @@
         <parameter key="kassko_data_mapper.class_metadata_loader.annotation.class">Kassko\DataMapper\ClassMetadataLoader\AnnotationLoader</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.yaml_file.class">Kassko\DataMapper\ClassMetadataLoader\YamlFileLoader</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.php_file.class">Kassko\DataMapper\ClassMetadataLoader\PhpFileLoader</parameter>
-        <parameter key="kassko_data_mapper.class_metadata_loader.php.class">Kassko\DataMapper\ClassMetadataLoader\PhpLoader</parameter>
-        <parameter key="kassko_data_mapper.class_metadata_loader.yaml.class">Kassko\DataMapper\ClassMetadataLoader\YamlLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.inner_php.class">Kassko\DataMapper\ClassMetadataLoader\InnerPhpLoader</parameter>
+        <parameter key="kassko_data_mapper.class_metadata_loader.yaml.class">Kassko\DataMapper\ClassMetadataLoader\InnerYamlLoader</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.resolver.class">Kassko\DataMapper\ClassMetadataLoader\LoaderResolver</parameter>
         <parameter key="kassko_data_mapper.class_metadata_loader.delegating_loader.class">Kassko\DataMapper\ClassMetadataLoader\DelegatingLoader</parameter>
         <parameter key="kassko_data_mapper.configuration.class">Kassko\DataMapper\Configuration\ConfigurationChain</parameter>
@@ -104,7 +104,7 @@
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="kassko_data_mapper.class_metadata_loader.php" class="%kassko_data_mapper.class_metadata_loader.php.class%" public="false">
+        <service id="kassko_data_mapper.class_metadata_loader.inner_php" class="%kassko_data_mapper.class_metadata_loader.inner_php.class%" public="false">
             <argument type="service" id="file_locator"/>
         </service>
 
@@ -126,7 +126,7 @@
             </call>
 
             <call method="addLoader">
-                <argument type="service" id="kassko_data_mapper.class_metadata_loader.php"/>
+                <argument type="service" id="kassko_data_mapper.class_metadata_loader.inner_php"/>
             </call>
 
             <call method="addLoader">

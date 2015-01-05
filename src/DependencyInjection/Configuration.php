@@ -15,11 +15,6 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('logger_service')->end()
-                ->arrayNode('cache')->addDefaultsIfNotSet()
-                    ->append($this->addCacheNode('metadata_cache'))
-                    ->append($this->addCacheNode('result_cache'))
-                ->end()
                 ->arrayNode('mapping')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('default_resource_type')->defaultValue('annotations')->end()
@@ -32,14 +27,14 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('resource_dir')->end()
                                     ->scalarNode('provider_method')->end()
 
-                                    ->arrayNode('entities')
+                                    ->arrayNode('objects')
                                         ->prototype('array')
                                             ->children()
+                                                ->scalarNode('class')->isRequired()->end()
                                                 ->scalarNode('resource_type')->end()
                                                 ->scalarNode('resource_path')->end()
                                                 ->scalarNode('resource_name')->end()
                                                 ->scalarNode('provider_method')->end()
-                                                ->scalarNode('entity_class')->isRequired()->end()
                                             ->end()
                                         ->end()
                                     ->end()
@@ -48,6 +43,13 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+
+                ->arrayNode('cache')->addDefaultsIfNotSet()
+                    ->append($this->addCacheNode('metadata_cache'))
+                    ->append($this->addCacheNode('result_cache'))
+                ->end()
+
+                ->scalarNode('logger')->end()
             ->end()
         ;
 
