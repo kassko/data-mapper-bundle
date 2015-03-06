@@ -45,12 +45,14 @@
             </call>
 
             <call method="setClassResolver">
-                 <argument type="service" id="kassko_class_resolver"/>
+                 <argument type="service" id="kassko_class_resolver" on-invalid="ignore"/>
             </call>
 
+            <!--
             <call method="executeCommand">
                  <argument type="service" id="kassko_data_mapper.registry_initializer"/>
             </call>
+            -->             
 
              <tag name="kassko_class_resolver.inject" group="data_mapper" method="setClassResolver"/>
 
