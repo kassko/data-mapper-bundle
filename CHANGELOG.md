@@ -1,3 +1,6 @@
+0.13.0.0-alpha - 2015/03/09 - Break version:
+** Break **: Add new keys in data source mapping configuration and modify the behaviour
+
 0.12.0.0-alpha - 2015/03/09 - Break version:
 ** Break **: Rename a key in mapping configuration: provider to data source
 

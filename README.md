@@ -15,7 +15,7 @@ Installation on Symfony 2
 Add to your composer.json:
 ```json
 "require": {
-    "kassko/data-mapper-bundle": "~0.12.0@alpha"
+    "kassko/data-mapper-bundle": "~0.13.0@alpha"
 }
 ```
 
