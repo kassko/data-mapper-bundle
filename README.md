@@ -5,27 +5,27 @@ data-mapper-bundle
 [![Total Downloads](https://poser.pugx.org/kassko/data-mapper-bundle/downloads.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/kassko/data-mapper-bundle/v/unstable.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 
-This bundle integrates the component data-mapper into Symfony projects. This component is a mapper which gives a lot of features to representate some raw data like objects.
+This bundle integrates the data-mapper component into Symfony applications. Which is a mapper that provides a lot of features to represent some raw data as objects.
 
 To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 Installation on Symfony 2
 ----------------
 
-Add to your composer.json:
+Add [`kassko/data-mapper-bundle`](https://packagist.org/packages/kassko/data-mapper-bundle) to your `composer.json` file:
 ```json
 "require": {
     "kassko/data-mapper-bundle": "~0.13.0@alpha"
 }
 ```
 
-Note that:
-* the second version number is used when compatibility is broken
-* the third for new feature
-* the fourth for hotfix
-* the first for new API or to go from pre-release to release (from 0 to 1)
+**Note that:**
+* The second version number is used when compatibility is broken
+* The third for new feature
+* The fourth for hotfix
+* The first for new API or to go from pre-release to release (from 0 to 1)
 
-Register the bundle to the kernel:
+Register the bundle in `app/AppKernel.php`:
 ```php
 public function registerBundles()
 {
@@ -38,10 +38,10 @@ public function registerBundles()
 
 Services
 ----------
-data-mapper-bundle provides services to facilitate to use data-mapper components:
+The data-mapper-bundle provides services to facilitate the use of the data-mapper component features:
 
 #### kassko_data_mapper ####
-It represents a Kassko\DataMapper\DataMapper instance.
+It represents a `Kassko\DataMapper\DataMapper` instance.
 
 To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
@@ -49,15 +49,17 @@ To know more about this component and how to use it, please read the [data-mappe
 Tags (dependency injection tags)
 ----------
 #### kassko_data_mapper.listener ####
-data-mapper need to be able to retrieve an object listener from its full qualified class name. To help it, register your object listener as service and tag it.
+The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it.
+
 To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 #### kassko_data_mapper.mapping_loader ####
-Simplify the work to expose a custom mapping loader.
+It helps exposing custom mapping loaders.
+
 To know more about custom mapping loader creation (contract to implement etc.), please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 #### kassko_data_mapper.registry_item ####
-Facilitate to add a service into the registry.
+Used to add services to the registry.
 
 Tag your service:
 ```xml
@@ -104,4 +106,4 @@ kassko_data_mapper:
     logger_service: # Optional. A logger service name. Il will be used for logging in data-mapper component.
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
-And maybe others if you add some custom mapping loaders.
+And maybe others, feel free to add custom mapping loaders.
