@@ -16,10 +16,20 @@ class RegistryInitializer
 
     public function __invoke()
     {
+        $this->initialize();
+    }
+
+    public function supply()
+    {
         $registry = Registry::getInstance();
         foreach ($this->items as $key => $value) {
             $registry[$key] = $value;
         }
+    }
+
+    public function flush()
+    {
+        Registry::getInstance()->flush();
     }
 
     public function addItem($key, $value)

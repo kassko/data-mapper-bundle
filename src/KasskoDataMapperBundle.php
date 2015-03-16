@@ -19,7 +19,16 @@ class KasskoDataMapperBundle extends Bundle
     public function boot()
     {
         $registryInitialiser = $this->container->get('kassko_data_mapper.registry_initializer');
-        $registryInitialiser();
+        $registryInitialiser->supply();
+    }
+
+    /**
+     * Shutdowns the Bundle.
+     */
+    public function shutdown()
+    {
+        $registryInitialiser = $this->container->get('kassko_data_mapper.registry_initializer');
+        $registryInitialiser->flush();
     }
 
     /**
