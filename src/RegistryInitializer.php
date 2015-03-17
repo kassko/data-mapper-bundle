@@ -14,11 +14,6 @@ class RegistryInitializer
 {
     private $items = [];
 
-    public function __invoke()
-    {
-        $this->initialize();
-    }
-
     public function supply()
     {
         $registry = Registry::getInstance();
