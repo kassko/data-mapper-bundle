@@ -1,3 +1,6 @@
+`0.15.0.0-alpha - 2015/03/24 - Break version:`
+* `Break:` The DataMapper component has changed and compatibility is broken. See DataMapper changelog for 0.13.0.0.
+
 `0.14.1.0-alpha - 2015/03/25 - New version:`
 * `New`: Use stable version of class-resolver-bundle (not an alpha version)
 
