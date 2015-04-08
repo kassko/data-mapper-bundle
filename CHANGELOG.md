@@ -1,7 +1,10 @@
-`0.14.1.0-alpha - 2015/03/25 - New version:`
+`0.14.2.0 - 2015/04/08 - New version:`
+* `New`: Add expression language service.
+
+`0.14.1.0 - 2015/03/25 - New version:`
 * `New`: Use stable version of class-resolver-bundle (not an alpha version)
 
-`0.14.0.0-alpha - 2015/03/24 - Break version:`
+`0.14.0.0 - 2015/03/24 - Break version:`
 * `Break:` The DataMapper component has changed and compatibility is broken. See DataMapper changelog for 0.12.0.0.
 
 `0.13.0.0-alpha - 2015/03/09 - Break version:`
