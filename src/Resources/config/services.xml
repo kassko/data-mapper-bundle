@@ -25,6 +25,7 @@
         <parameter key="kassko_data_mapper.cache_config.class">Kassko\DataMapper\Configuration\CacheConfig</parameter>
         <parameter key="kassko_data_mapper.class_metadata_factory.configurator.class">Kassko\DataMapper\Configuration\ClassMetadataFactoryConfigurator</parameter>
         <parameter key="kassko_data_mapper.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
+        <parameter key="kassko_data_mapper.expression_language.class">Kassko\DataMapper\Expression\ExpressionLanguage</parameter>
 
     </parameters>
 
@@ -48,6 +49,10 @@
                  <argument type="service" id="kassko_class_resolver" on-invalid="ignore"/>
             </call>
 
+            <call method="setExpressionLanguage">
+                 <argument type="service" id="kassko_data_mapper.expression_language"/>
+            </call>
+
             <!--
             <call method="executeCommand">
                  <argument type="service" id="kassko_data_mapper.registry_initializer"/>
@@ -61,6 +66,8 @@
         <service id="kassko_data_mapper.registry_initializer" class="Kassko\Bundle\DataMapperBundle\RegistryInitializer">
             <tag name="kassko_data_mapper.command"/>
         </service>
+
+        <service id="kassko_data_mapper.expression_language" class="%kassko_data_mapper.expression_language.class%"/>
 
         <service id="kassko_data_mapper.class_metadata_factory.configurator" class="%kassko_data_mapper.class_metadata_factory.configurator.class%">
             <argument type="service" id="kassko_data_mapper.configuration"/>
