@@ -36,15 +36,16 @@ public function registerBundles()
 }
 ```
 
-Services
-----------
 The data-mapper-bundle provides services to facilitate the use of the data-mapper component features:
+
+Summary
+----------
 
 * [DataMapper service](#data-mapper-service)
 * [Expression language integration](#expr-lang-integr)
-  - [Expression languages services](#expr-lang-services)
+  - [Expression language services](#expr-lang-services)
   - [Add a provider](#add-provider)
-
+* [Object listener](#object-listener)
 
 Tags (dependency injection tags)
 ----------
@@ -52,13 +53,6 @@ Tags (dependency injection tags)
 The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it.
 
 To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
-
-
-Summary
--------
-
-Installation
--------
 
 Usage
 -------
@@ -105,7 +99,7 @@ kassko_data_mapper:
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
 And maybe others, feel free to add custom mapping loaders.
 
-### Expression languages services
+### Expression language services
 
 ### Add a provider
 
@@ -139,6 +133,8 @@ class ExpressionFunctionProvider implements ExpressionFunctionProviderInterface
     }
 }
 ```
+
+### Object listeners
 
 ### Add a custom loader
 
