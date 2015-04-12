@@ -42,15 +42,15 @@ Summary
 ----------
 
 * [DataMapper service](#data-mapper-service)
+* [Configuration reference](#config-ref)
 * [Expression language integration](#expr-lang-integr)
   - [Expression language services](#expr-lang-services)
   - [Add a provider](#add-provider)
 * [Object listener](#object-listener)
+* [Custom loader](#custom-loader)
 
-Usage
+DataMapper service
 -------
-
-### Data Mapper service
 
 Get the service from your controller:
 ```php
@@ -60,6 +60,7 @@ $this->get('kassko_data_mapper');
 It represents a `Kassko\DataMapper\DataMapper` instance. To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 ### Configuration reference
+-------
 
 ```yaml
 kassko_data_mapper:
@@ -91,6 +92,9 @@ kassko_data_mapper:
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
 And maybe others, feel free to add custom mapping loaders.
+
+Expression language integration
+-------
 
 ### Expression language services
 
@@ -127,13 +131,15 @@ class ExpressionFunctionProvider implements ExpressionFunctionProviderInterface
 }
 ```
 
-### Object listeners
+Object listeners
+-------
 
 The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it with `kassko_data_mapper.listener`.
 
 To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-### Add a custom loader
+Custom loader
+-------
 
 DataMapper provide three formats for mapping: `annotations`, `yaml` and `php`. But you can use a custom mapping loader.
 
