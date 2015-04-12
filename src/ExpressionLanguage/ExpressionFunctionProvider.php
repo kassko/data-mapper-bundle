@@ -4,7 +4,6 @@ namespace Kassko\Bundle\DataMapperBundle\ExpressionLanguage;
 
 use Kassko\DataMapper\Expression\ExpressionFunction;
 use Kassko\DataMapper\Expression\ExpressionFunctionProviderInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
 * ExpressionFunctionProvider

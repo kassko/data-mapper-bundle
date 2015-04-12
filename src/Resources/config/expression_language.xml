@@ -10,7 +10,6 @@
         <parameter key="kassko_data_mapper.expression_language.evaluator.class">Kassko\DataMapper\Hydrator\ExpressionLanguageEvaluator</parameter>
         <parameter key="kassko_data_mapper.expression_context.class">Kassko\DataMapper\Expression\ExpressionContext</parameter>
         <parameter key="kassko_data_mapper.expression_language.configurator.class">Kassko\DataMapper\Expression\ExpressionLanguageConfigurator</parameter>
-        <parameter key="kassko_data_mapper.expression_context.configurator.class">Kassko\Bundle\DataMapperBundle\ExpressionLanguage\ExpressionContextConfigurator</parameter>
         <parameter key="kassko_data_mapper.default_expression_function_provider.class">Kassko\DataMapper\Expression\ExpressionFunctionProvider</parameter>
         <parameter key="kassko_data_mapper.symfony_expression_function_provider.class">Kassko\Bundle\DataMapperBundle\ExpressionLanguage\ExpressionFunctionProvider</parameter>
         
@@ -29,20 +28,14 @@
 
         <service id="kassko_data_mapper.expression_language.configurator" class="%kassko_data_mapper.expression_language.configurator.class%"/>
 
-        <service id="kassko_data_mapper.expression_context" class="%kassko_data_mapper.expression_context.class%">
-            <configurator service="kassko_data_mapper.expression_context.configurator" method="configure"/>
-        </service>
-
-        <service id="kassko_data_mapper.expression_context.configurator" class="%kassko_data_mapper.expression_context.configurator.class%">
-            <argument type="service" id="service_container"/>
-        </service>
+        <service id="kassko_data_mapper.expression_context" class="%kassko_data_mapper.expression_context.class%"/>
 
         <service id="kassko_data_mapper.default_expression_function_provider" class="%kassko_data_mapper.default_expression_function_provider.class%">
             <tag name="kassko_data_mapper.expression_function_provider"/>
         </service>
 
         <service id="kassko_data_mapper.symfony_expression_function_provider" class="%kassko_data_mapper.symfony_expression_function_provider.class%">
-            <tag name="kassko_data_mapper.expression_function_provider"/>
+            <tag name="kassko_data_mapper.expression_function_provider" variable_key="container" variable_value="service_container"/>
         </service>
 
     </services>

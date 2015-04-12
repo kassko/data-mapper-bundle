@@ -1,4 +1,4 @@
-`0.14.2.0 - 2015/04/08 - New version:`
+`0.14.2.0 - 2015/04/12 - New version:`
 * `New`: Add expression language service.
 
 `0.14.1.0 - 2015/03/25 - New version:`
