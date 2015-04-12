@@ -59,7 +59,7 @@ $this->get('kassko_data_mapper');
 
 It represents a `Kassko\DataMapper\DataMapper` instance. To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
-### Configuration reference
+Configuration reference
 -------
 
 ```yaml
@@ -131,7 +131,7 @@ class ExpressionFunctionProvider implements ExpressionFunctionProviderInterface
 }
 ```
 
-Object listeners
+Object listener
 -------
 
 The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it with `kassko_data_mapper.listener`.
