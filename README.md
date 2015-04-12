@@ -36,11 +36,6 @@ public function registerBundles()
 }
 ```
 
-The data-mapper-bundle provides services to facilitate the use of the data-mapper component features:
-
-Summary
-----------
-
 * [DataMapper service](#data-mapper-service)
 * [Configuration reference](#config-ref)
 * [Expression language integration](#expr-lang-integr)
