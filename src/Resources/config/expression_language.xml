@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+        <parameter key="kassko_data_mapper.expression_language.class">Symfony\Component\ExpressionLanguage\ExpressionLanguage</parameter>
+        <parameter key="kassko_data_mapper.expression_language.evaluator.class">Kassko\DataMapper\Hydrator\ExpressionLanguageEvaluator</parameter>
+        <parameter key="kassko_data_mapper.expression_context.class">Kassko\DataMapper\Expression\ExpressionContext</parameter>
+        <parameter key="kassko_data_mapper.expression_language.configurator.class">Kassko\DataMapper\Expression\ExpressionLanguageConfigurator</parameter>
+        <parameter key="kassko_data_mapper.default_expression_function_provider.class">Kassko\DataMapper\Expression\ExpressionFunctionProvider</parameter>
+        <parameter key="kassko_data_mapper.symfony_expression_function_provider.class">Kassko\Bundle\DataMapperBundle\ExpressionLanguage\ExpressionFunctionProvider</parameter>
+        
+    </parameters>
+
+    <services>
+
+        <service id="kassko_data_mapper.expression_language.evaluator" class="%kassko_data_mapper.expression_language.evaluator.class%">
+            <argument type="service" id="kassko_data_mapper.expression_language"/>
+            <argument type="service" id="kassko_data_mapper.expression_context"/>
+        </service>
+
+        <service id="kassko_data_mapper.expression_language" class="%kassko_data_mapper.expression_language.class%">
+            <configurator service="kassko_data_mapper.expression_language.configurator" method="configure"/>
+        </service>
+
+        <service id="kassko_data_mapper.expression_language.configurator" class="%kassko_data_mapper.expression_language.configurator.class%"/>
+
+        <service id="kassko_data_mapper.expression_context" class="%kassko_data_mapper.expression_context.class%"/>
+
+        <service id="kassko_data_mapper.default_expression_function_provider" class="%kassko_data_mapper.default_expression_function_provider.class%">
+            <tag name="kassko_data_mapper.expression_function_provider"/>
+        </service>
+
+        <service id="kassko_data_mapper.symfony_expression_function_provider" class="%kassko_data_mapper.symfony_expression_function_provider.class%">
+            <tag name="kassko_data_mapper.expression_function_provider" variable_key="container" variable_value="service_container"/>
+        </service>
+
+    </services>
+
+</container>

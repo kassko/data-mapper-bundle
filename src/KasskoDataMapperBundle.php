@@ -2,6 +2,7 @@
 
 namespace Kassko\Bundle\DataMapperBundle;
 
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\ConfigureExpressionLanguagePass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\InitializeRegistryPass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\RegisterClassToResolvePass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\RegisterListenersToResolvePass;
@@ -42,6 +43,7 @@ class KasskoDataMapperBundle extends Bundle
             ->addCompilerPass(new RegisterListenersToResolvePass())
             ->addCompilerPass(new RegisterMappingLoadersPass())
             ->addCompilerPass(new InitializeRegistryPass())
+            ->addCompilerPass(new ConfigureExpressionLanguagePass())
             ->addCompilerPass(
                 new RegisterListenersPass(
                     'kassko_data_mapper.container_aware_event_dispatcher',
