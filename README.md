@@ -47,13 +47,6 @@ Summary
   - [Add a provider](#add-provider)
 * [Object listener](#object-listener)
 
-Tags (dependency injection tags)
-----------
-#### kassko_data_mapper.listener ####
-The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it.
-
-To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
-
 Usage
 -------
 
@@ -135,6 +128,10 @@ class ExpressionFunctionProvider implements ExpressionFunctionProviderInterface
 ```
 
 ### Object listeners
+
+The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it with `kassko_data_mapper.listener`.
+
+To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
 
 ### Add a custom loader
 
