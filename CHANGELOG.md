@@ -1,3 +1,6 @@
+`0.14.3.0 - 2015/10/06 - New version:`
+* `New`: [Dependency Injection][MethodInvoker] Add Method invoker configuration and inject it into ObjectManager.
+
 `0.14.2.0 - 2015/04/12 - New version:`
 * `New`: Add expression language service.
 

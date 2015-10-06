@@ -25,6 +25,7 @@
         <parameter key="kassko_data_mapper.cache_config.class">Kassko\DataMapper\Configuration\CacheConfig</parameter>
         <parameter key="kassko_data_mapper.class_metadata_factory.configurator.class">Kassko\DataMapper\Configuration\ClassMetadataFactoryConfigurator</parameter>
         <parameter key="kassko_data_mapper.container_aware_event_dispatcher.class">Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher</parameter>
+        <parameter key="kassko_data_mapper.method_invoker.class">Kassko\DataMapper\MethodInvoker\MagicMethodInvoker</parameter>
 
     </parameters>
 
@@ -54,6 +55,10 @@
 
             <call method="setExpressionContext">
                  <argument type="service" id="kassko_data_mapper.expression_context"/>
+            </call>
+
+            <call method="setMethodInvoker">
+                 <argument type="service" id="kassko_data_mapper.method_invoker"/>
             </call>
 
             <!--
@@ -166,12 +171,12 @@
         </service>
 
         <service id="kassko_data_mapper.cache_config" class="%kassko_data_mapper.cache_config.class%" public="false">
-
             <call method="setCacheClass">
                  <argument>%kassko_data_mapper.default_cache.class%</argument>
             </call>
-
         </service>
+
+        <service id="kassko_data_mapper.method_invoker" class="%kassko_data_mapper.method_invoker.class%"/>
 
     </services>
 
