@@ -1,3 +1,6 @@
+`0.14.4.0 - 2015/11/29 - New version`:
+* `New`: [Support][Symfony] Add support for Symfony 3.0.
+
 `0.14.3.0 - 2015/10/06 - New version:`
 * `New`: [Dependency Injection][MethodInvoker] Add Method invoker configuration and inject it into ObjectManager.
 

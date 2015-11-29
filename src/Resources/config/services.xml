@@ -31,7 +31,9 @@
 
     <services>
 
-        <service id="kassko_data_mapper.object_manager" factory-class="%kassko_data_mapper.object_manager.class%" factory-method="getInstance" class="%kassko_data_mapper.object_manager.class%">
+        <service id="kassko_data_mapper.object_manager" class="%kassko_data_mapper.object_manager.class%">
+
+            <factory method="getInstance" class="%kassko_data_mapper.object_manager.class%"/> 
 
             <call method="setClassMetadataFactory">
                  <argument type="service" id="kassko_data_mapper.class_metadata_factory"/>
