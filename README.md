@@ -1,9 +1,7 @@
 data-mapper-bundle
 ==================
 
-[![Latest Stable Version](https://poser.pugx.org/kassko/data-mapper-bundle/v/stable.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 [![Total Downloads](https://poser.pugx.org/kassko/data-mapper-bundle/downloads.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/kassko/data-mapper-bundle/v/unstable.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
 
 This bundle integrates the data-mapper component into Symfony applications. Which is a mapper that provides a lot of features to represent some raw data as objects.
 
@@ -12,18 +10,19 @@ To know more about this component and how to use it, please read the [data-mappe
 Installation on Symfony 2
 ----------------
 
-Add [`kassko/data-mapper-bundle`](https://packagist.org/packages/kassko/data-mapper-bundle) to your `composer.json` file:
-```json
-"require": {
-    "kassko/data-mapper-bundle": "~0.14.3"
-}
-```
-
 **Note that:**
 * The second version number is used when compatibility is broken
 * The third for new feature
 * The fourth for hotfix
 * The first for new API or to go from pre-release to release (from 0 to 1)
+
+Using a version in `0.14` is recommended. 
+Versions in `0.15` are no longer maintained.
+
+You can install the library with composer and here is a good requirement:
+```php
+composer require kassko/data-mapper-bundle:"~0.14.4"
+```
 
 Register the bundle in `app/AppKernel.php`:
 ```php

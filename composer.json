@@ -13,8 +13,8 @@
     "require":{
         "php":">=5.5.0",
         "doctrine/common": "~2.4",
-        "symfony/framework-bundle": "~2.4",
-        "symfony/twig-bundle": "~2.4",
+        "symfony/framework-bundle": "~2.4|~3.0",
+        "symfony/twig-bundle": "~2.4|~3.0",
         "zendframework/zend-stdlib": "~2.3",
         "kassko/data-mapper": "~0.12.5",
         "kassko/class-resolver-bundle": "~0.3.1"
@@ -24,9 +24,11 @@
             "Kassko\\Bundle\\DataMapperBundle\\": "src"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.14.3.x-dev"
+            "dev-master": "0.14.4.x-dev"
         }
     }
 }
