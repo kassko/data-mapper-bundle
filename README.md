@@ -21,7 +21,7 @@ Versions in `0.15` are no longer maintained.
 
 You can install the library with composer and here is a good requirement:
 ```php
-composer require kassko/data-mapper-bundle:"~0.14.4"
+composer require kassko/data-mapper-bundle:"~0.14.5"
 ```
 
 Register the bundle in `app/AppKernel.php`:
@@ -82,7 +82,8 @@ kassko_data_mapper:
             is_shared: # Default is false
             adapter_class: # Default is "Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter"
         result_cache: # Optional section and same as metadata_cache
-    logger_service: # Optional. A logger service name. Il will be used for logging in data-mapper component.
+    class_resolver: # Optional. A class resolver (service name). See [class-resolver-bundle documentation](https://github.com/kassko/class-resolver-bundle/blob/master/README.md)
+    logger: # Optional. A PSR-3 logger (service name). Il will be used for logging in data-mapper component.
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
 And maybe others, feel free to add custom mapping loaders.

@@ -28,7 +28,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "0.14.4.x-dev"
+            "dev-master": "0.14.5.x-dev"
         }
     }
 }

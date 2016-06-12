@@ -5,6 +5,7 @@ namespace Kassko\Bundle\DataMapperBundle\DependencyInjection;
 use Kassko\DataMapper\Registry\Registry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -21,16 +22,23 @@ class KasskoDataMapperExtension extends Extension
         $loader->load('services.xml');
         $loader->load('expression_language.xml');
 
+        $this->configureClassResolver($config, $container);
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
         $this->configureConfiguration($config, $container);
     }
 
-    private function configureLogger(array $config, ContainerBuilder $container)
+    protected function configureClassResolver(array $config, ContainerBuilder $container)
     {
-        if (isset($config['logger_service'])) {
+        $objectManagerDef = $container->getDefinition('kassko_data_mapper.object_manager');
+        $objectManagerDef->addMethodCall('setClassResolver', [new Reference($config['class_resolver', ContainerInterface::IGNORE_ON_INVALID_REFERENCE])]);
+    }
 
-            $loggerServiceId = $config['logger_service'];
+    protected function configureLogger(array $config, ContainerBuilder $container)
+    {
+        if (isset($config['logger'])) {
+
+            $loggerServiceId = $config['logger'];
             $loggerDef = $container->getDefinition($loggerServiceId);
             $loggerDef->addTag('kassko_data_mapper.registry_item', ['key' => Registry::KEY_LOGGER]);
 
@@ -39,13 +47,13 @@ class KasskoDataMapperExtension extends Extension
         }
     }
 
-    private function configureLazyLoader(ContainerBuilder $container)
+    protected function configureLazyLoader(ContainerBuilder $container)
     {
         $lazyLoaderFactoryDef = $container->getDefinition('kassko_data_mapper.lazy_loader_factory');
         $lazyLoaderFactoryDef->addTag('kassko_data_mapper.registry_item', ['key' => Registry::KEY_LAZY_LOADER_FACTORY]);
     }
 
-    private function configureConfiguration(array $config, ContainerBuilder $container)
+    protected function configureConfiguration(array $config, ContainerBuilder $container)
     {
         $configurationDef = $container->getDefinition('kassko_data_mapper.configuration');
 
@@ -54,7 +62,7 @@ class KasskoDataMapperExtension extends Extension
         $this->configureResultCache($config['cache']['result_cache'], $container, $configurationDef);
     }
 
-    private function configureMapping(array $config, ContainerBuilder $container, Definition $configurationDef)
+    protected function configureMapping(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         $this->configureMappingWithDefaults($config, $container, $configurationDef);
 
@@ -114,7 +122,7 @@ class KasskoDataMapperExtension extends Extension
         }
     }
 
-    private function configureMappingWithDefaults(array $config, ContainerBuilder $container, Definition $configurationDef)
+    protected function configureMappingWithDefaults(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         if (isset($config['default_resource_type'])) {
             $configurationDef->addMethodCall('setDefaultClassMetadataResourceType', [$config['default_resource_type']]);
@@ -129,7 +137,7 @@ class KasskoDataMapperExtension extends Extension
         }
     }
 
-    private function configureMetadataCache(array $config, ContainerBuilder $container, Definition $configurationDef)
+    protected function configureMetadataCache(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         $cacheClass = null;
         $cacheId = null;
@@ -164,7 +172,7 @@ class KasskoDataMapperExtension extends Extension
         $configurationDef->addMethodCall('setClassMetadataCacheConfig', [new Reference($cacheConfigId)]);
     }
 
-    private function configureResultCache(array $config, ContainerBuilder $container, Definition $configurationDef)
+    protected function configureResultCache(array $config, ContainerBuilder $container, Definition $configurationDef)
     {
         $cacheClass = null;
         $cacheId = null;
