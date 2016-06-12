@@ -5,6 +5,7 @@ namespace Kassko\Bundle\DataMapperBundle\DependencyInjection;
 use Kassko\DataMapper\Registry\Registry;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -42,7 +43,7 @@ class KasskoDataMapperExtension extends Extension
             $loggerDef->addTag('kassko_data_mapper.registry_item', ['key' => Registry::KEY_LOGGER]);
 
             $objectManagerDef = $container->getDefinition('kassko_data_mapper.object_manager');
-            $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId)]);
+            $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId, ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]);
         }
     }
 

@@ -82,7 +82,7 @@ kassko_data_mapper:
             is_shared: # Default is false
             adapter_class: # Default is "Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter"
         result_cache: # Optional section and same as metadata_cache
-    class_resolver: # A class resolver (service name). See [class-resolver-bundle documentation](https://github.com/kassko/class-resolver-bundle/blob/master/README.md)
+    class_resolver: # Optional. A class resolver (service name). See [class-resolver-bundle documentation](https://github.com/kassko/class-resolver-bundle/blob/master/README.md)
     logger: # Optional. A PSR-3 logger (service name). Il will be used for logging in data-mapper component.
 ```
 (1) availables types are annotations, yaml, php, php_file, yaml_file.
