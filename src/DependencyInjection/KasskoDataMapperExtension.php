@@ -31,7 +31,7 @@ class KasskoDataMapperExtension extends Extension
     protected function configureClassResolver(array $config, ContainerBuilder $container)
     {
         $objectManagerDef = $container->getDefinition('kassko_data_mapper.object_manager');
-        $objectManagerDef->addMethodCall('setClassResolver', [new Reference($config['class_resolver'])]);
+        $objectManagerDef->addMethodCall('setClassResolver', [new Reference($config['class_resolver', ContainerInterface::IGNORE_ON_INVALID_REFERENCE])]);
     }
 
     protected function configureLogger(array $config, ContainerBuilder $container)
@@ -43,7 +43,7 @@ class KasskoDataMapperExtension extends Extension
             $loggerDef->addTag('kassko_data_mapper.registry_item', ['key' => Registry::KEY_LOGGER]);
 
             $objectManagerDef = $container->getDefinition('kassko_data_mapper.object_manager');
-            $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId, ContainerInterface::IGNORE_ON_INVALID_REFERENCE)]);
+            $objectManagerDef->addMethodCall('setLogger', [new Reference($loggerServiceId)]);
         }
     }
 
