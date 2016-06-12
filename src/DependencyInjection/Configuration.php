@@ -44,6 +44,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                ->scalarNode('class_resolver')->defaultValue('kassko_class_resolver')->cannotBeEmpty()->end()
+
                 ->arrayNode('cache')->addDefaultsIfNotSet()
                     ->append($this->addCacheNode('metadata_cache'))
                     ->append($this->addCacheNode('result_cache'))

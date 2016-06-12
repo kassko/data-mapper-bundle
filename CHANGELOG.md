@@ -1,3 +1,7 @@
+`0.14.5.0 - 2015/11/29 - New version`:
+* `New`: Allow to provide a class-resolver service via configuration path `data_mapper.class_resolver`.
+* `Fix`: Fix configuration for logger. Configuration path `data_mapper.logger` was not recognized.
+
 `0.14.4.0 - 2015/11/29 - New version`:
 * `New`: [Support][Symfony] Add support for Symfony 3.0.
 
