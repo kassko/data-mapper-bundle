@@ -9,8 +9,7 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $builder = new TreeBuilder();
-        $rootNode = $builder->root('kassko_data_mapper');
+        list($rootNode, $builder) = $this->getRootNode('kassko_data_mapper');
 
         $rootNode
             ->addDefaultsIfNotSet()
@@ -58,8 +57,7 @@ class Configuration implements ConfigurationInterface
 
     private function addCacheNode($name)
     {
-        $builder = new TreeBuilder();
-        $node = $builder->root($name);
+        list($node, $builder) = $this->getRootNode($name);
 
         $node
             ->addDefaultsIfNotSet()
@@ -73,5 +71,21 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $node;
+    }
+
+    private function getRootNode($rootNodeName)
+    {
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $builder = new TreeBuilder($rootNodeName);
+            $rootNode = $builder->getRootNode();
+        } else {//Keep compatibility with Symfony <= 4.3
+            /**
+             * @see https://github.com/symfony/symfony/blob/4.3/src/Symfony/Component/Config/Definition/Builder/TreeBuilder.php#L48
+             */
+            $builder = new TreeBuilder;
+            $rootNode = $builder->root($rootNodeName);
+        }
+
+        return [$rootNode, $builder];
     }
 }
