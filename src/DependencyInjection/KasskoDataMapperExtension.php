@@ -4,9 +4,9 @@ namespace Kassko\Bundle\DataMapperBundle\DependencyInjection;
 
 use Kassko\DataMapper\Registry\Registry;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -145,7 +145,7 @@ class KasskoDataMapperExtension extends Extension
         if (null !== $cacheClass) {
 
             $cacheId = 'kassko_data_mapper.class_metadata_cache';
-            $cacheDef = new DefinitionDecorator('kassko_data_mapper.class_metadata_cache.prototype');
+            $cacheDef = new ChildDefinition('kassko_data_mapper.class_metadata_cache.prototype');
             $cacheDef->setClass($cacheClass)->setPublic(false);
             $container->setDefinition($cacheId, $cacheDef);
         }
@@ -155,7 +155,7 @@ class KasskoDataMapperExtension extends Extension
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'kassko_data_mapper.configuration.class_metadata_cache';
-        $cacheConfigDef = new DefinitionDecorator('kassko_data_mapper.configuration.cache.prototype');
+        $cacheConfigDef = new ChildDefinition('kassko_data_mapper.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
         $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
@@ -180,7 +180,7 @@ class KasskoDataMapperExtension extends Extension
         if (null !== $cacheClass) {
 
             $cacheId = 'kassko_data_mapper.result_cache';
-            $cacheDef = new DefinitionDecorator('kassko_data_mapper.result_cache.prototype');
+            $cacheDef = new ChildDefinition('kassko_data_mapper.result_cache.prototype');
             $cacheDef->setClass($cacheClass)->setPublic(false);
             $container->setDefinition($cacheId, $cacheDef);
         }
@@ -190,7 +190,7 @@ class KasskoDataMapperExtension extends Extension
         $container->setDefinition($cacheAdapterId, $cacheAdapterDef);
 
         $cacheConfigId = 'kassko_data_mapper.result_cache_configuration';
-        $cacheConfigDef = new DefinitionDecorator('kassko_data_mapper.configuration.cache.prototype');
+        $cacheConfigDef = new ChildDefinition('kassko_data_mapper.configuration.cache.prototype');
         $cacheConfigDef->addMethodCall('setCache', [new Reference($cacheAdapterId)]);
         $cacheConfigDef->addMethodCall('setLifeTime', [$config['life_time']]);
         $cacheConfigDef->addMethodCall('setShared', [$config['is_shared']]);
