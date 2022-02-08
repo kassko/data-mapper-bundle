@@ -157,7 +157,7 @@
 
         <service id="kassko_data_mapper.object_listener_resolver" class="%kassko_data_mapper.object_listener_resolver.class%" parent="kassko_class_resolver.chain" public="false">
             <call method="setContainerAwareEventManager">
-                 <argument type="service" id="kassko_data_mapper.container_aware_event_dispatcher"/>
+                 <argument type="service" id="kassko_data_mapper.container_aware_event_dispatcher" on-invalid="ignore"/>
             </call>
         </service>
 
