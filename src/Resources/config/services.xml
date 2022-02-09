@@ -73,7 +73,7 @@
 
         </service>
 
-        <service id="kassko_data_mapper.registry_initializer" class="Kassko\Bundle\DataMapperBundle\RegistryInitializer">
+        <service id="kassko_data_mapper.registry_initializer" class="Kassko\Bundle\DataMapperBundle\RegistryInitializer" public="true">
             <tag name="kassko_data_mapper.command"/>
         </service>
 
