@@ -24,6 +24,10 @@ class KasskoDataMapperExtension extends Extension
         $this->configureLogger($config, $container);
         $this->configureLazyLoader($container);
         $this->configureConfiguration($config, $container);
+        
+        if (!class_exists(\Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher::class)) {
+            $container->removeDefinition('kassko_data_mapper.container_aware_event_dispatcher');
+        }
     }
 
     private function configureLogger(array $config, ContainerBuilder $container)
