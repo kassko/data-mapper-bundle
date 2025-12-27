@@ -44,15 +44,21 @@ class TestKernel extends Kernel
     {
         $loader->load(function (ContainerBuilder $container) {
             // Minimal framework configuration
-            $container->loadFromExtension('framework', [
+            $frameworkConfig = [
                 'secret' => 'test',
                 'test' => true,
                 'http_method_override' => false,
-                'handle_all_throwables' => true,
                 'php_errors' => [
                     'log' => true,
                 ],
-            ]);
+            ];
+
+            // handle_all_throwables is only available in Symfony 6.0+
+            if (Kernel::VERSION_ID >= 60000) {
+                $frameworkConfig['handle_all_throwables'] = true;
+            }
+
+            $container->loadFromExtension('framework', $frameworkConfig);
 
             // Load DataMapper bundle configuration
             if (!empty($this->bundleConfig)) {
