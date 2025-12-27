@@ -1,0 +1,105 @@
+# DataMapper Metadata Validation Workflow
+#
+# This workflow validates DataMapper metadata for your data objects.
+# It ensures that all attributes are correctly used and configured.
+#
+# To use this workflow in your project:
+# 1. Copy this file to .github/workflows/data_mapper_validation.yml
+# 2. Configure the DATA_OBJECTS_PATH variable below
+# 3. Optionally configure the DATA_OBJECTS_NAMESPACE variable
+#
+# For more information, see: https://github.com/kassko/data-mapper
+
+name: DataMapper Validation
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+env:
+  # Path to your data objects directory (relative to project root)
+  # Examples: 'src/Entity', 'src/Model', 'src/DataObject'
+  DATA_OBJECTS_PATH: 'src/Entity'
+  
+  # Namespace for your data objects (optional, but recommended)
+  # Examples: 'App\Entity', 'App\Model'
+  DATA_OBJECTS_NAMESPACE: 'App\Entity'
+  
+  # Set to 'true' to fail the workflow if warnings are found
+  FAIL_ON_WARNING: 'false'
+
+jobs:
+  validate-metadata:
+    name: Validate DataMapper Metadata
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-scripts
+
+      - name: Validate DataMapper metadata
+        run: |
+          COMMAND="php bin/console datamapper:validate ${{ env.DATA_OBJECTS_PATH }}"
+          
+          if [ -n "${{ env.DATA_OBJECTS_NAMESPACE }}" ]; then
+            COMMAND="$COMMAND --namespace='${{ env.DATA_OBJECTS_NAMESPACE }}'"
+          fi
+          
+          if [ "${{ env.FAIL_ON_WARNING }}" = "true" ]; then
+            COMMAND="$COMMAND --fail-on-warning"
+          fi
+          
+          echo "Running: $COMMAND"
+          eval $COMMAND
+
+  # Optional: Validate a specific class (useful for focused testing)
+  # Uncomment and configure if needed
+  #
+  # validate-specific-class:
+  #   name: Validate Specific Class
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: Setup PHP
+  #       uses: shivammathur/setup-php@v2
+  #       with:
+  #         php-version: '8.2'
+  #
+  #     - name: Install dependencies
+  #       run: composer install --prefer-dist --no-progress
+  #
+  #     - name: Validate specific class
+  #       run: php bin/console datamapper:validate:class 'App\Entity\YourClass'
