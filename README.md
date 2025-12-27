@@ -1,180 +1,229 @@
-data-mapper-bundle
-==================
+# DataMapper Symfony Bundle
 
-[![Total Downloads](https://poser.pugx.org/kassko/data-mapper-bundle/downloads.png)](https://packagist.org/packages/kassko/data-mapper-bundle)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D8.1-blue.svg)](https://www.php.net/)
+[![Symfony Version](https://img.shields.io/badge/symfony-%5E5.4%7C%5E6.0%7C%5E7.0-green.svg)](https://symfony.com/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE.md)
 
-This bundle integrates the data-mapper component into Symfony applications. Which is a mapper that provides a lot of features to represent some raw data as objects.
+Symfony integration for the [DataMapper](https://github.com/kassko/data-mapper) library.
 
-To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
+This bundle provides seamless configuration and service integration to use DataMapper within Symfony applications, including:
 
-Installation on Symfony 2
-----------------
+- **Automatic DataMapper initialization** via bundle boot
+- **Symfony container integration** for service resolution
+- **Web Profiler integration** for data lineage visualization
+- **Console commands** for metadata validation
+- **Full configuration support** via Symfony config
 
-**Note that:**
-* The second version number is used when compatibility is broken
-* The third for new feature
-* The fourth for hotfix
-* The first for new API or to go from pre-release to release (from 0 to 1)
+## Requirements
 
-Using a version in `0.14` is recommended. 
-Versions in `0.15` are no longer maintained.
+- PHP 8.1 or higher
+- Symfony 5.4, 6.x, or 7.x
+- DataMapper library v2.32+
 
-You can install the library with composer and here is a good requirement:
-```php
-composer require kassko/data-mapper-bundle:"~0.14.4"
+## Installation
+
+```bash
+composer require kassko/data-mapper-bundle
 ```
 
-Register the bundle in `app/AppKernel.php`:
+### Enable the Bundle
+
+If you're not using Symfony Flex, add the bundle to your `config/bundles.php`:
+
 ```php
-public function registerBundles()
-{
-    $bundles = array(
-        new Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle(),
-        new Kassko\Bundle\ClassResolverBundle\KasskoClassResolverBundle(),
-    );
-}
+return [
+    // ...
+    Kassko\Bundle\DataMapperBundle\DataMapperBundle::class => ['all' => true],
+];
 ```
 
-* [DataMapper service](#data-mapper-service)
-* [Configuration reference](#config-ref)
-* [Expression language integration](#expr-lang-integr)
-  - [Expression language services](#expr-lang-services)
-  - [Add a provider](#add-provider)
-* [Object listener](#object-listener)
-* [Custom loader](#custom-loader)
+## Configuration
 
-DataMapper service
--------
-
-Get the service from your controller:
-```php
-$this->get('kassko_data_mapper');
-```
-
-It represents a `Kassko\DataMapper\DataMapper` instance. To know more about this component and how to use it, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
-
-Configuration reference
--------
+Create or update `config/packages/kassko_data_mapper.yaml`:
 
 ```yaml
 kassko_data_mapper:
-    mapping:
-        default_resource_type: annotations # Default is "annotations" or other type (1).
-        default_resource_dir: # Optional.
-        default_provider_method: # Optional.
-        bundles: #optional section
-            some_bundle:
-                resource_type: annotations # Default is "annotations" or other type (1).
-                resource_dir: # The resource dir of the given bundle.
-                provider_method: ~ # Required. Default value is null.
-                objects: # Optional section.
-                    some_object:
-                        resource_type: # Optional.
-                        resource_path: # Optional. The resource directory with the resource name. If not defined, data-mapper fallback to resource_name and prepend to it resource_dir (or default_resource_dir). So if resource_path is not defined, case resource_name and resource_dir (or default_resource_dir) must be defined.
-                        resource_name: # Optional. Only the resource name (so without the directory).
-                        provider_method: # Optional. Override default_provider_method.
-                        object_class: # Required (full qualified object class name).
+    # Enable data lineage collection for debugging (default: false)
+    enable_lineage_collection: false
+    
+    # Enable Symfony Web Profiler integration (default: true)
+    enable_profiler: true
+    
+    # Cache configuration for metadata
     cache:
-        metadata_cache: # Optional section
-            class: # Optional.
-            id: # Optional.
-            life_time: # Default is 0
-            is_shared: # Default is false
-            adapter_class: # Default is "Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter"
-        result_cache: # Optional section and same as metadata_cache
-    logger_service: # Optional. A logger service name. Il will be used for logging in data-mapper component.
-```
-(1) availables types are annotations, yaml, php, php_file, yaml_file.
-And maybe others, feel free to add custom mapping loaders.
-
-Expression language integration
--------
-
-### Expression language services
-
-### Add a provider
-
-```xml
-<service id="my_provider" class="Kassko\Sample\SomeExpressionFunctionProvider">
-    <tag name="kassko_data_mapper.expression_function_provider" variable_key="container" variable_value="service_container"/>
-</service>
+        enabled: false
+        service: null  # PSR-16 cache service ID (e.g., 'cache.app')
+    
+    # Logger configuration
+    logger:
+        enabled: true
+        service: 'logger'  # PSR-3 logger service ID
+        channel: 'data_mapper'  # Monolog channel name
+    
+    # Validation configuration
+    validation:
+        paths: []  # Paths to scan for data object classes
+        namespaces: []  # Namespaces for class resolution
 ```
 
-With the code above, the container is available in your provider. You can use it:
+### Minimal Configuration
+
+For most cases, the default configuration works out of the box:
+
+```yaml
+kassko_data_mapper: ~
+```
+
+### Development Configuration
+
+For development environments with full debugging:
+
+```yaml
+# config/packages/dev/kassko_data_mapper.yaml
+kassko_data_mapper:
+    enable_lineage_collection: true
+    enable_profiler: true
+```
+
+## Usage
+
+### Accessing the DataMapper
+
+The DataMapper is available as a service and can be autowired:
 
 ```php
-use Kassko\DataMapper\Expression\ExpressionFunction;
-use Kassko\DataMapper\Expression\ExpressionFunctionProviderInterface;
+use Kassko\DataMapper\DataMapper;
 
-class ExpressionFunctionProvider implements ExpressionFunctionProviderInterface
+class MyController
 {
-    public function getFunctions()
+    public function __construct(
+        private DataMapper $dataMapper
+    ) {}
+    
+    public function index(): Response
     {
-        return [
-            new ExpressionFunction(
-                'granted',
-                function ($arg) {
-                    return sprintf('container.get(%s)', $arg);
-                }, 
-                function (array $context, $value) {
-                    return $context['container']->get($value);
-                }
-            ),
-        ];
+        // Use context to pass data to your data objects
+        $this->dataMapper->addToContext('current_user', $user);
+        $this->dataMapper->addToContext('locale', $request->getLocale());
+        
+        // Your data objects can now access this context
+        // ...
     }
 }
 ```
 
-Object listener
--------
+### Using Services as Data Sources
 
-The data-mapper needs to be able to retrieve an object listener from its full qualified class name. In order to do that, you have to register your object listener as a service and tag it with `kassko_data_mapper.listener`.
+The bundle integrates with Symfony's service container, allowing you to use services as data sources:
 
-To know more about object listener, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
-
-Custom loader
--------
-
-DataMapper provide three formats for mapping: `annotations`, `yaml` and `php`. But you can use a custom mapping loader.
-
-For more details about how to implement your custom loader, please read the [data-mapper documentation reference](https://github.com/kassko/data-mapper/blob/master/README.md).
-
-### Use a service in a persistent object without injecting it
-
-You need to add it in the registry. You can do that by this way.
-
-Tag your service:
-```xml
-<service id="logger">
-    <tag name="kassko_data_mapper.registry_item" key="logger">
-</service>
-```
-
-And then you can get your service from your persistent object:
 ```php
-trait LoggableTrait
+use Kassko\DataMapper\Attribute\DataSource;
+use Kassko\DataMapper\Attribute\Id;
+
+class User
 {
-    private function getLogger()
-    {
-        return Registry::getInstance()['logger'];
-    }
+    #[Id]
+    private int $id;
+    
+    private string $name;
+    
+    // Use a Symfony service as data source
+    #[DataSource(class: '@app.user_repository', method: 'findOrdersForUser')]
+    private array $orders = [];
 }
 ```
 
-```php
-class Person
-{
-    use LoggableTrait;
+The `@` prefix indicates a service ID lookup in the container.
 
-    private $id;
-    private $name;
-    private $address;
+### Console Commands
 
-    public function getName()
-    {
-        if (! isset($this->address)) {
-            $this->getLogger()->warning(sprintf('No address for %s', $this->name));
-        }
-    }
-}
+The bundle provides validation commands to check your data object metadata:
+
+```bash
+# Validate a specific class
+php bin/console datamapper:validate:class 'App\Entity\User'
+
+# Validate all classes in a directory
+php bin/console datamapper:validate src/Entity --namespace='App\Entity'
 ```
+
+### Web Profiler Integration
+
+When `enable_profiler` and `enable_lineage_collection` are enabled, you'll see a DataMapper panel in the Symfony Web Profiler showing:
+
+- **Event Timeline**: Chronological view of all data operations
+- **By Class**: Events grouped by data object class
+- **By Type**: Events grouped by operation type (hydration, datasource call, etc.)
+
+The profiler displays:
+- DataSource calls and their results
+- Property hydrations and transformations
+- Skipped properties with reasons
+- Hook executions
+- Maximum hydration depth
+- Total operation duration
+
+## How It Works
+
+### Bundle Initialization
+
+The DataMapper context is initialized during the bundle's `boot()` phase. This ensures that:
+
+1. The `Loader` is registered in the `LoaderRegistry`
+2. The `ContextRegistry` is configured with logging
+3. All data objects can access lazy loading capabilities
+
+This design keeps data objects **serializable** (no direct dependency on the loader) while providing full functionality.
+
+### Service Resolution
+
+The bundle creates a `ServiceResolver` backed by Symfony's container, allowing:
+
+- Service ID lookups with `@service_id` prefix
+- Direct class instantiation as fallback
+- Factory services and callables support
+
+## Testing
+
+Run the test suite:
+
+```bash
+composer install
+./vendor/bin/phpunit
+```
+
+## Architecture
+
+```
+src/
+├── DataMapperBundle.php           # Main bundle class with boot initialization
+├── DependencyInjection/
+│   ├── Configuration.php          # Bundle configuration definition
+│   └── DataMapperExtension.php    # Service container extension
+├── DataCollector/
+│   └── DataMapperDataCollector.php # Symfony Profiler integration
+└── Service/
+    ├── ServiceResolverFactory.php # Creates ServiceResolver with container
+    └── DataMapperConfigurator.php # Post-construction DataMapper setup
+
+config/
+└── services.yaml                  # Service definitions
+
+templates/
+└── Collector/
+    └── data_mapper.html.twig      # Profiler panel template
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on contributing to this bundle.
+
+## License
+
+This bundle is released under the Apache 2.0 License. See [LICENSE.md](LICENSE.md) for details.
+
+## Links
+
+- [DataMapper Core Library](https://github.com/kassko/data-mapper)
+- [DataMapper Documentation](https://github.com/kassko/data-mapper/blob/2.0/README.md)
+

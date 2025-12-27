@@ -1,0 +1,35 @@
+# Dependencies
+/vendor/
+
+# Composer
+composer.lock
+
+# PHPUnit
+/phpunit.xml
+/.phpunit.cache/
+/.phpunit.result.cache
+
+# IDE
+/.idea/
+/.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/build/
+/dist/
+
+# Coverage reports
+/coverage/
+/.coverage/
+/clover.xml
+/coverage.xml
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~

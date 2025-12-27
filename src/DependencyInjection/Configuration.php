@@ -1,91 +1,103 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of DataMapperBundle.
+ *
+ * Copyright 2025 kassko
+ *
+ * For the full copyright and license information,
+ * please view the LICENSE and NOTICE files that were distributed with this source code.
+ */
+
 namespace Kassko\Bundle\DataMapperBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Configuration for DataMapperBundle.
+ *
+ * This class defines the structure of the bundle's configuration.
+ */
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        list($rootNode, $builder) = $this->getRootNode('kassko_data_mapper');
+        $treeBuilder = new TreeBuilder('kassko_data_mapper');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
-            ->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('mapping')->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('default_resource_type')->defaultValue('annotations')->end()
-                        ->scalarNode('default_resource_dir')->end()
-                        ->scalarNode('default_provider_method')->end()
-                        ->arrayNode('bundles')
-                            ->prototype('array')
-                                ->children()
-                                    ->scalarNode('resource_type')->end()
-                                    ->scalarNode('resource_dir')->end()
-                                    ->scalarNode('provider_method')->end()
+                // Enable/disable the data lineage collector
+                ->booleanNode('enable_lineage_collection')
+                    ->defaultFalse()
+                    ->info('Enable data lineage collection for debugging purposes.')
+                ->end()
 
-                                    ->arrayNode('objects')
-                                        ->prototype('array')
-                                            ->children()
-                                                ->scalarNode('class')->isRequired()->end()
-                                                ->scalarNode('resource_type')->end()
-                                                ->scalarNode('resource_path')->end()
-                                                ->scalarNode('resource_name')->end()
-                                                ->scalarNode('provider_method')->end()
-                                            ->end()
-                                        ->end()
-                                    ->end()
-                                ->end()
-                            ->end()
+                // Enable/disable profiler integration (only works in dev/debug mode)
+                ->booleanNode('enable_profiler')
+                    ->defaultTrue()
+                    ->info('Enable Symfony profiler integration for data lineage visualization.')
+                ->end()
+
+                // Cache configuration
+                ->arrayNode('cache')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')
+                            ->defaultFalse()
+                            ->info('Enable caching for metadata.')
+                        ->end()
+                        ->scalarNode('service')
+                            ->defaultNull()
+                            ->info('PSR-16 cache service ID (e.g., "cache.app").')
                         ->end()
                     ->end()
                 ->end()
 
-                ->arrayNode('cache')->addDefaultsIfNotSet()
-                    ->append($this->addCacheNode('metadata_cache'))
-                    ->append($this->addCacheNode('result_cache'))
+                // Logger configuration
+                ->arrayNode('logger')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')
+                            ->defaultTrue()
+                            ->info('Enable logging for DataMapper operations.')
+                        ->end()
+                        ->scalarNode('service')
+                            ->defaultValue('logger')
+                            ->info('PSR-3 logger service ID.')
+                        ->end()
+                        ->scalarNode('channel')
+                            ->defaultValue('data_mapper')
+                            ->info('Logger channel name.')
+                        ->end()
+                    ->end()
                 ->end()
 
-                ->scalarNode('logger')->end()
+                // Paths for validation commands
+                ->arrayNode('validation')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('paths')
+                            ->scalarPrototype()->end()
+                            ->defaultValue([])
+                            ->info('Paths to scan for data object classes during validation.')
+                        ->end()
+                        ->arrayNode('namespaces')
+                            ->scalarPrototype()->end()
+                            ->defaultValue([])
+                            ->info('Namespaces to use when resolving class names.')
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
-        return $builder;
-    }
-
-    private function addCacheNode($name)
-    {
-        list($node, $builder) = $this->getRootNode($name);
-
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('class')->end()
-                ->scalarNode('id')->end()
-                ->scalarNode('life_time')->defaultValue(0)->end()
-                ->booleanNode('is_shared')->defaultFalse()->end()
-                ->scalarNode('adapter_class')->defaultValue('Kassko\Bundle\DataMapperBundle\Adapter\Cache\DoctrineCacheAdapter')->end()
-            ->end()
-        ;
-
-        return $node;
-    }
-
-    private function getRootNode($rootNodeName)
-    {
-        if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $builder = new TreeBuilder($rootNodeName);
-            $rootNode = $builder->getRootNode();
-        } else {//Keep compatibility with Symfony <= 4.3
-            /**
-             * @see https://github.com/symfony/symfony/blob/4.3/src/Symfony/Component/Config/Definition/Builder/TreeBuilder.php#L48
-             */
-            $builder = new TreeBuilder;
-            $rootNode = $builder->root($rootNodeName);
-        }
-
-        return [$rootNode, $builder];
+        return $treeBuilder;
     }
 }
