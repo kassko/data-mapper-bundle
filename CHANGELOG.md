@@ -1,33 +1,49 @@
-`0.14.4.0 - 2015/11/29 - New version`:
-* `New`: [Support][Symfony] Add support for Symfony 3.0.
+# Changelog
 
-`0.14.3.0 - 2015/10/06 - New version:`
-* `New`: [Dependency Injection][MethodInvoker] Add Method invoker configuration and inject it into ObjectManager.
+All notable changes to this project will be documented in this file.
 
-`0.14.2.0 - 2015/04/12 - New version:`
-* `New`: Add expression language service.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-`0.14.1.0 - 2015/03/25 - New version:`
-* `New`: Use stable version of class-resolver-bundle (not an alpha version)
+## [2.0.0-alpha] - 2025-12-27
 
-`0.14.0.0 - 2015/03/24 - Break version:`
-* `Break:` The DataMapper component has changed and compatibility is broken. See DataMapper changelog for 0.12.0.0.
+### Added
 
-`0.13.0.0-alpha - 2015/03/09 - Break version:`
-* `Break:` Add new keys in data source mapping configuration and modify the behaviour
+- **Complete rewrite** for DataMapper v2.x compatibility
+- **PHP 8.1+ requirement** with modern type declarations
+- **Symfony 5.4/6.x/7.x support** via flexible dependency constraints
+- **DataMapper initialization in bundle boot** to set up context registries
+- **ServiceResolver with Symfony container** integration for service lookups
+- **Data Lineage Profiler** integration with Symfony Web Profiler
+  - Event timeline visualization
+  - Events grouped by class or type
+  - Statistics: event count, datasource calls, hydrations, skipped properties
+  - Duration and depth tracking
+- **Console commands** for metadata validation
+  - `datamapper:validate:class` - Validate a specific class
+  - `datamapper:validate` - Validate all classes in a directory
+- **Flexible configuration** via Symfony config
+  - Toggle lineage collection on/off
+  - Enable/disable profiler integration
+  - Configure cache service (PSR-16)
+  - Configure logger service (PSR-3) with channel support
+  - Specify validation paths and namespaces
+- **Comprehensive test suite**
+  - Unit tests for all components
+  - Integration tests with real Symfony kernel
+- **Full documentation** with examples
 
-`0.12.0.0-alpha - 2015/03/09 - Break version:`
-* `Break:` Rename a key in mapping configuration: provider to data source
+### Changed
 
-`0.11.0.0-alpha - 2015/01/04 - Break version:`
-* `Break:` Rename some keys in mapping configuration
+- **Namespace changed** from `Kassko\Bundle\KasskoDataMapperBundle` to `Kassko\Bundle\DataMapperBundle`
+- **Bundle class renamed** to `DataMapperBundle`
+- **Extension alias** is now `kassko_data_mapper`
 
-`0.10.0.0-alpha - 2014/12/16 - BREAK version:`
-* `Break:` The DataMapper class API, and the ResultBuilder class API have changed after renaming some methods with shorter names.
+### Removed
 
-`0.9.0.0-alpha - 2014/12/16 - BREAK version:`
-* `Break:` The service kassko_data_mapper.result_builder_factory is removed, use the service kassko_data_mapper instead with the same API. Exception the create() method is replaced by createResultBuilder().
+- Legacy code from v1.x that was incompatible with DataMapper v2.x
+- Old configuration options that no longer apply
 
-* `Break:` The service kassko_data_mapper.query_factory is removed, use DataMapper instead with the same API.
+## [1.x] - Previous releases
 
-* `New:` Add a service kassko_data_mapper which contains the interface of ResultBuilderFactory and QueryFactory
+See the 1.0 branch for the changelog of previous versions that work with DataMapper v1.x.

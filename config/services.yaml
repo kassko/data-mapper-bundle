@@ -1,0 +1,56 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Service Resolver Factory
+    kassko_data_mapper.service_resolver_factory:
+        class: Kassko\Bundle\DataMapperBundle\Service\ServiceResolverFactory
+        arguments:
+            $container: '@service_container'
+
+    # Service Resolver (created by factory)
+    kassko_data_mapper.service_resolver:
+        class: Kassko\DataMapper\ServiceResolver
+        factory: ['@kassko_data_mapper.service_resolver_factory', 'create']
+
+    # DataMapper main service
+    kassko_data_mapper.data_mapper:
+        class: Kassko\DataMapper\DataMapper
+        public: true
+        arguments:
+            $serviceResolver: '@kassko_data_mapper.service_resolver'
+            $cache: null
+            $logger: null
+        configurator: ['@kassko_data_mapper.data_mapper_configurator', 'configure']
+
+    # DataMapper configurator (handles post-construction setup)
+    kassko_data_mapper.data_mapper_configurator:
+        class: Kassko\Bundle\DataMapperBundle\Service\DataMapperConfigurator
+        arguments:
+            $enableLineageCollection: '%kassko_data_mapper.enable_lineage_collection%'
+            $dataCollector: '@?kassko_data_mapper.data_collector'
+
+    # Data Collector for Symfony Profiler
+    kassko_data_mapper.data_collector:
+        class: Kassko\Bundle\DataMapperBundle\DataCollector\DataMapperDataCollector
+        arguments:
+            $enabled: '%kassko_data_mapper.enable_profiler%'
+        tags:
+            - { name: data_collector, template: '@DataMapper/Collector/data_mapper.html.twig', id: 'kassko_data_mapper' }
+
+    # Validation Commands
+    kassko_data_mapper.command.validate_class:
+        class: Kassko\DataMapper\Command\ValidateClassCommand
+        tags:
+            - { name: console.command, command: 'datamapper:validate:class' }
+
+    kassko_data_mapper.command.validate_metadata:
+        class: Kassko\DataMapper\Command\ValidateMetadataCommand
+        tags:
+            - { name: console.command, command: 'datamapper:validate' }
+
+    # Aliases for easier access
+    Kassko\DataMapper\DataMapper: '@kassko_data_mapper.data_mapper'
+    Kassko\DataMapper\ServiceResolver: '@kassko_data_mapper.service_resolver'

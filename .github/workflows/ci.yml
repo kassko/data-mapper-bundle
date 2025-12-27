@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 2.0
+  pull_request:
+    branches:
+      - 2.0
+
+jobs:
+  tests:
+    name: Tests (PHP ${{ matrix.php }} / Symfony ${{ matrix.symfony }})
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+        symfony: ['5.4.*', '6.4.*', '7.0.*', '7.1.*']
+        exclude:
+          # Symfony 7.x requires PHP 8.2+
+          - php: '8.1'
+            symfony: '7.0.*'
+          - php: '8.1'
+            symfony: '7.1.*'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, xml, ctype, iconv
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-
+            ${{ runner.os }}-php-${{ matrix.php }}-
+
+      - name: Install Symfony version
+        run: |
+          composer require --no-update symfony/framework-bundle:${{ matrix.symfony }}
+          composer require --no-update symfony/dependency-injection:${{ matrix.symfony }}
+          composer require --no-update symfony/config:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/console:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/finder:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/http-kernel:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/twig-bundle:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/web-profiler-bundle:${{ matrix.symfony }}
+          composer require --no-update --dev symfony/yaml:${{ matrix.symfony }}
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-progress
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, iconv
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Check PHP syntax
+        run: find src tests -name "*.php" -print0 | xargs -0 -n1 php -l
+
+  validate-composer:
+    name: Validate Composer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Validate composer.json
+        run: composer validate --strict
