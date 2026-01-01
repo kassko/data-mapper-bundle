@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace Kassko\Bundle\DataMapperBundle\Tests\Unit\DependencyInjection;
 
-use Kassko\Bundle\DataMapperBundle\DependencyInjection\DataMapperExtension;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\KasskoDataMapperExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class DataMapperExtensionTest extends TestCase
+class KasskoDataMapperExtensionTest extends TestCase
 {
-    private DataMapperExtension $extension;
+    private KasskoDataMapperExtension $extension;
 
     protected function setUp(): void
     {
-        $this->extension = new DataMapperExtension();
+        $this->extension = new KasskoDataMapperExtension();
     }
 
     public function testGetAlias(): void

@@ -33,7 +33,7 @@ If you're not using Symfony Flex, add the bundle to your `config/bundles.php`:
 ```php
 return [
     // ...
-    Kassko\Bundle\DataMapperBundle\DataMapperBundle::class => ['all' => true],
+    Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle::class => ['all' => true],
 ];
 ```
 
@@ -257,7 +257,7 @@ composer install
 
 ```
 src/
-├── DataMapperBundle.php           # Main bundle class with boot initialization
+├── KasskoKasskoDataMapperBundle.php           # Main bundle class with boot initialization
 ├── DependencyInjection/
 │   ├── Configuration.php          # Bundle configuration definition
 │   └── DataMapperExtension.php    # Service container extension

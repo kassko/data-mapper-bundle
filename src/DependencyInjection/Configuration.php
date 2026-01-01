@@ -17,7 +17,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration for DataMapperBundle.
+ * Configuration for KasskoDataMapperBundle.
  *
  * This class defines the structure of the bundle's configuration.
  */

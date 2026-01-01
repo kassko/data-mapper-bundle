@@ -60,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Namespace changed** from `Kassko\Bundle\KasskoDataMapperBundle` to `Kassko\Bundle\DataMapperBundle`
+- **Namespace changed** from `Kassko\Bundle\DataMapperBundle` to `Kassko\Bundle\DataMapperBundle`
 - **Bundle class renamed** to `DataMapperBundle`
 - **Extension alias** is now `kassko_data_mapper`
 

@@ -21,12 +21,12 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * DataMapperBundle extension for Symfony DependencyInjection.
+ * KasskoDataMapperBundle extension for Symfony DependencyInjection.
  *
  * This extension loads the bundle's service configuration and processes
  * the bundle configuration to set up DataMapper services.
  */
-class DataMapperExtension extends Extension
+class KasskoDataMapperExtension extends Extension
 {
     /**
      * {@inheritdoc}
