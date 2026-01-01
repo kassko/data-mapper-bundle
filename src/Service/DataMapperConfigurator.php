@@ -20,12 +20,13 @@ use Kassko\DataMapper\DataMapper;
  * Configurator for the DataMapper service.
  *
  * This configurator handles post-construction setup of the DataMapper,
- * such as enabling data lineage collection and connecting to the profiler.
+ * such as enabling data lineage collection, cascade collection, and connecting to the profiler.
  */
 class DataMapperConfigurator
 {
     public function __construct(
         private bool $enableLineageCollection,
+        private bool $enableCascadeCollection = false,
         private ?DataMapperDataCollector $dataCollector = null
     ) {
     }
@@ -38,6 +39,12 @@ class DataMapperConfigurator
         // Enable lineage collection if configured
         if ($this->enableLineageCollection) {
             $dataMapper->enableLineageCollection();
+        }
+
+        // Enable cascade collection if configured and method exists
+        // (this feature may be added in a future version of data-mapper)
+        if ($this->enableCascadeCollection && method_exists($dataMapper, 'enableCascadeCollection')) {
+            $dataMapper->enableCascadeCollection();
         }
 
         // Connect the data collector if available

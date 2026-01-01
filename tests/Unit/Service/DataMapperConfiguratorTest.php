@@ -29,6 +29,7 @@ class DataMapperConfiguratorTest extends TestCase
 
         $configurator = new DataMapperConfigurator(
             enableLineageCollection: true,
+            enableCascadeCollection: false,
             dataCollector: $dataCollector
         );
 
@@ -47,6 +48,7 @@ class DataMapperConfiguratorTest extends TestCase
 
         $configurator = new DataMapperConfigurator(
             enableLineageCollection: false,
+            enableCascadeCollection: false,
             dataCollector: $dataCollector
         );
 
@@ -63,6 +65,7 @@ class DataMapperConfiguratorTest extends TestCase
     {
         $configurator = new DataMapperConfigurator(
             enableLineageCollection: true,
+            enableCascadeCollection: false,
             dataCollector: null
         );
 
@@ -73,5 +76,72 @@ class DataMapperConfiguratorTest extends TestCase
         $configurator->configure($dataMapper);
 
         $this->assertTrue($dataMapper->getLineageCollector()->isEnabled());
+    }
+
+    public function testConfigureWithCascadeCollectionEnabled(): void
+    {
+        // Skip if enableCascadeCollection method is not available in DataMapper
+        if (!method_exists(DataMapper::class, 'enableCascadeCollection')) {
+            $this->markTestSkipped('enableCascadeCollection() not yet implemented in DataMapper');
+        }
+
+        $configurator = new DataMapperConfigurator(
+            enableLineageCollection: false,
+            enableCascadeCollection: true,
+            dataCollector: null
+        );
+
+        $serviceResolver = new ServiceResolver();
+        $dataMapper = new DataMapper($serviceResolver);
+
+        $configurator->configure($dataMapper);
+
+        // The cascade collector should be enabled
+        $this->assertTrue($dataMapper->getCascadeCollector()->isEnabled());
+    }
+
+    public function testConfigureWithCascadeCollectionDisabled(): void
+    {
+        // Skip if getCascadeCollector method is not available in DataMapper
+        if (!method_exists(DataMapper::class, 'getCascadeCollector')) {
+            $this->markTestSkipped('getCascadeCollector() not yet implemented in DataMapper');
+        }
+
+        $configurator = new DataMapperConfigurator(
+            enableLineageCollection: false,
+            enableCascadeCollection: false,
+            dataCollector: null
+        );
+
+        $serviceResolver = new ServiceResolver();
+        $dataMapper = new DataMapper($serviceResolver);
+
+        $configurator->configure($dataMapper);
+
+        // The cascade collector should remain disabled
+        $this->assertFalse($dataMapper->getCascadeCollector()->isEnabled());
+    }
+
+    public function testConfigureWithBothCollectionsEnabled(): void
+    {
+        // Skip if enableCascadeCollection method is not available in DataMapper
+        if (!method_exists(DataMapper::class, 'enableCascadeCollection')) {
+            $this->markTestSkipped('enableCascadeCollection() not yet implemented in DataMapper');
+        }
+
+        $configurator = new DataMapperConfigurator(
+            enableLineageCollection: true,
+            enableCascadeCollection: true,
+            dataCollector: null
+        );
+
+        $serviceResolver = new ServiceResolver();
+        $dataMapper = new DataMapper($serviceResolver);
+
+        $configurator->configure($dataMapper);
+
+        // Both collectors should be enabled
+        $this->assertTrue($dataMapper->getLineageCollector()->isEnabled());
+        $this->assertTrue($dataMapper->getCascadeCollector()->isEnabled());
     }
 }

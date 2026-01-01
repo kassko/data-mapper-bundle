@@ -15,14 +15,22 @@ services:
         class: Kassko\DataMapper\ServiceResolver
         factory: ['@kassko_data_mapper.service_resolver_factory', 'create']
 
-    # DataMapper main service
+    # DataMapper Factory
+    kassko_data_mapper.data_mapper_factory:
+        class: Kassko\Bundle\DataMapperBundle\Service\DataMapperFactory
+
+    # DataMapper main service (created by factory)
     kassko_data_mapper.data_mapper:
         class: Kassko\DataMapper\DataMapper
         public: true
+        factory: ['@kassko_data_mapper.data_mapper_factory', 'create']
         arguments:
             $serviceResolver: '@kassko_data_mapper.service_resolver'
             $cache: null
             $logger: null
+            $customHydrators: '%kassko_data_mapper.custom_hydrators%'
+            $sensitiveKeys: '%kassko_data_mapper.sensitive_keys%'
+            $defaultSensitiveLevel: '%kassko_data_mapper.default_sensitive_level%'
         configurator: ['@kassko_data_mapper.data_mapper_configurator', 'configure']
 
     # DataMapper configurator (handles post-construction setup)
@@ -30,6 +38,7 @@ services:
         class: Kassko\Bundle\DataMapperBundle\Service\DataMapperConfigurator
         arguments:
             $enableLineageCollection: '%kassko_data_mapper.enable_lineage_collection%'
+            $enableCascadeCollection: '%kassko_data_mapper.enable_cascade_collection%'
             $dataCollector: '@?kassko_data_mapper.data_collector'
 
     # Data Collector for Symfony Profiler
@@ -39,6 +48,12 @@ services:
             $enabled: '%kassko_data_mapper.enable_profiler%'
         tags:
             - { name: data_collector, template: '@DataMapper/Collector/data_mapper.html.twig', id: 'kassko_data_mapper' }
+
+    # Hydrator service for convenience
+    kassko_data_mapper.hydrator:
+        class: Kassko\DataMapper\Hydrator
+        public: true
+        factory: ['@kassko_data_mapper.data_mapper', 'getHydrator']
 
     # Validation Commands
     kassko_data_mapper.command.validate_class:
@@ -54,3 +69,4 @@ services:
     # Aliases for easier access
     Kassko\DataMapper\DataMapper: '@kassko_data_mapper.data_mapper'
     Kassko\DataMapper\ServiceResolver: '@kassko_data_mapper.service_resolver'
+    Kassko\DataMapper\Hydrator: '@kassko_data_mapper.hydrator'
