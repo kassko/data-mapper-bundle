@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Kassko\Bundle\DataMapperBundle;
 
-use Kassko\Bundle\DataMapperBundle\DependencyInjection\DataMapperExtension;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\KasskoDataMapperExtension;
 use Kassko\DataMapper\DataMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * This allows data objects to remain serializable (no direct dependency on the loader)
  * while still having access to lazy loading capabilities.
  */
-class DataMapperBundle extends Bundle
+class KasskoDataMapperBundle extends Bundle
 {
     /**
      * {@inheritdoc}
@@ -45,7 +45,7 @@ class DataMapperBundle extends Bundle
     public function getContainerExtension(): ?ExtensionInterface
     {
         if ($this->extension === null) {
-            $this->extension = new DataMapperExtension();
+            $this->extension = new KasskoDataMapperExtension();
         }
 
         return $this->extension;

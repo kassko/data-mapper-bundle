@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Kassko\Bundle\DataMapperBundle\Tests\Integration;
 
-use Kassko\Bundle\DataMapperBundle\DataMapperBundle;
+use Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,7 +36,7 @@ class TestKernel extends Kernel
     {
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-            new DataMapperBundle(),
+            new KasskoDataMapperBundle(),
         ];
     }
 

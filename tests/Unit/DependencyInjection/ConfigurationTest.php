@@ -36,6 +36,7 @@ class ConfigurationTest extends TestCase
         );
 
         $this->assertFalse($config['enable_lineage_collection']);
+        $this->assertFalse($config['enable_cascade_collection']);
         $this->assertTrue($config['enable_profiler']);
         $this->assertFalse($config['cache']['enabled']);
         $this->assertNull($config['cache']['service']);
@@ -44,6 +45,9 @@ class ConfigurationTest extends TestCase
         $this->assertEquals('data_mapper', $config['logger']['channel']);
         $this->assertEmpty($config['validation']['paths']);
         $this->assertEmpty($config['validation']['namespaces']);
+        $this->assertEmpty($config['custom_hydrators']);
+        $this->assertEmpty($config['sensitive_keys']);
+        $this->assertEquals('show', $config['default_sensitive_level']);
     }
 
     public function testEnableLineageCollection(): void
@@ -138,5 +142,83 @@ class ConfigurationTest extends TestCase
 
         // Later configuration should override earlier
         $this->assertTrue($config['enable_lineage_collection']);
+    }
+
+    public function testEnableCascadeCollection(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                ['enable_cascade_collection' => true],
+            ]
+        );
+
+        $this->assertTrue($config['enable_cascade_collection']);
+    }
+
+    public function testCustomHydratorsConfiguration(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                [
+                    'custom_hydrators' => [
+                        'datetime' => 'app.hydrator.datetime',
+                        'money' => 'app.hydrator.money',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertEquals([
+            'datetime' => 'app.hydrator.datetime',
+            'money' => 'app.hydrator.money',
+        ], $config['custom_hydrators']);
+    }
+
+    public function testSensitiveKeysConfiguration(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                [
+                    'sensitive_keys' => [
+                        'password' => 'hide',
+                        'api_key' => 'mask',
+                        'email' => 'show',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertEquals([
+            'password' => 'hide',
+            'api_key' => 'mask',
+            'email' => 'show',
+        ], $config['sensitive_keys']);
+    }
+
+    public function testDefaultSensitiveLevelConfiguration(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                ['default_sensitive_level' => 'mask'],
+            ]
+        );
+
+        $this->assertEquals('mask', $config['default_sensitive_level']);
+    }
+
+    public function testDefaultSensitiveLevelHide(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                ['default_sensitive_level' => 'hide'],
+            ]
+        );
+
+        $this->assertEquals('hide', $config['default_sensitive_level']);
     }
 }

@@ -18,7 +18,7 @@ This bundle provides seamless configuration and service integration to use DataM
 
 - PHP 8.1 or higher
 - Symfony 5.4, 6.x, or 7.x
-- DataMapper library v2.32+
+- DataMapper library v2.40+
 
 ## Installation
 
@@ -33,7 +33,7 @@ If you're not using Symfony Flex, add the bundle to your `config/bundles.php`:
 ```php
 return [
     // ...
-    Kassko\Bundle\DataMapperBundle\DataMapperBundle::class => ['all' => true],
+    Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle::class => ['all' => true],
 ];
 ```
 
@@ -45,6 +45,9 @@ Create or update `config/packages/kassko_data_mapper.yaml`:
 kassko_data_mapper:
     # Enable data lineage collection for debugging (default: false)
     enable_lineage_collection: false
+    
+    # Enable cascade collection for attribute inheritance tracking (default: false)
+    enable_cascade_collection: false
     
     # Enable Symfony Web Profiler integration (default: true)
     enable_profiler: true
@@ -64,6 +67,17 @@ kassko_data_mapper:
     validation:
         paths: []  # Paths to scan for data object classes
         namespaces: []  # Namespaces for class resolution
+
+    # Custom hydrators (name => service_id)
+    custom_hydrators: []
+    
+    # Global sensitive keys configuration for data lineage (key => level)
+    # Levels: 'show', 'mask', 'hide'
+    sensitive_keys: []
+    
+    # Default sensitive level for all properties in data lineage
+    # Values: 'show', 'mask', 'hide'
+    default_sensitive_level: 'show'
 ```
 
 ### Minimal Configuration
@@ -82,7 +96,54 @@ For development environments with full debugging:
 # config/packages/dev/kassko_data_mapper.yaml
 kassko_data_mapper:
     enable_lineage_collection: true
+    enable_cascade_collection: true
     enable_profiler: true
+```
+
+### Sensitive Data Handling
+
+You can configure how sensitive data appears in lineage collection and debugging:
+
+```yaml
+kassko_data_mapper:
+    enable_lineage_collection: true
+    
+    # Define sensitive keys globally
+    sensitive_keys:
+        password: hide      # Completely hide the value
+        api_key: mask       # Show first/last characters: "sk_****yz"
+        email: show         # Show the full value
+    
+    # Default level for all properties (show, mask, or hide)
+    default_sensitive_level: show
+```
+
+This protects sensitive data in:
+- Profiler output
+- Debug logs
+- Data lineage exports
+
+### Custom Hydrators
+
+Register custom hydrators for special data types:
+
+```yaml
+kassko_data_mapper:
+    custom_hydrators:
+        datetime: 'app.hydrator.datetime'
+        money: 'app.hydrator.money'
+```
+
+Then use them in your data objects:
+
+```php
+use Kassko\DataMapper\Attribute\CustomHydrator;
+
+class Product
+{
+    #[CustomHydrator('money')]
+    private Money $price;
+}
 ```
 
 ## Usage
@@ -196,13 +257,14 @@ composer install
 
 ```
 src/
-├── DataMapperBundle.php           # Main bundle class with boot initialization
+├── KasskoKasskoDataMapperBundle.php           # Main bundle class with boot initialization
 ├── DependencyInjection/
 │   ├── Configuration.php          # Bundle configuration definition
 │   └── DataMapperExtension.php    # Service container extension
 ├── DataCollector/
 │   └── DataMapperDataCollector.php # Symfony Profiler integration
 └── Service/
+    ├── DataMapperFactory.php      # Factory for DataMapper with enum conversion
     ├── ServiceResolverFactory.php # Creates ServiceResolver with container
     └── DataMapperConfigurator.php # Post-construction DataMapper setup
 

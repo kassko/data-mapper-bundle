@@ -21,12 +21,12 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * DataMapperBundle extension for Symfony DependencyInjection.
+ * KasskoDataMapperBundle extension for Symfony DependencyInjection.
  *
  * This extension loads the bundle's service configuration and processes
  * the bundle configuration to set up DataMapper services.
  */
-class DataMapperExtension extends Extension
+class KasskoDataMapperExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -45,6 +45,7 @@ class DataMapperExtension extends Extension
 
         // Store configuration as parameters
         $container->setParameter('kassko_data_mapper.enable_lineage_collection', $config['enable_lineage_collection']);
+        $container->setParameter('kassko_data_mapper.enable_cascade_collection', $config['enable_cascade_collection']);
         $container->setParameter('kassko_data_mapper.enable_profiler', $config['enable_profiler']);
         $container->setParameter('kassko_data_mapper.cache.enabled', $config['cache']['enabled']);
         $container->setParameter('kassko_data_mapper.cache.service', $config['cache']['service']);
@@ -53,6 +54,9 @@ class DataMapperExtension extends Extension
         $container->setParameter('kassko_data_mapper.logger.channel', $config['logger']['channel']);
         $container->setParameter('kassko_data_mapper.validation.paths', $config['validation']['paths']);
         $container->setParameter('kassko_data_mapper.validation.namespaces', $config['validation']['namespaces']);
+        $container->setParameter('kassko_data_mapper.custom_hydrators', $this->processCustomHydrators($config['custom_hydrators']));
+        $container->setParameter('kassko_data_mapper.sensitive_keys', $this->processSensitiveKeys($config['sensitive_keys']));
+        $container->setParameter('kassko_data_mapper.default_sensitive_level', $config['default_sensitive_level']);
 
         // Configure cache service if enabled
         $this->configureCache($container, $config['cache']);
@@ -111,6 +115,30 @@ class DataMapperExtension extends Extension
 
         // In production, we might want to disable the profiler anyway
         // The actual check for debug mode happens at runtime via the data collector
+    }
+
+    /**
+     * Process custom hydrators configuration to service references.
+     *
+     * @param array<string, string> $hydrators Hydrator name => service id pairs
+     * @return array<string, string> Processed hydrators
+     */
+    private function processCustomHydrators(array $hydrators): array
+    {
+        // Return as-is - service references are resolved at runtime via ServiceResolver
+        return $hydrators;
+    }
+
+    /**
+     * Process sensitive keys configuration to SensitiveLevel enum values.
+     *
+     * @param array<string, string> $sensitiveKeys Key => level string pairs
+     * @return array<string, string> Processed sensitive keys (enum conversion happens in DataMapper)
+     */
+    private function processSensitiveKeys(array $sensitiveKeys): array
+    {
+        // Return as-is - SensitiveLevel enum conversion happens in DataMapper constructor
+        return $sensitiveKeys;
     }
 
     /**

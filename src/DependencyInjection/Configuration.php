@@ -17,7 +17,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration for DataMapperBundle.
+ * Configuration for KasskoDataMapperBundle.
  *
  * This class defines the structure of the bundle's configuration.
  */
@@ -37,6 +37,12 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('enable_lineage_collection')
                     ->defaultFalse()
                     ->info('Enable data lineage collection for debugging purposes.')
+                ->end()
+
+                // Enable/disable the attribute cascade collector
+                ->booleanNode('enable_cascade_collection')
+                    ->defaultFalse()
+                    ->info('Enable attribute cascade collection for debugging attribute inheritance.')
                 ->end()
 
                 // Enable/disable profiler integration (only works in dev/debug mode)
@@ -94,6 +100,31 @@ class Configuration implements ConfigurationInterface
                             ->info('Namespaces to use when resolving class names.')
                         ->end()
                     ->end()
+                ->end()
+
+                // Custom hydrators configuration
+                ->arrayNode('custom_hydrators')
+                    ->useAttributeAsKey('name')
+                    ->scalarPrototype()->end()
+                    ->defaultValue([])
+                    ->info('Custom hydrators as key => service_id pairs.')
+                ->end()
+
+                // Sensitive keys configuration for data lineage
+                ->arrayNode('sensitive_keys')
+                    ->useAttributeAsKey('name')
+                    ->enumPrototype()
+                        ->values(['show', 'mask', 'hide'])
+                    ->end()
+                    ->defaultValue([])
+                    ->info('Global sensitive keys configuration (key => level). Levels: show, mask, hide.')
+                ->end()
+
+                // Default sensitive level for all properties
+                ->enumNode('default_sensitive_level')
+                    ->values(['show', 'mask', 'hide'])
+                    ->defaultValue('show')
+                    ->info('Default sensitive level for all properties in data lineage.')
                 ->end()
             ->end()
         ;

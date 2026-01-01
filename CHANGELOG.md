@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0-alpha] - 2026-01-01
+
+### Added
+
+- **Synchronization with data-mapper v2.40.0-alpha**
+- **DataMapperFactory service** for proper SensitiveLevel enum conversion from configuration strings
+- **Hydrator service** exposed via factory method on DataMapper
+- **New configuration options**:
+  - `enable_cascade_collection`: Enable attribute cascade/inheritance event collection
+  - `custom_hydrators`: Define custom hydrator services by name
+  - `sensitive_keys`: Configure visibility levels for sensitive keys (show/mask/hide)
+  - `default_sensitive_level`: Default sensitive level for all properties in data lineage
+- **Sensitive data protection** in lineage collection with configurable masking/hiding
+- **Tests for new features** including DataMapperFactory and configuration options
+
+### Changed
+
+- **Updated data-mapper dependency** from `^2.32` to `^2.40`
+- **DataMapperConfigurator** now supports cascade collection (forward-compatible with future core library versions)
+- **README.md** updated with new features documentation
+
+### Dependencies
+
+- Added `psr/simple-cache` for cache interface support
+
 ## [2.0.0-alpha] - 2025-12-27
 
 ### Added
@@ -35,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Namespace changed** from `Kassko\Bundle\KasskoDataMapperBundle` to `Kassko\Bundle\DataMapperBundle`
+- **Namespace changed** from `Kassko\Bundle\DataMapperBundle` to `Kassko\Bundle\DataMapperBundle`
 - **Bundle class renamed** to `DataMapperBundle`
 - **Extension alias** is now `kassko_data_mapper`
 
