@@ -26,6 +26,9 @@ class TestKernel extends Kernel
 {
     private array $bundleConfig;
 
+    /**
+     * @param array $bundleConfig Bundle configuration
+     */
     public function __construct(array $bundleConfig = [])
     {
         $this->bundleConfig = $bundleConfig;
