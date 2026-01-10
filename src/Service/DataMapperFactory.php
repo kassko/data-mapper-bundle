@@ -59,6 +59,7 @@ class DataMapperFactory
             $cache,
             $logger,
             $customHydrators,
+            [],
             $sensitiveKeysEnum,
             $defaultLevelEnum
         );

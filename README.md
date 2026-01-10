@@ -42,6 +42,7 @@ return [
 Create or update `config/packages/kassko_data_mapper.yaml`:
 
 ```yaml
+# config/packages/kassko_data_mapper.yaml
 kassko_data_mapper:
     # Enable data lineage collection for debugging (default: false)
     enable_lineage_collection: false
@@ -78,6 +79,14 @@ kassko_data_mapper:
     # Default sensitive level for all properties in data lineage
     # Values: 'show', 'mask', 'hide'
     default_sensitive_level: 'show'
+```
+
+If you intend to use the Symfony profiler, update `config/packages/twig.yaml` by adding the path of DataMapper collector Twig template:
+```yaml
+# config/packages/twig.yaml
+twig:
+    paths:
+        '%kernel.project_dir%/vendor/kassko/data-mapper-bundle/templates': DataMapper    
 ```
 
 ### Minimal Configuration

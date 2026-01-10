@@ -54,6 +54,12 @@ services:
         class: Kassko\DataMapper\Hydrator
         public: true
         factory: ['@kassko_data_mapper.data_mapper', 'getHydrator']
+    
+    # Object mapper service for convenience
+    kassko_data_mapper.object_mapper:
+        class: Kassko\DataMapper\ObjectMapper
+        public: true
+        factory: ['@kassko_data_mapper.data_mapper', 'getObjectMapper']
 
     # Validation Commands
     kassko_data_mapper.command.validate_class:
@@ -70,3 +76,5 @@ services:
     Kassko\DataMapper\DataMapper: '@kassko_data_mapper.data_mapper'
     Kassko\DataMapper\ServiceResolver: '@kassko_data_mapper.service_resolver'
     Kassko\DataMapper\Hydrator: '@kassko_data_mapper.hydrator'
+    Kassko\DataMapper\ObjectMapper: '@kassko_data_mapper.object_mapper'
+
