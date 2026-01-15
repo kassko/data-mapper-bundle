@@ -46,6 +46,7 @@ class ConfigurationTest extends TestCase
         $this->assertEmpty($config['validation']['paths']);
         $this->assertEmpty($config['validation']['namespaces']);
         $this->assertEmpty($config['custom_hydrators']);
+        $this->assertEmpty($config['custom_object_mappers']);
         $this->assertEmpty($config['sensitive_keys']);
         $this->assertEquals('show', $config['default_sensitive_level']);
     }

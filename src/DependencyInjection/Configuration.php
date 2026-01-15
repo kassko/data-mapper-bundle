@@ -110,6 +110,14 @@ class Configuration implements ConfigurationInterface
                     ->info('Custom hydrators as key => service_id pairs.')
                 ->end()
 
+                // Custom object mappers configuration
+                ->arrayNode('custom_object_mappers')
+                    ->useAttributeAsKey('name')
+                    ->scalarPrototype()->end()
+                    ->defaultValue([])
+                    ->info('Custom object mappers as key => service_id pairs.')
+                ->end()
+
                 // Sensitive keys configuration for data lineage
                 ->arrayNode('sensitive_keys')
                     ->useAttributeAsKey('name')

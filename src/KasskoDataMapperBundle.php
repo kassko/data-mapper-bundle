@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace Kassko\Bundle\DataMapperBundle;
 
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomHydratorPass;
+use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomObjectMapperPass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\KasskoDataMapperExtension;
 use Kassko\DataMapper\DataMapper;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -29,6 +32,18 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class KasskoDataMapperBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        // Register compiler passes for tagged services
+        $container->addCompilerPass(new CustomHydratorPass());
+        $container->addCompilerPass(new CustomObjectMapperPass());
+    }
+
     /**
      * {@inheritdoc}
      */

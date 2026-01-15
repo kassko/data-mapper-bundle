@@ -40,6 +40,7 @@ class DataMapperFactoryTest extends TestCase
             null,
             [],
             [],
+            [],
             'show'
         );
 
@@ -55,6 +56,7 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             $cache,
             $logger,
+            [],
             [],
             [],
             'show'
@@ -74,6 +76,25 @@ class DataMapperFactoryTest extends TestCase
                 'money' => 'app.hydrator.money',
             ],
             [],
+            [],
+            'show'
+        );
+
+        $this->assertInstanceOf(DataMapper::class, $dataMapper);
+    }
+
+    public function testCreateWithCustomObjectMappers(): void
+    {
+        $dataMapper = $this->factory->create(
+            $this->serviceResolver,
+            null,
+            null,
+            [],
+            [
+                'product' => 'app.object_mapper.product',
+                'order' => 'app.object_mapper.order',
+            ],
+            [],
             'show'
         );
 
@@ -86,6 +107,7 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            [],
             [],
             [
                 'password' => 'hide',
@@ -106,6 +128,7 @@ class DataMapperFactoryTest extends TestCase
             null,
             [],
             [],
+            [],
             'mask'
         );
 
@@ -118,6 +141,7 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            [],
             [],
             [],
             'hide'
@@ -136,6 +160,7 @@ class DataMapperFactoryTest extends TestCase
             $cache,
             $logger,
             ['custom' => 'app.hydrator.custom'],
+            ['product' => 'app.object_mapper.product'],
             ['secret' => 'hide', 'token' => 'mask'],
             'mask'
         );

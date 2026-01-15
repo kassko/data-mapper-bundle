@@ -55,6 +55,7 @@ class KasskoDataMapperExtension extends Extension
         $container->setParameter('kassko_data_mapper.validation.paths', $config['validation']['paths']);
         $container->setParameter('kassko_data_mapper.validation.namespaces', $config['validation']['namespaces']);
         $container->setParameter('kassko_data_mapper.custom_hydrators', $this->processCustomHydrators($config['custom_hydrators']));
+        $container->setParameter('kassko_data_mapper.custom_object_mappers', $this->processCustomObjectMappers($config['custom_object_mappers']));
         $container->setParameter('kassko_data_mapper.sensitive_keys', $this->processSensitiveKeys($config['sensitive_keys']));
         $container->setParameter('kassko_data_mapper.default_sensitive_level', $config['default_sensitive_level']);
 
@@ -127,6 +128,18 @@ class KasskoDataMapperExtension extends Extension
     {
         // Return as-is - service references are resolved at runtime via ServiceResolver
         return $hydrators;
+    }
+
+    /**
+     * Process custom object mappers configuration to service references.
+     *
+     * @param array<string, string> $objectMappers Object mapper name => service id pairs
+     * @return array<string, string> Processed object mappers
+     */
+    private function processCustomObjectMappers(array $objectMappers): array
+    {
+        // Return as-is - service references are resolved at runtime via ServiceResolver
+        return $objectMappers;
     }
 
     /**

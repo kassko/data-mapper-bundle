@@ -43,9 +43,19 @@ class TestKernel extends Kernel
         ];
     }
 
+    /**
+     * Override to allow subclasses to add compiler passes.
+     */
+    protected function build(ContainerBuilder $container): void
+    {
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
+            // Allow subclass customization
+            $this->build($container);
+
             // Minimal framework configuration
             $frameworkConfig = [
                 'secret' => 'test',
@@ -76,6 +86,7 @@ class TestKernel extends Kernel
                         'kassko_data_mapper.data_mapper',
                         'kassko_data_mapper.service_resolver',
                         'kassko_data_mapper.data_collector',
+                        'kassko_data_mapper.value_resolver.handle_object',
                     ];
 
                     foreach ($servicesToMakePublic as $serviceId) {

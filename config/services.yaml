@@ -29,6 +29,7 @@ services:
             $cache: null
             $logger: null
             $customHydrators: '%kassko_data_mapper.custom_hydrators%'
+            $customObjectMappers: '%kassko_data_mapper.custom_object_mappers%'
             $sensitiveKeys: '%kassko_data_mapper.sensitive_keys%'
             $defaultSensitiveLevel: '%kassko_data_mapper.default_sensitive_level%'
         configurator: ['@kassko_data_mapper.data_mapper_configurator', 'configure']
@@ -72,9 +73,18 @@ services:
         tags:
             - { name: console.command, command: 'datamapper:validate' }
 
+    # HandleObject ValueResolver for controller action parameters
+    kassko_data_mapper.value_resolver.handle_object:
+        class: Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver
+        arguments:
+            $dataMapper: '@kassko_data_mapper.data_mapper'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
     # Aliases for easier access
     Kassko\DataMapper\DataMapper: '@kassko_data_mapper.data_mapper'
     Kassko\DataMapper\ServiceResolver: '@kassko_data_mapper.service_resolver'
     Kassko\DataMapper\Hydrator: '@kassko_data_mapper.hydrator'
     Kassko\DataMapper\ObjectMapper: '@kassko_data_mapper.object_mapper'
+    Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver: '@kassko_data_mapper.value_resolver.handle_object'
 

@@ -34,6 +34,7 @@ class DataMapperFactory
      * @param CacheInterface|null $cache PSR-16 cache interface
      * @param LoggerInterface|null $logger PSR-3 logger interface
      * @param array<string, string> $customHydrators Custom hydrators (key => service_id)
+     * @param array<string, string> $customObjectMappers Custom object mappers (key => service_id)
      * @param array<string, string> $sensitiveKeys Sensitive keys with level strings (key => 'show'|'mask'|'hide')
      * @param string $defaultSensitiveLevel Default sensitive level string ('show'|'mask'|'hide')
      */
@@ -42,6 +43,7 @@ class DataMapperFactory
         ?CacheInterface $cache,
         ?LoggerInterface $logger,
         array $customHydrators,
+        array $customObjectMappers,
         array $sensitiveKeys,
         string $defaultSensitiveLevel
     ): DataMapper {
@@ -59,7 +61,7 @@ class DataMapperFactory
             $cache,
             $logger,
             $customHydrators,
-            [],
+            $customObjectMappers,
             $sensitiveKeysEnum,
             $defaultLevelEnum
         );
