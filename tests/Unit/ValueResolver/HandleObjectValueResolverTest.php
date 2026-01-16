@@ -41,6 +41,10 @@ class HandleObjectValueResolverTest extends TestCase
 
     protected function tearDown(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            return;
+        }
+        
         // Clear global state
         LoaderRegistry::clear();
         $this->dataMapper->clearContext();
