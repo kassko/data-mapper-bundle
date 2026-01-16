@@ -16,11 +16,10 @@ namespace Kassko\Bundle\DataMapperBundle;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomHydratorPass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomObjectMapperPass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\KasskoDataMapperExtension;
-use Kassko\DataMapper\DataMapper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * DataMapperBundle provides Symfony integration for the DataMapper library.
@@ -39,9 +38,11 @@ class KasskoDataMapperBundle extends Bundle
     {
         parent::build($container);
 
-        // Register compiler passes for tagged services
-        $container->addCompilerPass(new CustomHydratorPass());
-        $container->addCompilerPass(new CustomObjectMapperPass());
+         // Symfony >= 5.2 uniquement, otherwise a bug occurs in "Portable" integration tests using the container early.
+        if (Kernel::VERSION_ID >= 50200) {            
+            $container->addCompilerPass(new CustomHydratorPass());
+            $container->addCompilerPass(new CustomObjectMapperPass());
+        }
     }
 
     /**

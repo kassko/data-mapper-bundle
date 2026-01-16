@@ -87,6 +87,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testTaggedCustomHydratorsAreMerged(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        }
+
         $kernel = new TestKernelWithTaggedHydrator([
             'custom_hydrators' => [
                 'money' => 'app.hydrator.money',
@@ -111,6 +115,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testTaggedCustomObjectMappersAreMerged(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        }
+
         $kernel = new TestKernelWithTaggedObjectMapper([
             'custom_object_mappers' => [
                 'order' => 'app.object_mapper.order',
@@ -135,6 +143,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testDuplicateHydratorKeyThrowsException(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        }
+        
         $this->expectException(DuplicateKeyException::class);
         $this->expectExceptionMessage('Duplicate custom hydrator key "datetime"');
 
@@ -148,6 +160,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testDuplicateObjectMapperKeyThrowsException(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        }
+
         $this->expectException(DuplicateKeyException::class);
         $this->expectExceptionMessage('Duplicate custom object mapper key "product"');
 
