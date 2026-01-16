@@ -146,7 +146,7 @@ kassko_data_mapper:
         money: 'app.hydrator.money'
 ```
 
-Or via service tags (requires Symfony 6.0 or higher):
+Or via service tags:
 
 ```yaml
 services:
@@ -184,7 +184,7 @@ kassko_data_mapper:
         order: 'app.object_mapper.order'
 ```
 
-Or via service tags (requires Symfony 6.0 or higher):
+Or via service tags:
 
 ```yaml
 services:
@@ -199,7 +199,7 @@ services:
 
 ### HandleObject Value Resolver
 
-The bundle provides a `#[HandleObject]` attribute for controller action parameters that automatically hydrates objects from request data:
+The bundle provides a `#[HandleObject]` attribute for controller action parameters that automatically hydrates objects from request data (requires Symfony 6.0 or higher):
 
 ```php
 use Kassko\Bundle\DataMapperBundle\Attribute\HandleObject;
@@ -363,7 +363,7 @@ src/
 │   ├── ServiceResolverFactory.php # Creates ServiceResolver with container
 │   └── DataMapperConfigurator.php # Post-construction DataMapper setup
 └── ValueResolver/
-    └── HandleObjectValueResolver.php # Controller parameter value resolver
+    └── HandleObjectValueResolver.php # Controller parameter value resolver (requires Symfony 6.0 or higher)
 
 config/
 └── services.yaml                  # Service definitions
