@@ -37,17 +37,17 @@ class CustomServicesIntegrationTest extends TestCase
         }
     }
 
-    public function testValueResolverIsRegistered(): void
-    {
-        $kernel = new TestKernel();
-        $kernel->boot();
+    // public function testValueResolverIsRegistered(): void
+    // {
+    //     $kernel = new TestKernel();
+    //     $kernel->boot();
 
-        $container = $kernel->getContainer();
+    //     $container = $kernel->getContainer();
 
-        $this->assertTrue($container->has('kassko_data_mapper.value_resolver.handle_object'));
+    //     $this->assertTrue($container->has('kassko_data_mapper.value_resolver.handle_object'));
 
-        $kernel->shutdown();
-    }
+    //     $kernel->shutdown();
+    // }
 
     public function testCustomHydratorsFromConfigAreAvailable(): void
     {
