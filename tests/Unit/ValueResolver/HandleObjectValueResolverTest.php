@@ -15,6 +15,7 @@ namespace Kassko\Bundle\DataMapperBundle\Tests\Unit\ValueResolver;
 
 use Kassko\Bundle\DataMapperBundle\Attribute\HandleObject;
 use Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver;
+use Kassko\DataMapper\ArrayServiceLocator;
 use Kassko\DataMapper\DataMapper;
 use Kassko\DataMapper\Registry\LoaderRegistry;
 use Kassko\DataMapper\ServiceResolver;
@@ -35,7 +36,7 @@ class HandleObjectValueResolverTest extends TestCase
         
         // Use a real DataMapper instance since it's final and cannot be mocked
         $this->dataMapper = new DataMapper(new ServiceResolver());
-        $this->resolver = new HandleObjectValueResolver($this->dataMapper);
+        $this->resolver = new HandleObjectValueResolver(new ArrayServiceLocator(['data_mapper' => $this->dataMapper]));
     }
 
     protected function tearDown(): void
