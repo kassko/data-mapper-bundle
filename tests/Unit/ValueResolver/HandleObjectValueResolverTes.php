@@ -29,7 +29,9 @@ class HandleObjectValueResolverTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('HandleObjectValueResolver is disabled by default in services.yaml to avoid issues with early container access in Symfony < 6.0. Enable it manually to run this test.');
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('HandleObjectValueResolver is disabled by default in services.yaml to avoid issues with early container access in Symfony < 6.0. Enable it manually to run this test.');
+        }
         
         // Use a real DataMapper instance since it's final and cannot be mocked
         $this->dataMapper = new DataMapper(new ServiceResolver());

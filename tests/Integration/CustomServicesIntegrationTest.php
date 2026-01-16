@@ -16,7 +16,6 @@ namespace Kassko\Bundle\DataMapperBundle\Tests\Integration;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomHydratorPass;
 use Kassko\Bundle\DataMapperBundle\DependencyInjection\Compiler\CustomObjectMapperPass;
 use Kassko\Bundle\DataMapperBundle\Exception\DuplicateKeyException;
-use Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -39,6 +38,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testValueResolverIsRegistered(): void
     {
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('\Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver is disabled by default in services.yaml to avoid issues with early container access in Symfony < 6.0. Enable it manually to run this test.');
+        }
+        
         $kernel = new TestKernel();
         $kernel->boot();
 
