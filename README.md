@@ -146,7 +146,7 @@ kassko_data_mapper:
         money: 'app.hydrator.money'
 ```
 
-Or via service tags (requires Symfony 5.2 or higher):
+Or via service tags (requires Symfony 6.0 or higher):
 
 ```yaml
 services:
@@ -184,7 +184,7 @@ kassko_data_mapper:
         order: 'app.object_mapper.order'
 ```
 
-Or via service tags (requires Symfony 5.2 or higher):
+Or via service tags (requires Symfony 6.0 or higher):
 
 ```yaml
 services:

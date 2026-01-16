@@ -69,6 +69,7 @@ class KasskoDataMapperExtension extends Extension
         $this->configureProfiler($container, $config);
 
         if (\Symfony\Component\HttpKernel\Kernel::VERSION_ID < 60000) {
+            // It is disabled in Symfony < 6.0 to avoid issues with early container access
             if ($container->hasDefinition('kassko_data_mapper.value_resolver.handle_object')) {
                 $container->removeDefinition('kassko_data_mapper.value_resolver.handle_object');
             }
