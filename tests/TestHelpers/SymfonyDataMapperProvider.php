@@ -83,7 +83,13 @@ class SymfonyDataMapperProvider implements DataMapperProviderInterface
             return null;
         }
 
-        return self::$sharedKernel->getContainer();
+        // Check if kernel is properly booted before accessing container
+        try {
+            return self::$sharedKernel->getContainer();
+        } catch (\LogicException $e) {
+            // Kernel not booted - return null instead of throwing
+            return null;
+        }
     }
 
     public function tearDown(): void

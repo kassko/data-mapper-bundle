@@ -72,6 +72,9 @@ kassko_data_mapper:
     # Custom hydrators (name => service_id)
     custom_hydrators: []
     
+    # Custom object mappers (name => service_id)
+    custom_object_mappers: []
+    
     # Global sensitive keys configuration for data lineage (key => level)
     # Levels: 'show', 'mask', 'hide'
     sensitive_keys: []
@@ -134,13 +137,26 @@ This protects sensitive data in:
 
 ### Custom Hydrators
 
-Register custom hydrators for special data types:
+Register custom hydrators for special data types. You can register them via configuration:
 
 ```yaml
 kassko_data_mapper:
     custom_hydrators:
         datetime: 'app.hydrator.datetime'
         money: 'app.hydrator.money'
+```
+
+Or via service tags:
+
+```yaml
+services:
+    App\Hydrator\DateTimeHydrator:
+        tags:
+            - { name: 'kassko_data_mapper.custom_hydrator', key: 'datetime' }
+    
+    App\Hydrator\MoneyHydrator:
+        tags:
+            - { name: 'kassko_data_mapper.custom_hydrator', key: 'money' }
 ```
 
 Then use them in your data objects:
@@ -155,7 +171,70 @@ class Product
 }
 ```
 
+> **Note:** Each hydrator key must be unique. The bundle will throw a `DuplicateKeyException` if the same key is defined in both configuration and tags, or if duplicated among tagged services.
+
+### Custom Object Mappers
+
+Similar to hydrators, you can register custom object mappers via configuration:
+
+```yaml
+kassko_data_mapper:
+    custom_object_mappers:
+        product: 'app.object_mapper.product'
+        order: 'app.object_mapper.order'
+```
+
+Or via service tags:
+
+```yaml
+services:
+    App\ObjectMapper\ProductMapper:
+        tags:
+            - { name: 'kassko_data_mapper.custom_object_mapper', key: 'product' }
+```
+
+> **Note:** Each object mapper key must be unique, same as hydrators.
+
 ## Usage
+
+### HandleObject Value Resolver
+
+The bundle provides a `#[HandleObject]` attribute for controller action parameters that automatically hydrates objects from request data (requires Symfony 6.0 or higher):
+
+```php
+use Kassko\Bundle\DataMapperBundle\Attribute\HandleObject;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
+
+class ProductController
+{
+    #[Route('/products/{barcode}', name: 'api_products_get', methods: ['GET'])]
+    public function getProduct(
+        #[HandleObject([
+            'request:barcode' => 'barcode',              // Route parameter
+            'header:Tenant-Id' => 'tenantId',            // Header (case-insensitive)
+            'header:feature-flags' => 'context:featureFlags', // Store in context
+            'header:x-request-id' => 'context:requestId',     // Optional X- headers
+        ])]
+        Product $product,
+    ): JsonResponse {
+        $tenant = $product->getTenant();
+        // ...
+    }
+}
+```
+
+**Mapping sources:**
+- `request:param` - Route parameters
+- `query:param` - Query string parameters
+- `header:Name` - HTTP headers (case-insensitive)
+- `body:field` - JSON body fields
+
+**Target types:**
+- `propertyName` - Maps to object property
+- `context:key` - Stores in DataMapper hydration context
+
+**Optional headers:** Headers prefixed with `X-` are optional and won't cause errors if missing.
 
 ### Accessing the DataMapper
 
@@ -266,16 +345,25 @@ composer install
 
 ```
 src/
-├── KasskoKasskoDataMapperBundle.php           # Main bundle class with boot initialization
+├── KasskoDataMapperBundle.php     # Main bundle class with boot initialization
+├── Attribute/
+│   └── HandleObject.php           # Controller parameter attribute
 ├── DependencyInjection/
 │   ├── Configuration.php          # Bundle configuration definition
-│   └── DataMapperExtension.php    # Service container extension
+│   ├── KasskoDataMapperExtension.php # Service container extension
+│   └── Compiler/
+│       ├── CustomHydratorPass.php     # Tagged hydrator collector
+│       └── CustomObjectMapperPass.php # Tagged object mapper collector
 ├── DataCollector/
 │   └── DataMapperDataCollector.php # Symfony Profiler integration
-└── Service/
-    ├── DataMapperFactory.php      # Factory for DataMapper with enum conversion
-    ├── ServiceResolverFactory.php # Creates ServiceResolver with container
-    └── DataMapperConfigurator.php # Post-construction DataMapper setup
+├── Exception/
+│   └── DuplicateKeyException.php  # Thrown on duplicate hydrator/mapper keys
+├── Service/
+│   ├── DataMapperFactory.php      # Factory for DataMapper with enum conversion
+│   ├── ServiceResolverFactory.php # Creates ServiceResolver with container
+│   └── DataMapperConfigurator.php # Post-construction DataMapper setup
+└── ValueResolver/
+    └── HandleObjectValueResolver.php # Controller parameter value resolver (requires Symfony 6.0 or higher)
 
 config/
 └── services.yaml                  # Service definitions

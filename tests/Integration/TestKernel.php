@@ -43,9 +43,19 @@ class TestKernel extends Kernel
         ];
     }
 
+    /**
+     * Override to allow subclasses to add compiler passes.
+     */
+    protected function build(ContainerBuilder $container): void
+    {
+    }
+
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
+            // Allow subclass customization
+            $this->build($container);
+
             // Minimal framework configuration
             $frameworkConfig = [
                 'secret' => 'test',
@@ -68,6 +78,21 @@ class TestKernel extends Kernel
                 $container->loadFromExtension('kassko_data_mapper', $this->bundleConfig);
             }
 
+            $servicesToMakePublic = [
+                'kassko_data_mapper.data_mapper',
+                'kassko_data_mapper.service_resolver',
+                'kassko_data_mapper.data_collector',
+                'kassko_data_mapper.value_resolver.handle_object',
+            ];
+
+            foreach ($servicesToMakePublic as $serviceId) {
+                // $container->register($serviceId)
+                //     ->setPublic(true);
+                if ($container->hasDefinition($serviceId)) {
+                    $container->getDefinition($serviceId)->setPublic(true);
+                }
+            }
+
             // Make services public for testing
             $container->addCompilerPass(new class implements CompilerPassInterface {
                 public function process(ContainerBuilder $container): void
@@ -76,9 +101,12 @@ class TestKernel extends Kernel
                         'kassko_data_mapper.data_mapper',
                         'kassko_data_mapper.service_resolver',
                         'kassko_data_mapper.data_collector',
+                        'kassko_data_mapper.value_resolver.handle_object',
                     ];
 
                     foreach ($servicesToMakePublic as $serviceId) {
+                        // $container->register($serviceId)
+                        //     ->setPublic(true);
                         if ($container->hasDefinition($serviceId)) {
                             $container->getDefinition($serviceId)->setPublic(true);
                         }
