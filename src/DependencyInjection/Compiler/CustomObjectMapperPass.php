@@ -31,10 +31,13 @@ final class CustomObjectMapperPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        // Get object mappers from semantic configuration
-        $configObjectMappers = $container->getParameter('kassko_data_mapper.custom_object_mappers');
-        if (!is_array($configObjectMappers)) {
-            $configObjectMappers = [];
+        // Get object mappers from semantic configuration (may not exist if extension not loaded)
+        $configObjectMappers = [];
+        if ($container->hasParameter('kassko_data_mapper.custom_object_mappers')) {
+            $configObjectMappers = $container->getParameter('kassko_data_mapper.custom_object_mappers');
+            if (!is_array($configObjectMappers)) {
+                $configObjectMappers = [];
+            }
         }
 
         // Get object mappers from tagged services

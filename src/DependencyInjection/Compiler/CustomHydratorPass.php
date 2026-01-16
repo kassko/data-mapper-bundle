@@ -31,10 +31,13 @@ final class CustomHydratorPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        // Get hydrators from semantic configuration
-        $configHydrators = $container->getParameter('kassko_data_mapper.custom_hydrators');
-        if (!is_array($configHydrators)) {
-            $configHydrators = [];
+        // Get hydrators from semantic configuration (may not exist if extension not loaded)
+        $configHydrators = [];
+        if ($container->hasParameter('kassko_data_mapper.custom_hydrators')) {
+            $configHydrators = $container->getParameter('kassko_data_mapper.custom_hydrators');
+            if (!is_array($configHydrators)) {
+                $configHydrators = [];
+            }
         }
 
         // Get hydrators from tagged services
