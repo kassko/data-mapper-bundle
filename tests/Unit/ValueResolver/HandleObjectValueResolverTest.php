@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 class HandleObjectValueResolverTest extends TestCase
 {
-    private DataMapper $dataMapper;
+    private ?DataMapper $dataMapper = null;
     private HandleObjectValueResolver $resolver;
 
     protected function setUp(): void
