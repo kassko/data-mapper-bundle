@@ -16,7 +16,6 @@ namespace Kassko\Bundle\DataMapperBundle\Tests\Integration;
 use Kassko\Bundle\DataMapperBundle\KasskoDataMapperBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
@@ -113,10 +112,7 @@ class TestKernel extends Kernel
                         }
                     }
                 }
-            },
-            PassConfig::TYPE_BEFORE_OPTIMIZATION,
-            1000
-            );
+            });
         });
     }
 

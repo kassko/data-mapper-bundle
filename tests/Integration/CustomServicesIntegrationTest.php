@@ -37,17 +37,17 @@ class CustomServicesIntegrationTest extends TestCase
         }
     }
 
-    // public function testValueResolverIsRegistered(): void
-    // {
-    //     $kernel = new TestKernel();
-    //     $kernel->boot();
+    public function testValueResolverIsRegistered(): void
+    {
+        $kernel = new TestKernel();
+        $kernel->boot();
 
-    //     $container = $kernel->getContainer();
+        $container = $kernel->getContainer();
 
-    //     $this->assertTrue($container->has('kassko_data_mapper.value_resolver.handle_object'));
+        $this->assertTrue($container->has('kassko_data_mapper.value_resolver.handle_object'));
 
-    //     $kernel->shutdown();
-    // }
+        $kernel->shutdown();
+    }
 
     public function testCustomHydratorsFromConfigAreAvailable(): void
     {
@@ -86,11 +86,7 @@ class CustomServicesIntegrationTest extends TestCase
     }
 
     public function testTaggedCustomHydratorsAreMerged(): void
-    {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
-        }
-
+    {        
         $kernel = new TestKernelWithTaggedHydrator([
             'custom_hydrators' => [
                 'money' => 'app.hydrator.money',
@@ -114,11 +110,7 @@ class CustomServicesIntegrationTest extends TestCase
     }
 
     public function testTaggedCustomObjectMappersAreMerged(): void
-    {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
-        }
-
+    {      
         $kernel = new TestKernelWithTaggedObjectMapper([
             'custom_object_mappers' => [
                 'order' => 'app.object_mapper.order',
@@ -142,11 +134,7 @@ class CustomServicesIntegrationTest extends TestCase
     }
 
     public function testDuplicateHydratorKeyThrowsException(): void
-    {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
-        }
-
+    {      
         $this->expectException(DuplicateKeyException::class);
         $this->expectExceptionMessage('Duplicate custom hydrator key "datetime"');
 
@@ -159,11 +147,7 @@ class CustomServicesIntegrationTest extends TestCase
     }
 
     public function testDuplicateObjectMapperKeyThrowsException(): void
-    {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
-        }
-
+    {        
         $this->expectException(DuplicateKeyException::class);
         $this->expectExceptionMessage('Duplicate custom object mapper key "product"');
 

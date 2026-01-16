@@ -37,12 +37,9 @@ class KasskoDataMapperBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
-
-         // Symfony >= 6.0 uniquement, otherwise a bug occurs in "Portable" integration tests using the container early.
-        if (Kernel::VERSION_ID >= 60000) {            
-            $container->addCompilerPass(new CustomHydratorPass());
-            $container->addCompilerPass(new CustomObjectMapperPass());
-        }
+      
+        $container->addCompilerPass(new CustomHydratorPass());
+        $container->addCompilerPass(new CustomObjectMapperPass());        
     }
 
     /**

@@ -15,6 +15,8 @@ namespace Kassko\Bundle\DataMapperBundle\ValueResolver;
 
 use Kassko\Bundle\DataMapperBundle\Attribute\HandleObject;
 use Kassko\DataMapper\DataMapper;
+use Psr\Container\ContainerInterface;
+// use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -38,7 +40,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 final class HandleObjectValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly DataMapper $dataMapper,
+        private readonly ContainerInterface $dataMapperLocator,
     ) {
     }
 
@@ -64,13 +66,15 @@ final class HandleObjectValueResolver implements ValueResolverInterface
         // Extract values from request and separate into properties and context
         [$properties, $context] = $this->extractValues($request, $attribute->mapping);
 
+        $dataMapper = $this->dataMapperLocator->get('data_mapper');
+
         // Add context values to DataMapper
         foreach ($context as $key => $value) {
-            $this->dataMapper->addToContext($key, $value);
+            $dataMapper->addToContext($key, $value);
         }
 
         // Hydrate the object
-        $hydrator = $this->dataMapper->getHydrator();
+        $hydrator = $dataMapper->getHydrator();
         $object = $hydrator->hydrate($className, $properties);
 
         yield $object;

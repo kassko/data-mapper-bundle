@@ -74,12 +74,13 @@ services:
             - { name: console.command, command: 'datamapper:validate' }
 
     # HandleObject ValueResolver for controller action parameters
-    # kassko_data_mapper.value_resolver.handle_object:
-    #     class: Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver
-    #     arguments:
-    #         $dataMapper: '@kassko_data_mapper.data_mapper'
-    #     tags:
-    #         - { name: controller.argument_value_resolver, priority: 50 }
+    kassko_data_mapper.value_resolver.handle_object:
+        class: Kassko\Bundle\DataMapperBundle\ValueResolver\HandleObjectValueResolver
+        arguments:
+            $dataMapperLocator: !service_locator
+                data_mapper: '@kassko_data_mapper.data_mapper'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
 
     # Aliases for easier access
     Kassko\DataMapper\DataMapper: '@kassko_data_mapper.data_mapper'
