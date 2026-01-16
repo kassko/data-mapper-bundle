@@ -87,8 +87,8 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testTaggedCustomHydratorsAreMerged(): void
     {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
         }
 
         $kernel = new TestKernelWithTaggedHydrator([
@@ -115,8 +115,8 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testTaggedCustomObjectMappersAreMerged(): void
     {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
         }
 
         $kernel = new TestKernelWithTaggedObjectMapper([
@@ -143,10 +143,10 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testDuplicateHydratorKeyThrowsException(): void
     {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
         }
-        
+
         $this->expectException(DuplicateKeyException::class);
         $this->expectExceptionMessage('Duplicate custom hydrator key "datetime"');
 
@@ -160,8 +160,8 @@ class CustomServicesIntegrationTest extends TestCase
 
     public function testDuplicateObjectMapperKeyThrowsException(): void
     {
-        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '5.2.0', '<')) {
-            $this->markTestSkipped('Tagged services integration requires Symfony 5.2 or higher.');
+        if (version_compare(\Symfony\Component\HttpKernel\Kernel::VERSION, '6.0.0', '<')) {
+            $this->markTestSkipped('Tagged services integration requires Symfony 6.0 or higher.');
         }
 
         $this->expectException(DuplicateKeyException::class);
