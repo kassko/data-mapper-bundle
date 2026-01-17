@@ -23,7 +23,7 @@ This bundle provides seamless configuration and service integration to use DataM
 ## Installation
 
 ```bash
-composer require kassko/data-mapper-bundle
+composer require kassko/data-mapper-bundle:^2.8-rc@rc
 ```
 
 ### Enable the Bundle
