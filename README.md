@@ -204,6 +204,17 @@ services:
 
 > **Note:** Each object mapper key must be unique, same as hydrators.
 
+### Mapping strategy and Mapping Cache
+
+```yaml
+kassko_data_mapper:
+    mapping_strategy:
+        enabled: true
+    mapping_cache:
+        enabled: true
+        service: 'cache.app'  # PSR-16 cache service
+```
+
 ## Usage
 
 ### HandleObject Value Resolver

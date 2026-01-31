@@ -28,7 +28,7 @@
     ],
     "require": {
         "php": ">=8.1",
-        "kassko/data-mapper": "^2.54-rc@rc",
+        "kassko/data-mapper": "^2.58-rc@rc",
         "psr/container": "^1.1|^2.0",
         "psr/log": "^1.0|^2.0|^3.0",
         "psr/simple-cache": "^1.1|^2.0|^3.0",
