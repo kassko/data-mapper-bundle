@@ -31,7 +31,9 @@ class DataMapperFactory
      * Create a new DataMapper instance.
      *
      * @param ServiceResolver $serviceResolver Service resolver for dependency injection
-     * @param CacheInterface|null $cache PSR-16 cache interface
+     * @param CacheInterface|null $dataSourceCache PSR-16 cache interface for data sources
+     * @param CacheInterface|null $mappingCache PSR-16 cache interface for mapping strategy
+     * @param bool $mappingStrategyEnabled Whether mapping strategy feature is enabled
      * @param LoggerInterface|null $logger PSR-3 logger interface
      * @param array<string, string> $customHydrators Custom hydrators (key => service_id)
      * @param array<string, string> $customObjectMappers Custom object mappers (key => service_id)
@@ -40,7 +42,9 @@ class DataMapperFactory
      */
     public function create(
         ServiceResolver $serviceResolver,
-        ?CacheInterface $cache,
+        ?CacheInterface $dataSourceCache,
+        ?CacheInterface $mappingCache,
+        bool $mappingStrategyEnabled,
         ?LoggerInterface $logger,
         array $customHydrators,
         array $customObjectMappers,
@@ -58,7 +62,9 @@ class DataMapperFactory
 
         return new DataMapper(
             $serviceResolver,
-            $cache,
+            $dataSourceCache,
+            $mappingCache,
+            $mappingStrategyEnabled,
             $logger,
             $customHydrators,
             $customObjectMappers,

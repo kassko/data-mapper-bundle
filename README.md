@@ -53,10 +53,19 @@ kassko_data_mapper:
     # Enable Symfony Web Profiler integration (default: true)
     enable_profiler: true
     
-    # Cache configuration for metadata
-    cache:
+    # Data source cache configuration
+    data_source_cache:
         enabled: false
         service: null  # PSR-16 cache service ID (e.g., 'cache.app')
+    
+    # Mapping cache configuration (for MappingStrategy conversions)
+    mapping_cache:
+        enabled: false
+        service: null  # PSR-16 cache service ID (e.g., 'cache.app')
+    
+    # Mapping strategy feature (disabled by default for performance)
+    mapping_strategy:
+        enabled: false  # Set to true to use MappingStrategy attribute
     
     # Logger configuration
     logger:
@@ -194,6 +203,17 @@ services:
 ```
 
 > **Note:** Each object mapper key must be unique, same as hydrators.
+
+### Mapping strategy and Mapping Cache
+
+```yaml
+kassko_data_mapper:
+    mapping_strategy:
+        enabled: true
+    mapping_cache:
+        enabled: true
+        service: 'cache.app'  # PSR-16 cache service
+```
 
 ## Usage
 

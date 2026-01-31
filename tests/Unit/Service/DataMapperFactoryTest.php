@@ -38,6 +38,8 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            false,
+            null,
             [],
             [],
             [],
@@ -49,12 +51,15 @@ class DataMapperFactoryTest extends TestCase
 
     public function testCreateWithCacheAndLogger(): void
     {
-        $cache = $this->createMock(CacheInterface::class);
+        $dataSourceCache = $this->createMock(CacheInterface::class);
+        $mappingCache = $this->createMock(CacheInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
 
         $dataMapper = $this->factory->create(
             $this->serviceResolver,
-            $cache,
+            $dataSourceCache,
+            $mappingCache,
+            true,
             $logger,
             [],
             [],
@@ -70,6 +75,8 @@ class DataMapperFactoryTest extends TestCase
         $dataMapper = $this->factory->create(
             $this->serviceResolver,
             null,
+            null,
+            false,
             null,
             [
                 'datetime' => 'app.hydrator.datetime',
@@ -89,6 +96,8 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            false,
+            null,
             [],
             [
                 'product' => 'app.object_mapper.product',
@@ -106,6 +115,8 @@ class DataMapperFactoryTest extends TestCase
         $dataMapper = $this->factory->create(
             $this->serviceResolver,
             null,
+            null,
+            false,
             null,
             [],
             [],
@@ -126,6 +137,8 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            false,
+            null,
             [],
             [],
             [],
@@ -141,6 +154,8 @@ class DataMapperFactoryTest extends TestCase
             $this->serviceResolver,
             null,
             null,
+            false,
+            null,
             [],
             [],
             [],
@@ -152,17 +167,37 @@ class DataMapperFactoryTest extends TestCase
 
     public function testCreateWithAllOptions(): void
     {
-        $cache = $this->createMock(CacheInterface::class);
+        $dataSourceCache = $this->createMock(CacheInterface::class);
+        $mappingCache = $this->createMock(CacheInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
 
         $dataMapper = $this->factory->create(
             $this->serviceResolver,
-            $cache,
+            $dataSourceCache,
+            $mappingCache,
+            true,
             $logger,
             ['custom' => 'app.hydrator.custom'],
             ['product' => 'app.object_mapper.product'],
             ['secret' => 'hide', 'token' => 'mask'],
             'mask'
+        );
+
+        $this->assertInstanceOf(DataMapper::class, $dataMapper);
+    }
+
+    public function testCreateWithMappingStrategyEnabled(): void
+    {
+        $dataMapper = $this->factory->create(
+            $this->serviceResolver,
+            null,
+            null,
+            true,
+            null,
+            [],
+            [],
+            [],
+            'show'
         );
 
         $this->assertInstanceOf(DataMapper::class, $dataMapper);
