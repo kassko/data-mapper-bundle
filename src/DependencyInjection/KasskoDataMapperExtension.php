@@ -47,8 +47,11 @@ class KasskoDataMapperExtension extends Extension
         $container->setParameter('kassko_data_mapper.enable_lineage_collection', $config['enable_lineage_collection']);
         $container->setParameter('kassko_data_mapper.enable_cascade_collection', $config['enable_cascade_collection']);
         $container->setParameter('kassko_data_mapper.enable_profiler', $config['enable_profiler']);
-        $container->setParameter('kassko_data_mapper.cache.enabled', $config['cache']['enabled']);
-        $container->setParameter('kassko_data_mapper.cache.service', $config['cache']['service']);
+        $container->setParameter('kassko_data_mapper.data_source_cache.enabled', $config['data_source_cache']['enabled']);
+        $container->setParameter('kassko_data_mapper.data_source_cache.service', $config['data_source_cache']['service']);
+        $container->setParameter('kassko_data_mapper.mapping_cache.enabled', $config['mapping_cache']['enabled']);
+        $container->setParameter('kassko_data_mapper.mapping_cache.service', $config['mapping_cache']['service']);
+        $container->setParameter('kassko_data_mapper.mapping_strategy.enabled', $config['mapping_strategy']['enabled']);
         $container->setParameter('kassko_data_mapper.logger.enabled', $config['logger']['enabled']);
         $container->setParameter('kassko_data_mapper.logger.service', $config['logger']['service']);
         $container->setParameter('kassko_data_mapper.logger.channel', $config['logger']['channel']);
@@ -59,8 +62,14 @@ class KasskoDataMapperExtension extends Extension
         $container->setParameter('kassko_data_mapper.sensitive_keys', $this->processSensitiveKeys($config['sensitive_keys']));
         $container->setParameter('kassko_data_mapper.default_sensitive_level', $config['default_sensitive_level']);
 
-        // Configure cache service if enabled
-        $this->configureCache($container, $config['cache']);
+        // Configure data source cache service if enabled
+        $this->configureDataSourceCache($container, $config['data_source_cache']);
+
+        // Configure mapping cache service if enabled
+        $this->configureMappingCache($container, $config['mapping_cache']);
+
+        // Configure mapping strategy
+        $this->configureMappingStrategy($container, $config['mapping_strategy']);
 
         // Configure logger service
         $this->configureLogger($container, $config['logger']);
@@ -77,16 +86,42 @@ class KasskoDataMapperExtension extends Extension
     }
 
     /**
-     * Configure cache service for DataMapper.
+     * Configure data source cache service for DataMapper.
      */
-    private function configureCache(ContainerBuilder $container, array $cacheConfig): void
+    private function configureDataSourceCache(ContainerBuilder $container, array $cacheConfig): void
     {
         if (!$cacheConfig['enabled'] || $cacheConfig['service'] === null) {
             return;
         }
 
         $dataMapperDefinition = $container->getDefinition('kassko_data_mapper.data_mapper');
-        $dataMapperDefinition->replaceArgument(1, new Reference($cacheConfig['service']));
+        $dataMapperDefinition->replaceArgument('$dataSourceCache', new Reference($cacheConfig['service']));
+    }
+
+    /**
+     * Configure mapping cache service for DataMapper.
+     */
+    private function configureMappingCache(ContainerBuilder $container, array $cacheConfig): void
+    {
+        if (!$cacheConfig['enabled'] || $cacheConfig['service'] === null) {
+            return;
+        }
+
+        $dataMapperDefinition = $container->getDefinition('kassko_data_mapper.data_mapper');
+        $dataMapperDefinition->replaceArgument('$mappingCache', new Reference($cacheConfig['service']));
+    }
+
+    /**
+     * Configure mapping strategy feature.
+     */
+    private function configureMappingStrategy(ContainerBuilder $container, array $config): void
+    {
+        if (!$config['enabled']) {
+            return;
+        }
+
+        $dataMapperDefinition = $container->getDefinition('kassko_data_mapper.data_mapper');
+        $dataMapperDefinition->replaceArgument('$mappingStrategyEnabled', true);
     }
 
     /**
@@ -106,7 +141,7 @@ class KasskoDataMapperExtension extends Extension
 
         if ($container->has($loggerService) || $container->hasDefinition($loggerService)) {
             $dataMapperDefinition = $container->getDefinition('kassko_data_mapper.data_mapper');
-            $dataMapperDefinition->replaceArgument(2, new Reference($loggerService));
+            $dataMapperDefinition->replaceArgument('$logger', new Reference($loggerService));
         }
     }
 

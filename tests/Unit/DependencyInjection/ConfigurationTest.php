@@ -38,8 +38,11 @@ class ConfigurationTest extends TestCase
         $this->assertFalse($config['enable_lineage_collection']);
         $this->assertFalse($config['enable_cascade_collection']);
         $this->assertTrue($config['enable_profiler']);
-        $this->assertFalse($config['cache']['enabled']);
-        $this->assertNull($config['cache']['service']);
+        $this->assertFalse($config['data_source_cache']['enabled']);
+        $this->assertNull($config['data_source_cache']['service']);
+        $this->assertFalse($config['mapping_cache']['enabled']);
+        $this->assertNull($config['mapping_cache']['service']);
+        $this->assertFalse($config['mapping_strategy']['enabled']);
         $this->assertTrue($config['logger']['enabled']);
         $this->assertEquals('logger', $config['logger']['service']);
         $this->assertEquals('data_mapper', $config['logger']['channel']);
@@ -75,13 +78,13 @@ class ConfigurationTest extends TestCase
         $this->assertFalse($config['enable_profiler']);
     }
 
-    public function testCacheConfiguration(): void
+    public function testDataSourceCacheConfiguration(): void
     {
         $config = $this->processor->processConfiguration(
             $this->configuration,
             [
                 [
-                    'cache' => [
+                    'data_source_cache' => [
                         'enabled' => true,
                         'service' => 'cache.app',
                     ],
@@ -89,8 +92,42 @@ class ConfigurationTest extends TestCase
             ]
         );
 
-        $this->assertTrue($config['cache']['enabled']);
-        $this->assertEquals('cache.app', $config['cache']['service']);
+        $this->assertTrue($config['data_source_cache']['enabled']);
+        $this->assertEquals('cache.app', $config['data_source_cache']['service']);
+    }
+
+    public function testMappingCacheConfiguration(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                [
+                    'mapping_cache' => [
+                        'enabled' => true,
+                        'service' => 'cache.app',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertTrue($config['mapping_cache']['enabled']);
+        $this->assertEquals('cache.app', $config['mapping_cache']['service']);
+    }
+
+    public function testMappingStrategyConfiguration(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            [
+                [
+                    'mapping_strategy' => [
+                        'enabled' => true,
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertTrue($config['mapping_strategy']['enabled']);
     }
 
     public function testLoggerConfiguration(): void

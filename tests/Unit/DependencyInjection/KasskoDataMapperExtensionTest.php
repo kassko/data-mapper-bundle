@@ -40,8 +40,11 @@ class KasskoDataMapperExtensionTest extends TestCase
         // Check parameters are set
         $this->assertFalse($container->getParameter('kassko_data_mapper.enable_lineage_collection'));
         $this->assertTrue($container->getParameter('kassko_data_mapper.enable_profiler'));
-        $this->assertFalse($container->getParameter('kassko_data_mapper.cache.enabled'));
-        $this->assertNull($container->getParameter('kassko_data_mapper.cache.service'));
+        $this->assertFalse($container->getParameter('kassko_data_mapper.data_source_cache.enabled'));
+        $this->assertNull($container->getParameter('kassko_data_mapper.data_source_cache.service'));
+        $this->assertFalse($container->getParameter('kassko_data_mapper.mapping_cache.enabled'));
+        $this->assertNull($container->getParameter('kassko_data_mapper.mapping_cache.service'));
+        $this->assertFalse($container->getParameter('kassko_data_mapper.mapping_strategy.enabled'));
         $this->assertTrue($container->getParameter('kassko_data_mapper.logger.enabled'));
         $this->assertEquals('logger', $container->getParameter('kassko_data_mapper.logger.service'));
         $this->assertEquals('data_mapper', $container->getParameter('kassko_data_mapper.logger.channel'));
